@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Архив стримов</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Архив стримов</h1>
+        </header>
+        
+        <main>
+            <div class="years-grid">
+                <a href="#2022" class="year-card" data-year="2022">
+                    <div class="year-content">
+                        <h2>2022</h2>
+                        <p>Стримы 2022 года</p>
+                    </div>
+                </a>
+                
+                <a href="#2023" class="year-card" data-year="2023">
+                    <div class="year-content">
+                        <h2>2023</h2>
+                        <p>Стримы 2023 года</p>
+                    </div>
+                </a>
+                
+                <a href="#2024" class="year-card" data-year="2024">
+                    <div class="year-content">
+                        <h2>2024</h2>
+                        <p>Стримы 2024 года</p>
+                    </div>
+                </a>
+                
+                <a href="#2025" class="year-card" data-year="2025">
+                    <div class="year-content">
+                        <h2>2025</h2>
+                        <p>Стримы 2025 года</p>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="streams-container" id="streams-view">
+                <button class="back-button">← Назад к годам</button>
+                <h2 class="year-title"></h2>
+                <div class="streams-list" id="streams-list">
+                    <!-- Здесь будут загружаться стримы через JavaScript -->
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
