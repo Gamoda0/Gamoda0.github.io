@@ -194,7 +194,7 @@
         </header>
         
         <div class="years-grid">
-            <div class="year-card" data-year="2022">
+            <div class="year-card" data-year="2022" id="year-2022">
                 <div class="particles" id="particles-2022"></div>
                 <div class="year-number">2022</div>
             </div>
@@ -202,11 +202,11 @@
                 <div class="particles" id="particles-2023"></div>
                 <div class="year-number">2023</div>
             </div>
-            <div class="year-card" data-year="2024">
+            <div class="year-card" data-year="2024" id="year-2024">
                 <div class="particles" id="particles-2024"></div>
                 <div class="year-number">2024</div>
             </div>
-            <div class="year-card" data-year="2025">
+            <div class="year-card" data-year="2025" id="year-2025">
                 <div class="particles" id="particles-2025"></div>
                 <div class="year-number">2025</div>
             </div>
@@ -253,14 +253,36 @@
             document.head.appendChild(style);
         });
 
-        // Обработчик клика для перехода на страницу 2023 года
-        document.getElementById('year-2023').addEventListener('click', function() {
-            // Добавляем анимацию перед переходом
+        // Обработчики кликов для всех годовых карточек
+        document.getElementById('year-2022').addEventListener('click', function() {
             this.style.transform = 'scale(0.95)';
             this.style.opacity = '0.8';
-            
+            setTimeout(() => {
+                window.location.href = '2022.html';
+            }, 200);
+        });
+
+        document.getElementById('year-2023').addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            this.style.opacity = '0.8';
             setTimeout(() => {
                 window.location.href = '2023.html';
+            }, 200);
+        });
+
+        document.getElementById('year-2024').addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            this.style.opacity = '0.8';
+            setTimeout(() => {
+                window.location.href = '2024.html';
+            }, 200);
+        });
+
+        document.getElementById('year-2025').addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            this.style.opacity = '0.8';
+            setTimeout(() => {
+                window.location.href = '2025.html';
             }, 200);
         });
     </script>
