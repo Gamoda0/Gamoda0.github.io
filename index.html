@@ -3,56 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Архив стримов</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Stream Archive | Главная</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6e45e2;
+            --secondary: #88d3ce;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --text: rgba(255, 255, 255, 0.9);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--text);
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeIn 0.8s 0.2s forwards;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 400;
+        }
+        
+        .years-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            perspective: 1000px;
+        }
+        
+        .year-card {
+            position: relative;
+            height: 300px;
+            background: rgba(30, 30, 30, 0.4);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .year-card:nth-child(1) { animation: cardEntry 0.6s 0.4s forwards; }
+        .year-card:nth-child(2) { animation: cardEntry 0.6s 0.6s forwards; }
+        .year-card:nth-child(3) { animation: cardEntry 0.6s 0.8s forwards; }
+        .year-card:nth-child(4) { animation: cardEntry 0.6s 1.0s forwards; }
+        
+        .year-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, 
+                                        rgba(110, 69, 226, 0.2) 0%, 
+                                        rgba(136, 211, 206, 0.1) 100%);
+            z-index: -1;
+        }
+        
+        .year-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .year-card:hover .year-number {
+            transform: scale(1.1);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+        
+        .year-number {
+            font-size: 4.5rem;
+            font-weight: 700;
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(to bottom, #fff, #ddd);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .year-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        
+        .year-card:hover::after {
+            transform: scaleX(1);
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes cardEntry {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .years-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .year-number {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>Архив стримов</h1>
+            <p class="subtitle">Выберите год для просмотра доступных записей</p>
         </header>
         
-        <main>
-            <div class="years-grid">
-                <a href="#2022" class="year-card" data-year="2022">
-                    <div class="year-content">
-                        <h2>2022</h2>
-                        <p>Стримы 2022 года</p>
-                    </div>
-                </a>
-                
-                <a href="#2023" class="year-card" data-year="2023">
-                    <div class="year-content">
-                        <h2>2023</h2>
-                        <p>Стримы 2023 года</p>
-                    </div>
-                </a>
-                
-                <a href="#2024" class="year-card" data-year="2024">
-                    <div class="year-content">
-                        <h2>2024</h2>
-                        <p>Стримы 2024 года</p>
-                    </div>
-                </a>
-                
-                <a href="#2025" class="year-card" data-year="2025">
-                    <div class="year-content">
-                        <h2>2025</h2>
-                        <p>Стримы 2025 года</p>
-                    </div>
-                </a>
+        <div class="years-grid">
+            <div class="year-card" data-year="2022">
+                <div class="particles" id="particles-2022"></div>
+                <div class="year-number">2022</div>
             </div>
-            
-            <div class="streams-container" id="streams-view">
-                <button class="back-button">← Назад к годам</button>
-                <h2 class="year-title"></h2>
-                <div class="streams-list" id="streams-list">
-                    <!-- Здесь будут загружаться стримы через JavaScript -->
-                </div>
+            <div class="year-card" data-year="2023" id="year-2023">
+                <div class="particles" id="particles-2023"></div>
+                <div class="year-number">2023</div>
             </div>
-        </main>
+            <div class="year-card" data-year="2024">
+                <div class="particles" id="particles-2024"></div>
+                <div class="year-number">2024</div>
+            </div>
+            <div class="year-card" data-year="2025">
+                <div class="particles" id="particles-2025"></div>
+                <div class="year-number">2025</div>
+            </div>
+        </div>
     </div>
-    
-    <script src="script.js"></script>
+
+    <script>
+        // Создание частиц для каждого блока
+        document.querySelectorAll('.year-card').forEach(card => {
+            const particlesContainer = card.querySelector('.particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 3 + 1;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 10 + 5;
+                const opacity = Math.random() * 0.4 + 0.1;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.opacity = opacity;
+                particle.style.animation = `float ${duration}s ${delay}s infinite linear`;
+                
+                particlesContainer.appendChild(particle);
+            }
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes float {
+                    0% { transform: translate(0, 0); }
+                    25% { transform: translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px); }
+                    50% { transform: translate(${Math.random() * 30 - 15}px, ${Math.random() * 30 - 15}px); }
+                    75% { transform: translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px); }
+                    100% { transform: translate(0, 0); }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+
+        // Обработчик клика для перехода на страницу 2023 года
+        document.getElementById('year-2023').addEventListener('click', function() {
+            // Добавляем анимацию перед переходом
+            this.style.transform = 'scale(0.95)';
+            this.style.opacity = '0.8';
+            
+            setTimeout(() => {
+                window.location.href = '2023.html';
+            }, 200);
+        });
+    </script>
 </body>
 </html>
