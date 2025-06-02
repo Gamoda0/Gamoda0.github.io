@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Архив стримов | 2024</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6e45e2;
+            --secondary: #88d3ce;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --text: rgba(255, 255, 255, 0.9);
+            --error: #ff4d4d;
+            --success: #4dff7a;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--text);
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeIn 0.8s 0.2s forwards;
+        }
+        
+        .back-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-3px);
+        }
+        
+        h1 {
+            font-size: 2rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+        
+        .search-container {
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.8s 0.3s forwards;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            border-radius: 25px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+        
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.8s 0.4s forwards;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .filter-btn.active {
+            background: var(--primary);
+        }
+        
+        .streams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .stream-card {
+            position: relative;
+            background: rgba(30, 30, 30, 0.4);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cardEntry 0.6s forwards;
+        }
+        
+        .stream-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .stream-thumbnail {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .stream-info {
+            padding: 1.2rem;
+        }
+        
+        .stream-number {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .stream-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .stream-date {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stream-status {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        .status-icon {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .status-available {
+            color: var(--success);
+        }
+        
+        .status-unavailable {
+            color: var(--error);
+        }
+        
+        .stream-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+        }
+        
+        .error {
+            color: var(--error);
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            grid-column: 1 / -1;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes cardEntry {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .streams-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .filters {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <button class="back-button" onclick="window.history.back()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </button>
+            <h1>Стримы 2024 года</h1>
+        </header>
+        
+        <!-- Добавленный поисковый блок -->
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Поиск стримов..." id="searchInput">
+        </div>
+        
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">Все стримы</button>
+            <button class="filter-btn" data-filter="available">Доступные</button>
+            <button class="filter-btn" data-filter="unavailable">Недоступные</button>
+        </div>
+        
+        <div class="streams-grid" id="streamsContainer">
+            <div class="loading">Загрузка данных о стримах...</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Данные о стримах прямо в скрипте
+            const streamsData = `
+                #1 https://www.youtube.com/watch?v=kyHmidcOINE 06.01.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО
+                #2 https://www.youtube.com/watch?v=sAnJ1rS9QfI 07.01.2024 ❌ [СТРИМ] СМОТРИМ ВИДЕО АПЯТ
+                #3 https://www.youtube.com/watch?v=4bGhymJq42g 13.01.2024 ❌ [СТРИМ] ОРБИТАЛЬНЫЙ КОЛЛАПС - VR ИГРЫ
+                #4 https://www.youtube.com/watch?v=iS7nP_xstXQ 14.01.2024 ✅ [СТРИМ] ВИДЕО И ИГРЫ VR (АТКАЧУПА)
+                #5 https://www.youtube.com/watch?v=vgrNx-MQB4Q 20.01.2024 ✅ [СТРИМ] ТОЛЬКО УЖАСЫ (НАДЕЮСЬ)
+                #6 https://www.youtube.com/watch?v=KwpPOXvRpTE 21.01.2024 ❌ [СТРИМ] VR ИГРЫ ЭПИЧЕСКИЕ (ХОРОШИЕ)
+                #7 https://www.youtube.com/watch?v=rOuxQBHBRLE 27.01.2024 ❌ [СТРИМ] СМОТРИМ ВИДЕО
+                #8 https://www.youtube.com/watch?v=bMLB9Ojnb1E 28.01.2024 ✅ [СТРИМ] HALF-LIFE ALYX VR - С УЛУЧШЕНИЯМИ (ULRTA HARDCORE)
+                #9 https://www.youtube.com/watch?v=rfnYmYFLQsI 03.02.2024 ✅ [СТРИМ] СТРАШИЛКИ В ВИАРЕ
+                #10 https://www.youtube.com/watch?v=ixw_SZt0tUc 04.02.2024 ✅ [СТРИМ] СМОТРИМ ФИЛЬМ ПО HALF-LIFE
+                #11 https://www.youtube.com/watch?v=0gVoXtAi4wk 11.02.2024 ✅ [СТРИМ] СМОТРЮ ВИДЕО
+                #12 https://www.youtube.com/watch?v=iJHzhDwHHdo 17.02.2024 ❌ [СТРИМ] СМОТРЮ ВИДЕО
+                #13 https://www.youtube.com/watch?v=isdulKkVpsU 18.02.2024 ✅ [СТРИМ] УЖАСЫ. ПРЕСТУПЛЕНИЯ. - СМОТРИМ ВИДЕО
+                #14 https://www.youtube.com/watch?v=MvzajJV0blo 24.02.2024 ✅ [СТРИМ] ВИДЕО НА ОБРАЗОВАТЕЛЬНЫЕ ТЕМЫ
+                #15 https://www.youtube.com/watch?v=QUcuxB1ob2M 25.02.2024 ❌ [СТРИМ] Raising the Bar: Redux + SALVATION
+                #16 https://www.youtube.com/watch?v=aTAg95XmwsI 02.03.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО
+                #17 https://www.youtube.com/watch?v=7tFOQ8Ej3xw 03.03.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО 2
+                #18 https://www.youtube.com/watch?v=Axx8ATCYm1Q 09.03.2024 ❌ [СТРИМ] СМОТРЮ СТАРЫЕ ВИДЕО
+                #19 https://www.youtube.com/watch?v=6e2kklFUOLo 10.03.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО (СПАСМИБА)
+                #20 https://www.youtube.com/watch?v=K-i-rMUdZqs 16.03.2024 ❌ [СТРИМ] =СМОТРИМ ВИДЕО= =ДА ДА, НЕ УДИВЛЯЙТЕСЬ=
+                #21 https://www.youtube.com/watch?v=0AfA-0N5DEk 23.03.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО
+                #22 https://www.youtube.com/watch?v=KlI_TcWnwvw 24.03.2024 ❌ [СТРИМ] СМОТРИМ ВИДЕО (А ПОТОМ ИГРА БДЕТЬ)))))))))))
+                #23 https://www.youtube.com/watch?v=3RWxxPbHyu8 30.03.2024 ❌ [СТРИМ] СМОТРИМ ВИДЕО +SILENT HILL 2 VR (CLOWNEDITION)
+                #24 https://www.youtube.com/watch?v=ZPKeD_BHKQc 31.03.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО + INTO RHE RADIDSAS
+                #25 https://www.youtube.com/watch?v=I9LrpGEgURc 06.04.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО + SILENT HILL BETA (PS2) 1999
+                #26 https://www.youtube.com/watch?v=woSEg6koH4E 07.04.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО (МАЛО) + SILENT HILL BETA (PS2) 1999
+                #27 https://www.youtube.com/watch?v=tthmF2c5Khc 13.04.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО + SILENT HILL 1 BETA (PS2) (я прошел пианино)
+                #28 https://www.youtube.com/watch?v=RWT2gN7oRF0 14.04.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО + SILENT HILL 1 BETA
+                #29 https://www.youtube.com/watch?v=nomfIQJqqrk 20.04.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО + SILENT HILL АДИН
+                #30 https://www.youtube.com/watch?v=-wOV2zOfmOo 21.04.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО + HALF-LIFE ALYX VR
+                #31 https://www.youtube.com/watch?v=KaM5jbEO4tY 27.04.2024 ❌ [СТРИМ] СМОТРИМ ВИДЕО + SILENT HILL 1
+                #32 https://www.youtube.com/watch?v=6X8GJeCmDFE 28.04.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО + HALF-LIFE ALYX (БЕЗ ТРЯСКИ)
+                #33 https://www.youtube.com/watch?v=Cg0PHdbssHw 04.05.2024 ❌ [СТРИМ] СМОТРИМ ВИДЕО НЕСМОТРИБЕЛЬНОГО ХАРАКТЕРА
+                #34 https://www.youtube.com/watch?v=MgKxzlr6NBw 11.05.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО УЖАС + SILENT HILL 1
+                #35 https://www.youtube.com/watch?v=sEEIHaGRtJQ 18.05.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО ЛУЧШИЕ
+                #36 https://www.youtube.com/watch?v=LqWt73b9QIo 19.05.2024 ❌ [СТРИМ] HALF-LIFE ALYX + ВИДЕО
+                #37 https://www.youtube.com/watch?v=wHFeVcucu70 25.05.2024 ✅ [СТРИМ] ВИДЕО СМОТРИМ И ИГРЫ SILENT HILL ИГРАЕМ
+                #38 https://www.youtube.com/watch?v=yFWFgGjHdzA 26.05.2024 ✅ [СТРИМ] SILENT HILL + HALF-LIFE ALYX
+                #39 https://www.youtube.com/watch?v=hvM6HQoUIrw 01.06.2024 ✅ [СТРИМ] SILENT HILL + HLA ФИНАЛЫ - ПОТОМ СМОТРИМ ВИДЕО
+                #40 https://www.youtube.com/watch?v=Xl1SHJX4TM8 08.06.2024 ❌ [СТРИМ] Summer Game Fest 2024 (00:00) + МОЖЕТ БЫТЬ ЧТО ТО ОСТАЛЬНОЕ...
+                #41 https://www.youtube.com/watch?v=quzA6mAipEM 08.06.2024 ✅ [СТРИМ] Future of Play Direct (18:00) + The Future Games Show (22:0...
+                #42 https://www.youtube.com/watch?v=2t-VHckHvZA 09.06.2024 ✅ [СТРИМ] Xbox Games Showcase (20:00) + PC Gaming Show 2024 (23:00)
+                #43 https://www.youtube.com/watch?v=b8JABZcqvV8 15.06.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО
+                #44 https://www.youtube.com/watch?v=QPqiWLJ6vTs 16.06.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО (ТОЛЬКО МАТ)
+                #45 https://www.youtube.com/watch?v=r6LY94dQSFc 21.06.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО (ИГРАЕМ ЕСЛИ ЗАСТАВИТЕ)
+                #46 https://www.youtube.com/watch?v=D02HEfTFg6I 22.06.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО (ИГРАЕМ???) (РОЗЫГРЫШ ДИСКОВ)
+                #47 https://www.youtube.com/watch?v=bLXUmgXXJnw 23.06.2024 ❌ [СТРИМ] ТОЛКА АУЖАСИ И СТРАШИЛКЕ
+                #48 https://www.youtube.com/watch?v=AMpKiNBtMhY 28.06.2024 ❌ [СТРИМ] СМОТРИМ СТРАШНЫЕ ВИДЕО
+                #49 https://www.youtube.com/watch?v=2wicbM4VXLk 29.06.2024 ✅ [СТРИМ] СМОТРИМ СТРАШНЫЕ ВИДЕО
+                #50 https://www.youtube.com/watch?v=bogvPBdNPys 29.06.2024 ❌ [СТРИМ] СМОТРИМ ВИДЕО ВАШИ
+                #51 https://www.youtube.com/watch?v=tlgcmG5J7Is 05.07.2024 ❌ [СТРИМ] НАКАНЕЦТА НОВЫЕ ВИДЕО ЖЕКСАН (СТРАШЫНЕ)
+                #52 https://www.youtube.com/watch?v=PorgUet6_4w 05.07.2024 ✅ [СТРИМ] СТРАШЫНЕ ВИДЕО НАСТЯ ЖДАКСАН
+                #53 https://www.youtube.com/watch?v=TTBlA3cKIhw 06.07.2024 ❌ [СТРИМ] УЖАСАЮЩИЕ ВИДЕО ОНЛУ АНАЛИТИКА
+                #54 https://www.youtube.com/watch?v=UgZAF2BITz0 07.07.2024 ❌ [СТРИМ] HALF-LIFE 2 EP2 VR - FINAL + SILENT HILL ZERO
+                #55 https://www.youtube.com/watch?v=yzA1jZn--1w 12.07.2024 ✅ [СТРИМ] СМОТРИМ ОМЕРЗИТЕЛЬНЫЕ ВИДЕО
+                #56 https://www.youtube.com/watch?v=7eAJz93ZHos 13.07.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО (ЛУЧШИЕ)
+                #57 https://www.youtube.com/watch?v=d4UTtQkvLx8 14.07.2024 ✅ [СТРИМ] СЕКРЕТНАЯ СЛУЖБА
+                #58 https://www.youtube.com/watch?v=XAau9QLegOk 19.07.2024 ✅ [СТРИМ] СТРАШНЫЕ ВИДЕО + АУКЦИОН НА ФИЛЬМ
+                #59 https://www.youtube.com/watch?v=XWwoBFJgvK4 28.07.2024 ✅ [СТРИМ] ПОЛЕ ЧУДЕС ,РАУЛЬ,РАМЗЕС - ВИДОС
+                #60 https://www.youtube.com/watch?v=G_QWHDrfYRQ 29.07.2024 ✅ [СТРИМ] В ОЧКЕ ТВОРИТЬСЯ АДСКИЙ ЗАМЕС
+                #61 https://www.youtube.com/watch?v=Go1Dc1DMB68 02.08.2024 ✅ [СТРИМ] ПЫТАЮСЬ СМОТРЕТЬ СТРАШИЛКИ
+                #62 https://www.youtube.com/watch?v=TCAcD-qtkdI 03.08.2024 ✅ [СТРИМ] КОРОТКОМЕТРАЖНЫЕ ФИЛЬМЫ УЖАСОВ + ВЫБИРАЕМ ФИЛЬМ
+                #63 https://www.youtube.com/watch?v=lTCIn4ezpvk 09.08.2024 ✅ [СТРИМ] СТРАШНЫЕ ИГРЫ + ЧТО МЫ ДЕЛАЕМ В ТЕНИ (НА ТВИЧЕ)
+                #64 https://www.youtube.com/watch?v=r407EQzdRtE 10.08.2024 ✅ [СТРИМ] СМОТРИ ВИДЕО
+                #65 https://www.youtube.com/watch?v=OO4gHkS4cBU 11.08.2024 ✅ [СТРИМ] ИГРАЮ ИЛИ СМОТРЮ Непоня́тно
+                #66 https://www.youtube.com/watch?v=vNKMriWBq0M 16.08.2024 ✅ [СТРИМ] ИГРАЕМ И СМОТРИМ ВИДЕО
+                #67 https://www.youtube.com/watch?v=XDjcPZCfduA 17.08.2024 ✅ [СТРИМ] ХОРРОР ИГРЫ - SUPERNATURAL MEDIUM VLADIC SASAL FORBIDEN SI...
+                #68 https://www.youtube.com/watch?v=L9yg-ZJDS_g 24.08.2024 ✅ [СТРИМ] СМОТРИМ ИГРЫ И ИГРАЕМ В ВИДЕО
+                #69 https://www.youtube.com/watch?v=qjstZOriaxA 25.08.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО ИГРЫ
+                #70 https://www.youtube.com/watch?v=ETMcB6o1FTE 31.08.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО (ИГРЫ ЭСИ ЗАСТАВИТЕ(
+                #71 https://www.youtube.com/watch?v=GGx52vvV6wU 01.09.2024 ✅ [СТРИМ] СМОТРИМ ВИДЕО И ТОЛЬКО (СТРАШНЫЕ)
+                #72 https://www.youtube.com/watch?v=Hz-UDnMN6L0 05.09.2024 ✅ [СТРИМ] СТРИМ SPACE MARINE 2
+                #73 https://www.youtube.com/watch?v=KD3ZQVE0eSg 08.09.2024 ✅ [СТРИМ] РУССКИЕ СТРАШИЛКИ
+                #74 https://www.youtube.com/watch?v=CJTG5-swik4 14.09.2024 ✅ [СТРИМ] ПРЕКРАСНОЕ УТРО В ГОРАХ ТЯНЬ-ШАНЬ
+                #75 https://www.youtube.com/watch?v=Z0oTBn3uLNA 21.09.2024 ✅ [СТРИМ] ЗАМЕЧАТЕЛЬНЫЙ ВЕЧЕР ВОЗЛЕ СОБАЧЬЕЙ БУДКИ
+                #76 https://www.youtube.com/watch?v=fB5jXO4tYgw 27.09.2024 ✅ [СТРИМ] ВОЛШЕБНАЯ ПЬЯНКА ГОБЛИНОВ В СОРТИРЕ
+                #77 https://www.youtube.com/watch?v=EBt7g87geO8 28.09.2024 ✅ [СТРИМ] ДЕНЬ КОГДА БАНКИ НИКТО НЕ ПОДНИМАЛ
+                #78 https://www.youtube.com/watch?v=jfAzuxOS9QU 05.10.2024 ❌ [СТРИМ] ЗДЕСЬ КОГДА-ТО БЫЛА ДЫРА
+                #79 https://www.youtube.com/watch?v=aFZ4XgJeHhI 06.10.2024 ✅ [СТРИМ] SILENT HILL 2 РЕМЕЙК - ИГРАЕТ ПИ ДИДИ
+                #80 https://www.youtube.com/watch?v=AaCys-NOdHk 12.10.2024 ✅ [СТРИМ] SILENT HILL 2 РЕМЕЙК - НА ХАРДЕ ДЕТАЛЬНОЕ ПРОХОЖДЕНИЕ СКА
+                #81 https://www.youtube.com/watch?v=RiujN45UiUE 13.10.2024 ✅ [СТРИМ] SILENT HILL 2 РЕМЕЙК - НА ХАРДЕ ВСЕ ПАСХАЛКИ ОТ ВАДАЛЕЯ
+                #82 https://www.youtube.com/watch?v=Hh-y-dnApnE 19.10.2024 ✅ [СТРИМ] SILENT HILL 2 РЕМЕЙК - ДЖЕЙМС САНДЕРЛЕНД НИКОГО НЕ УБИВАЛ
+                #83 https://www.youtube.com/watch?v=USzuFSgv5HU 20.10.2024 ✅ [СТРИМ] SILENT HILL 2 РЕМЕЙК - БЕЗ СМЕРТЕЙ ХАРД (ЗАГАДКИ ТОЖЕ)
+                #84 https://www.youtube.com/watch?v=Lw-0_uQBwuo 02.11.2024 ✅ [СТРИМ] SILENT HILL 2 РЕМЕЙК - ПО ФАСТУ ДО КОНЦА
+                #85 https://www.youtube.com/watch?v=unFvJCDjDMU 03.11.2024 ❌ [СТРИМ] IM NOT A HUMAN + SILENT HILL 2 - 6-ОЙ ЧАС НА ПЕРВОМ УРОВНЕ
+                #86 https://www.youtube.com/watch?v=n0xKt977Xek 09.11.2024 ✅ [СТРИМ] Я ИДУ ДО КОНЦА ( ПОПРОБУЮ))
+                #87 https://www.youtube.com/watch?v=7uo-aUK8mqM 10.11.2024 ✅ [СТРИМ] ПЯТЬ КОРЕЙСКИХ КРАСОТОК + СУПЕР СЕДЮСЕР + ЕЩЕ ТАМ МНОГО КРУ...
+                #88 https://www.youtube.com/watch?v=oxFA3WXHLRM 11.11.2024 ✅ [СТРИМ] PROJECT BOREALIS DEMO - ИВ СЁ НА ПОЛ ЧАСА
+                #89 https://www.youtube.com/watch?v=Luox8NKiTc0 23.11.2024 ✅ [СТРИМ] МОЙ ОБЫЧНЫЙ СТРИМ ПО ИГРАМ (Hl2 КОММЕНТАРИИ РАЗРАБ ПОЛНЫЙ Р...
+                #90 https://www.youtube.com/watch?v=ECqnqxDrM2Q 29.11.2024 ✅ [СТРИМ] ИГРЫ + УЛУЧШЕНИЕ HALF-LIFE 2 ( ПОКАЗЫВАЮ)
+                #91 https://www.youtube.com/watch?v=9G6wI1s-w2Q 30.11.2024 ✅ [СТРИМ] НЕУЖЕЛИ ПРИШЛО ТО САМОЕ ВРЕМЯ?
+                #92 https://www.youtube.com/watch?v=_Q6dIcpy0rA 06.12.2024 ✅ [СТРИМ] БУДНИЧНАЯ ПАЛЕОНТОЛОГИЯ (ИГРЫТВАРЬ)
+                #93 https://www.youtube.com/watch?v=VF85gG7Atbk 07.12.2024 ✅ [СТРИМ] ЗАПУСК НОВОГОДНИХ ИГРЫ ЧЕРЕЗ 2 МИНУТЫ....
+                #94 https://www.youtube.com/watch?v=pwKalXt4LSg 13.12.2024 ✅ [СТРИМ] ИГРЫ ДЛЯ ДЕТЕЙ (18+)
+                #95 https://www.youtube.com/watch?v=doXltk63AE8 31.12.2024 ✅ [СТРИМ] ПОСТРОИМ НОВУЮ БАЗУ БОСС (НОВОГОДНИЕ ИГРЫ)
+            `;
+            
+            let allStreams = []; // Для хранения всех стримов
+            let currentFilter = 'all'; // Текущий фильтр
+            let currentSearch = ''; // Текущий поисковый запрос
+            
+            try {
+                const streamsContainer = document.getElementById('streamsContainer');
+                streamsContainer.innerHTML = '';
+                
+                // Парсинг данных
+                const lines = streamsData.split('\n');
+                allStreams = [];
+                
+                lines.forEach((line, index) => {
+                    line = line.trim();
+                    if (!line) return;
+                    
+                    // Парсинг строки
+                    const parts = line.split(/\s+/);
+                    if (parts.length >= 4) {
+                        const number = parts[0].substring(1);
+                        const url = parts[1];
+                        const date = parts[2];
+                        const status = parts[3] === '✅' ? 'available' : 'unavailable';
+                        const statusIcon = parts[3];
+                        const title = parts.slice(4).join(' ');
+                        
+                        // Извлекаем ID видео из URL
+                        const videoIdMatch = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
+                        const videoId = videoIdMatch ? videoIdMatch[1] : '';
+                        
+                        allStreams.push({
+                            number,
+                            url,
+                            date,
+                            status,
+                            statusIcon,
+                            videoId,
+                            title,
+                            element: null // Ссылка на DOM-элемент будет добавлена позже
+                        });
+                    }
+                });
+                
+                // Инициализация интерфейса
+                initSearch();
+                renderStreams();
+                initFilters();
+            } catch (error) {
+                console.error('Ошибка обработки данных:', error);
+                document.getElementById('streamsContainer').innerHTML = 
+                    '<div class="error">Ошибка при обработке данных о стримах</div>';
+            }
+            
+            // Инициализация поиска
+            function initSearch() {
+                const searchInput = document.getElementById('searchInput');
+                searchInput.addEventListener('input', function() {
+                    currentSearch = this.value.toLowerCase().trim();
+                    renderStreams();
+                });
+            }
+            
+            // Функция отрисовки стримов с учетом фильтров и поиска
+            function renderStreams() {
+                const streamsContainer = document.getElementById('streamsContainer');
+                streamsContainer.innerHTML = '';
+                
+                // Фильтрация стримов
+                const filteredStreams = allStreams.filter(stream => {
+                    // Применяем фильтр по статусу
+                    const statusMatch = currentFilter === 'all' || stream.status === currentFilter;
+                    
+                    // Применяем поиск
+                    const searchMatch = !currentSearch || 
+                        stream.title.toLowerCase().includes(currentSearch) || 
+                        stream.number.includes(currentSearch) || 
+                        stream.date.includes(currentSearch);
+                    
+                    return statusMatch && searchMatch;
+                });
+                
+                // Если нет результатов
+                if (filteredStreams.length === 0) {
+                    streamsContainer.innerHTML = '<div class="no-results">Ничего не найдено</div>';
+                    return;
+                }
+                
+                // Создаем карточки для отфильтрованных стримов
+                filteredStreams.forEach((stream, index) => {
+                    createStreamCard(stream, index);
+                });
+            }
+            
+            // Функция создания карточки стрима
+            function createStreamCard(stream, index) {
+                const streamsContainer = document.getElementById('streamsContainer');
+                
+                // Создаем элемент карточки
+                const card = document.createElement('div');
+                card.className = `stream-card ${stream.status}`;
+                card.style.animationDelay = `${0.2 + index * 0.1}s`;
+                
+                // Заполняем содержимое карточки
+                card.innerHTML = `
+                    <div class="stream-number">#${stream.number}</div>
+                    <div class="stream-thumbnail" style="background-image: url('https://img.youtube.com/vi/${stream.videoId}/mqdefault.jpg');"></div>
+                    <div class="stream-info">
+                        <div class="stream-title">${stream.title || 'Название недоступно'}</div>
+                        <div class="stream-date">${stream.date}</div>
+                        <div class="stream-status">
+                            <span class="status-icon ${stream.status === 'available' ? 'status-available' : 'status-unavailable'}">${stream.statusIcon}</span>
+                            <span>${stream.status === 'available' ? 'Доступен' : 'Недоступен'}</span>
+                        </div>
+                    </div>
+                    <a href="${stream.url}" class="stream-link" target="_blank"></a>
+                `;
+                
+                streamsContainer.appendChild(card);
+                stream.element = card; // Сохраняем ссылку на элемент
+            }
+            
+            // Инициализация фильтров
+            function initFilters() {
+                const filterButtons = document.querySelectorAll('.filter-btn');
+                
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        // Удаляем active у всех кнопок
+                        filterButtons.forEach(btn => btn.classList.remove('active'));
+                        // Добавляем active текущей кнопке
+                        this.classList.add('active');
+                        
+                        // Обновляем текущий фильтр
+                        currentFilter = this.dataset.filter;
+                        renderStreams();
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
