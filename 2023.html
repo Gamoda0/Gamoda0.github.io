@@ -75,6 +75,34 @@
             font-weight: 700;
         }
         
+        .search-container {
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.8s 0.3s forwards;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            border-radius: 25px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+        
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
         .filters {
             display: flex;
             gap: 1rem;
@@ -213,6 +241,13 @@
             font-size: 1.2rem;
         }
         
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            grid-column: 1 / -1;
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -250,6 +285,11 @@
             <h1>Стримы 2023 года</h1>
         </header>
         
+        <!-- Добавленный поисковый блок -->
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Поиск стримов..." id="searchInput">
+        </div>
+        
         <div class="filters">
             <button class="filter-btn active" data-filter="all">Все стримы</button>
             <button class="filter-btn" data-filter="available">Доступные</button>
@@ -263,7 +303,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Данные о стримах прямо в скрипте (вместо внешнего файла)
+            // Данные о стримах прямо в скрипте
             const streamsData = `
                 #1 https://www.youtube.com/watch?v=oBuKGzFPRks 08.01.2023 ❌ СМОТРИМ АМЕРИКАНСКИЙ ЮТУБ (ПРИЗРАКИ) - СТРИМ
                 #2 https://www.youtube.com/watch?v=m1AWPYmFeeY 21.01.2023 ❌ СЛИТАЯ (DEV) КАМПАНИЯ HALF-LIFE
@@ -351,57 +391,99 @@
                 #83 https://www.youtube.com/watch?v=fo30LrfGkGs 31.12.2023 ✅ [СТРИМ] ЛУЧШИЕ ИГРЫ ТЫСЯЧЕЛЕТИЯ
             `;
             
+            let allStreams = []; // Для хранения всех стримов
+            let currentFilter = 'all'; // Текущий фильтр
+            let currentSearch = ''; // Текущий поисковый запрос
+            
             try {
                 const streamsContainer = document.getElementById('streamsContainer');
                 streamsContainer.innerHTML = '';
                 
                 // Парсинг данных
                 const lines = streamsData.split('\n');
-                let streams = [];
+                allStreams = [];
                 
                 lines.forEach((line, index) => {
                     line = line.trim();
                     if (!line) return;
                     
-                    // Парсинг строки формата: #1 https://www.youtube.com/watch?v=oBuKGzFPRks 08.01.2023 ❌ Название
+                    // Парсинг строки
                     const parts = line.split(/\s+/);
                     if (parts.length >= 4) {
-                        const number = parts[0].substring(1); // Убираем #
+                        const number = parts[0].substring(1);
                         const url = parts[1];
                         const date = parts[2];
                         const status = parts[3] === '✅' ? 'available' : 'unavailable';
                         const statusIcon = parts[3];
-                        const title = parts.slice(4).join(' '); // Остальное - название
+                        const title = parts.slice(4).join(' ');
                         
                         // Извлекаем ID видео из URL
                         const videoIdMatch = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
                         const videoId = videoIdMatch ? videoIdMatch[1] : '';
                         
-                        streams.push({
+                        allStreams.push({
                             number,
                             url,
                             date,
                             status,
                             statusIcon,
                             videoId,
-                            title
+                            title,
+                            element: null // Ссылка на DOM-элемент будет добавлена позже
                         });
                     }
                 });
                 
-                // Создание карточек стримов
-                streams.forEach((stream, index) => {
-                    createStreamCard(stream, index);
-                });
-                
-                // Инициализация фильтров
+                // Инициализация интерфейса
+                initSearch();
+                renderStreams();
                 initFilters();
             } catch (error) {
                 console.error('Ошибка обработки данных:', error);
                 document.getElementById('streamsContainer').innerHTML = 
                     '<div class="error">Ошибка при обработке данных о стримах</div>';
             }
+            
+            // Инициализация поиска
+            function initSearch() {
+                const searchInput = document.getElementById('searchInput');
+                searchInput.addEventListener('input', function() {
+                    currentSearch = this.value.toLowerCase().trim();
+                    renderStreams();
+                });
+            }
+            
+            // Функция отрисовки стримов с учетом фильтров и поиска
+            function renderStreams() {
+                const streamsContainer = document.getElementById('streamsContainer');
+                streamsContainer.innerHTML = '';
                 
+                // Фильтрация стримов
+                const filteredStreams = allStreams.filter(stream => {
+                    // Применяем фильтр по статусу
+                    const statusMatch = currentFilter === 'all' || stream.status === currentFilter;
+                    
+                    // Применяем поиск
+                    const searchMatch = !currentSearch || 
+                        stream.title.toLowerCase().includes(currentSearch) || 
+                        stream.number.includes(currentSearch) || 
+                        stream.date.includes(currentSearch);
+                    
+                    return statusMatch && searchMatch;
+                });
+                
+                // Если нет результатов
+                if (filteredStreams.length === 0) {
+                    streamsContainer.innerHTML = '<div class="no-results">Ничего не найдено</div>';
+                    return;
+                }
+                
+                // Создаем карточки для отфильтрованных стримов
+                filteredStreams.forEach((stream, index) => {
+                    createStreamCard(stream, index);
+                });
+            }
+            
             // Функция создания карточки стрима
             function createStreamCard(stream, index) {
                 const streamsContainer = document.getElementById('streamsContainer');
@@ -427,6 +509,7 @@
                 `;
                 
                 streamsContainer.appendChild(card);
+                stream.element = card; // Сохраняем ссылку на элемент
             }
             
             // Инициализация фильтров
@@ -440,29 +523,10 @@
                         // Добавляем active текущей кнопке
                         this.classList.add('active');
                         
-                        // Применяем фильтр
-                        const filter = this.dataset.filter;
-                        filterStreams(filter);
+                        // Обновляем текущий фильтр
+                        currentFilter = this.dataset.filter;
+                        renderStreams();
                     });
-                });
-            }
-            
-            // Функция фильтрации стримов
-            function filterStreams(filter) {
-                const cards = document.querySelectorAll('.stream-card');
-                
-                cards.forEach(card => {
-                    switch(filter) {
-                        case 'all':
-                            card.style.display = 'block';
-                            break;
-                        case 'available':
-                            card.style.display = card.classList.contains('available') ? 'block' : 'none';
-                            break;
-                        case 'unavailable':
-                            card.style.display = card.classList.contains('unavailable') ? 'block' : 'none';
-                            break;
-                    }
                 });
             }
         });
