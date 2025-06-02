@@ -41,7 +41,7 @@
         header {
             display: flex;
             align-items: center;
-            margin-bottom: 3rem;
+            margin-bottom: 1.5rem;
             opacity: 0;
             animation: fadeIn 0.8s 0.2s forwards;
         }
@@ -75,11 +75,39 @@
             font-weight: 700;
         }
         
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.8s 0.4s forwards;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .filter-btn.active {
+            background: var(--primary);
+        }
+        
         .streams-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
-            margin-top: 2rem;
+            margin-top: 1rem;
         }
         
         .stream-card {
@@ -96,19 +124,6 @@
             transform: translateY(20px);
             animation: cardEntry 0.6s forwards;
         }
-        
-        .stream-card:nth-child(1) { animation-delay: 0.2s; }
-        .stream-card:nth-child(2) { animation-delay: 0.3s; }
-        .stream-card:nth-child(3) { animation-delay: 0.4s; }
-        .stream-card:nth-child(4) { animation-delay: 0.5s; }
-        .stream-card:nth-child(5) { animation-delay: 0.6s; }
-        .stream-card:nth-child(6) { animation-delay: 0.7s; }
-        .stream-card:nth-child(7) { animation-delay: 0.8s; }
-        .stream-card:nth-child(8) { animation-delay: 0.9s; }
-        .stream-card:nth-child(9) { animation-delay: 1.0s; }
-        .stream-card:nth-child(10) { animation-delay: 1.1s; }
-        .stream-card:nth-child(11) { animation-delay: 1.2s; }
-        .stream-card:nth-child(12) { animation-delay: 1.3s; }
         
         .stream-card:hover {
             transform: translateY(-5px) scale(1.02);
@@ -185,6 +200,19 @@
             z-index: 2;
         }
         
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+        }
+        
+        .error {
+            color: var(--error);
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -203,6 +231,10 @@
             h1 {
                 font-size: 1.8rem;
             }
+            
+            .filters {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
@@ -218,191 +250,169 @@
             <h1>Стримы 2023 года</h1>
         </header>
         
-        <div class="streams-grid">
-            <!-- Стрим #1 -->
-            <div class="stream-card">
-                <div class="stream-number">#1</div>
-                <div class="stream-thumbnail" style="background-image: url('https://img.youtube.com/vi/oBuKGzFPRks/mqdefault.jpg');"></div>
-                <div class="stream-info">
-                    <div class="stream-title">СМОТРИМ АМЕРИКАНСКИЙ ЮТУБ (ПРИЗРАКИ) - СТРИМ</div>
-                    <div class="stream-date">08.01.2023</div>
-                    <div class="stream-status">
-                        <span class="status-icon status-unavailable">❌</span>
-                        <span>Недоступен</span>
-                    </div>
-                </div>
-                <a href="https://www.youtube.com/watch?v=oBuKGzFPRks" class="stream-link" target="_blank"></a>
-            </div>
-            
-            <!-- Стрим #2 -->
-            <div class="stream-card">
-                <div class="stream-number">#2</div>
-                <div class="stream-thumbnail" style="background-image: url('https://img.youtube.com/vi/m1AWPYmFeeY/mqdefault.jpg');"></div>
-                <div class="stream-info">
-                    <div class="stream-title">СЛИТАЯ (DEV) КАМПАНИЯ HALF-LIFE</div>
-                    <div class="stream-date">21.01.2023</div>
-                    <div class="stream-status">
-                        <span class="status-icon status-unavailable">❌</span>
-                        <span>Недоступен</span>
-                    </div>
-                </div>
-                <a href="https://www.youtube.com/watch?v=m1AWPYmFeeY" class="stream-link" target="_blank"></a>
-            </div>
-            
-            <!-- Стрим #3 -->
-            <div class="stream-card">
-                <div class="stream-number">#3</div>
-                <div class="stream-thumbnail" style="background-image: url('https://img.youtube.com/vi/8MdlLRcMGFo/mqdefault.jpg');"></div>
-                <div class="stream-info">
-                    <div class="stream-title">СТРИМ - АНАЛИЗ СТРАШНЫХ ВИДЕО</div>
-                    <div class="stream-date">22.01.2023</div>
-                    <div class="stream-status">
-                        <span class="status-icon status-unavailable">❌</span>
-                        <span>Недоступен</span>
-                    </div>
-                </div>
-                <a href="https://www.youtube.com/watch?v=8MdlLRcMGFo" class="stream-link" target="_blank"></a>
-            </div>
-            
-            <!-- Стрим #4 -->
-            <div class="stream-card">
-                <div class="stream-number">#4</div>
-                <div class="stream-thumbnail" style="background-image: url('https://img.youtube.com/vi/3SvH-axnX0k/mqdefault.jpg');"></div>
-                <div class="stream-info">
-                    <div class="stream-title">СТРИМ - НОВЫЕ ВИДЕО ЛУЧШИХ КАНАЛОВ ЮТУБА</div>
-                    <div class="stream-date">28.01.2023</div>
-                    <div class="stream-status">
-                        <span class="status-icon status-unavailable">❌</span>
-                        <span>Недоступен</span>
-                    </div>
-                </div>
-                <a href="https://www.youtube.com/watch?v=3SvH-axnX0k" class="stream-link" target="_blank"></a>
-            </div>
-            
-            <!-- Стрим #5 -->
-            <div class="stream-card">
-                <div class="stream-number">#5</div>
-                <div class="stream-thumbnail" style="background-image: url('https://img.youtube.com/vi/mzVDNXtHtU4/mqdefault.jpg');"></div>
-                <div class="stream-info">
-                    <div class="stream-title">СТРИМ - ДОСМАТРИВАЕМ ЭПИК ВИДЕО</div>
-                    <div class="stream-date">29.01.2023</div>
-                    <div class="stream-status">
-                        <span class="status-icon status-unavailable">❌</span>
-                        <span>Недоступен</span>
-                    </div>
-                </div>
-                <a href="https://www.youtube.com/watch?v=mzVDNXtHtU4" class="stream-link" target="_blank"></a>
-            </div>
-            
-            <!-- Стрим #6 -->
-            <div class="stream-card">
-                <div class="stream-number">#6</div>
-                <div class="stream-thumbnail" style="background-image: url('https://img.youtube.com/vi/ilxWQXfIeFI/mqdefault.jpg');"></div>
-                <div class="stream-info">
-                    <div class="stream-title">СТРИМ - СМОТРИМ ВИДЕО</div>
-                    <div class="stream-date">04.02.2023</div>
-                    <div class="stream-status">
-                        <span class="status-icon status-unavailable">❌</span>
-                        <span>Недоступен</span>
-                    </div>
-                </div>
-                <a href="https://www.youtube.com/watch?v=ilxWQXfIeFI" class="stream-link" target="_blank"></a>
-            </div>
-            
-            <!-- Стрим #7 -->
-            <div class="stream-card">
-                <div class="stream-number">#7</div>
-                <div class="stream-thumbnail" style="background-image: url('https://img.youtube.com/vi/PlbuhkJTynY/mqdefault.jpg');"></div>
-                <div class="stream-info">
-                    <div class="stream-title">SILENT HILL 1 - МАКСИМАЛЬНЫЙ СПИДРАН</div>
-                    <div class="stream-date">11.02.2023</div>
-                    <div class="stream-status">
-                        <span class="status-icon status-unavailable">❌</span>
-                        <span>Недоступен</span>
-                    </div>
-                </div>
-                <a href="https://www.youtube.com/watch?v=PlbuhkJTynY" class="stream-link" target="_blank"></a>
-            </div>
-            
-            <!-- Стрим #8 -->
-            <div class="stream-card">
-                <div class="stream-number">#8</div>
-                <div class="stream-thumbnail" style="background-image: url('https://img.youtube.com/vi/u3niu4Q1Slw/mqdefault.jpg');"></div>
-                <div class="stream-info">
-                    <div class="stream-title">СТРИМ - СМОТРИМ ВИДЕО ЗРИТЕЛЕЙ</div>
-                    <div class="stream-date">12.02.2023</div>
-                    <div class="stream-status">
-                        <span class="status-icon status-unavailable">❌</span>
-                        <span>Недоступен</span>
-                    </div>
-                </div>
-                <a href="https://www.youtube.com/watch?v/u3niu4Q1Slw" class="stream-link" target="_blank"></a>
-            </div>
-            
-            <!-- Стрим #9 -->
-            <div class="stream-card">
-                <div class="stream-number">#9</div>
-                <div class="stream-thumbnail" style="background-image: url('https://img.youtube.com/vi/tuHWR5H27lI/mqdefault.jpg');"></div>
-                <div class="stream-info">
-                    <div class="stream-title">СТРИМ - SILENT HILL 1 1999 - ОБЗОР</div>
-                    <div class="stream-date">18.02.2023</div>
-                    <div class="stream-status">
-                        <span class="status-icon status-unavailable">❌</span>
-                        <span>Недоступен</span>
-                    </div>
-                </div>
-                <a href="https://www.youtube.com/watch?v/tuHWR5H27lI" class="stream-link" target="_blank"></a>
-            </div>
-            
-            <!-- Стрим #10 -->
-            <div class="stream-card">
-                <div class="stream-number">#10</div>
-                <div class="stream-thumbnail" style="background-image: url('https://img.youtube.com/vi/nG_E418CmOU/mqdefault.jpg');"></div>
-                <div class="stream-info">
-                    <div class="stream-title">СТРИМ - СМОТРИМ ВИДЕО</div>
-                    <div class="stream-date">19.02.2023</div>
-                    <div class="stream-status">
-                        <span class="status-icon status-available">✅</span>
-                        <span>Доступен</span>
-                    </div>
-                </div>
-                <a href="https://www.youtube.com/watch?v=nG_E418CmOU" class="stream-link" target="_blank"></a>
-            </div>
-            
-            <!-- Стрим #11 -->
-            <div class="stream-card">
-                <div class="stream-number">#11</div>
-                <div class="stream-thumbnail" style="background-image: url('https://img.youtube.com/vi/aUE0W8qVxDU/mqdefault.jpg');"></div>
-                <div class="stream-info">
-                    <div class="stream-title">СТРИМ - УЛУЧШЕННЫЙ HALF-LIFE 2</div>
-                    <div class="stream-date">25.02.2023</div>
-                    <div class="stream-status">
-                        <span class="status-icon status-available">✅</span>
-                        <span>Доступен</span>
-                    </div>
-                </div>
-                <a href="https://www.youtube.com/watch?v=aUE0W8qVxDU" class="stream-link" target="_blank"></a>
-            </div>
-            
-            <!-- Стрим #12 -->
-            <div class="stream-card">
-                <div class="stream-number">#12</div>
-                <div class="stream-thumbnail" style="background-image: url('https://img.youtube.com/vi/RhFhPZXbDWM/mqdefault.jpg');"></div>
-                <div class="stream-info">
-                    <div class="stream-title">СТРИМ - СМОТРИМ ВИДЕО</div>
-                    <div class="stream-date">26.02.2023</div>
-                    <div class="stream-status">
-                        <span class="status-icon status-available">✅</span>
-                        <span>Доступен</span>
-                    </div>
-                </div>
-                <a href="https://www.youtube.com/watch?v/RhFhPZXbDWM" class="stream-link" target="_blank"></a>
-            </div>
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">Все стримы</button>
+            <button class="filter-btn" data-filter="available">Доступные</button>
+            <button class="filter-btn" data-filter="unavailable">Недоступные</button>
+        </div>
+        
+        <div class="streams-grid" id="streamsContainer">
+            <div class="loading">Загрузка данных о стримах...</div>
         </div>
     </div>
 
     <script>
-        // Можно добавить дополнительные скрипты при необходимости
+        document.addEventListener('DOMContentLoaded', function() {
+            // Данные о стримах прямо в скрипте (вместо внешнего файла)
+            const streamsData = `
+                #1 https://www.youtube.com/watch?v=oBuKGzFPRks 08.01.2023 ❌ СМОТРИМ АМЕРИКАНСКИЙ ЮТУБ (ПРИЗРАКИ) - СТРИМ
+                #2 https://www.youtube.com/watch?v=m1AWPYmFeeY 21.01.2023 ❌ СЛИТАЯ (DEV) КАМПАНИЯ HALF-LIFE
+                #3 https://www.youtube.com/watch?v=8MdlLRcMGFo 22.01.2023 ❌ СТРИМ - АНАЛИЗ СТРАШНЫХ ВИДЕО
+                #4 https://www.youtube.com/watch?v=3SvH-axnX0k 28.01.2023 ❌ СТРИМ - НОВЫЕ ВИДЕО ЛУЧШИХ КАНАЛОВ ЮТУБА
+                #5 https://www.youtube.com/watch?v=mzVDNXtHtU4 29.01.2023 ❌ СТРИМ - ДОСМАТРИВАЕМ ЭПИК ВИДЕО
+                #6 https://www.youtube.com/watch?v=ilxWQXfIeFI 04.02.2023 ❌ СТРИМ - СМОТРИМ ВИДЕО
+                #7 https://www.youtube.com/watch?v=PlbuhkJTynY 11.02.2023 ❌ SILENT HILL 1 - МАКСИМАЛЬНЫЙ СПИДРАН
+                #8 https://www.youtube.com/watch?v=u3niu4Q1Slw 12.02.2023 ❌ СТРИМ - СМОТРИМ ВИДЕО ЗРИТЕЛЕЙ
+                #9 https://www.youtube.com/watch?v=tuHWR5H27lI 18.02.2023 ❌ СТРИМ - SILENT HILL 1 1999 - ОБЗОР
+                #10 https://www.youtube.com/watch?v=nG_E418CmOU 19.02.2023 ✅ СТРИМ - СМОТРИМ ВИДЕО
+                #11 https://www.youtube.com/watch?v=aUE0W8qVxDU 25.02.2023 ✅ СТРИМ - УЛУЧШЕННЫЙ HALF-LIFE 2
+                #12 https://www.youtube.com/watch?v=RhFhPZXbDWM 26.02.2023 ✅ СТРИМ - СМОТРИМ ВИДЕО
+                #13 https://www.youtube.com/watch?v=Bj_WbsTWC_c 04.03.2023 ✅ СТРИМ - CINEMATIC MOD ( ИСПРАВЛЯЮ ОШИБКИ )
+                #14 https://www.youtube.com/watch?v=3-p6zHgQlgQ 05.03.2023 ✅ СТРИМ - СМОТРИМ ВИДЕО
+                #15 https://www.youtube.com/watch?v=dp50cCzqC5g 18.03.2023 ✅ СТРИМ - СМОТРИМ ВИДЕО
+                #16 https://www.youtube.com/watch?v=FfAETYAzsuI 24.03.2023 ✅ СТРИМ - RESIDENT EVIL 4 REMAKE
+                #17 https://www.youtube.com/watch?v=BWlEjlnEoWg 25.03.2023 ✅ СМОТРИМ ВИДЕО
+                #18 https://www.youtube.com/watch?v=RteAY7Xzrg4 26.03.2023 ✅ СМОТРИМ ЖУТКИЕ ВИДЕО
+                #19 https://www.youtube.com/watch?v=60bXErlBOB8 01.04.2023 ✅ СМОТРИМ СТРАШНЫЕ ВИДЕО (МОГУТ БЫТЬ ОШИБКИ)
+                #20 https://www.youtube.com/watch?v=2UQmmD1nDQM 02.04.2023 ✅ СМОТРИМ СТРАШНЫЕ ВИДЕО
+                #21 https://www.youtube.com/watch?v=Mqc9sQRqoQc 09.04.2023 ✅ СМОТРИМ СТРАШНЫЕ (И НЕ ТОЛЬКО) ВИДЕО
+                #22 https://www.youtube.com/watch?v=4tn39JdzHe4 15.04.2023 ✅ ЧЕТЫРЕ БРАТА СМОТРЯТ ВИДЕО
+                #23 https://www.youtube.com/watch?v=uM9R1_y-jXI 16.04.2023 ✅ РАЗБИРАЮ HALF-LIFE ALYX ( + ГОСТЬ В КОНЦЕ )
+                #24 https://www.youtube.com/watch?v=vYJfQRz5QgY 06.05.2023 ✅ РАЗБИРАЮ HALF-LIFE ALYX  без VR
+                #25 https://www.youtube.com/watch?v=oHDjO4E7nU4 07.05.2023 ❌ СМОТРИМ ВИДЕО
+                #25 https://www.youtube.com/watch?v=sl-Fl2W8M-U 13.05.2023 ❌ РАЗБИРАЕМ HALF-LIFE ALYX
+                #26 https://www.youtube.com/watch?v=DB1X08uT1U8 20.05.2023 ✅ СМОТРИМ ВИДЕО (Куплинов взорвал мой комп)
+                #27 https://www.youtube.com/watch?v=3-dCMrsksEw 21.05.2023 ✅ СМОТРИМ ВИДЕО (ЖУТЧАЙШИЕ)
+                #28 https://www.youtube.com/watch?v=fBVb9NLzaBQ 27.05.2023 ✅ СМОТРИМ ВИДЕО ТОЛЬКО ПО HALF-LIFE
+                #29 https://www.youtube.com/watch?v=zsD-0HGqZ10 28.05.2023 ✅ СМОТРИМ ВИДЕО ПО HALF-LIFE
+                #30 https://www.youtube.com/watch?v=aaVA7Zd1ITU 10.06.2023 ✅ СМОТРИМ ВИДЕО, СТРАШНЫЕ?
+            `;
+            
+            try {
+                const streamsContainer = document.getElementById('streamsContainer');
+                streamsContainer.innerHTML = '';
+                
+                // Парсинг данных
+                const lines = streamsData.split('\n');
+                let streams = [];
+                
+                lines.forEach((line, index) => {
+                    line = line.trim();
+                    if (!line) return;
+                    
+                    // Парсинг строки формата: #1 https://www.youtube.com/watch?v=oBuKGzFPRks 08.01.2023 ❌ Название
+                    const parts = line.split(/\s+/);
+                    if (parts.length >= 4) {
+                        const number = parts[0].substring(1); // Убираем #
+                        const url = parts[1];
+                        const date = parts[2];
+                        const status = parts[3] === '✅' ? 'available' : 'unavailable';
+                        const statusIcon = parts[3];
+                        const title = parts.slice(4).join(' '); // Остальное - название
+                        
+                        // Извлекаем ID видео из URL
+                        const videoIdMatch = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
+                        const videoId = videoIdMatch ? videoIdMatch[1] : '';
+                        
+                        streams.push({
+                            number,
+                            url,
+                            date,
+                            status,
+                            statusIcon,
+                            videoId,
+                            title
+                        });
+                    }
+                });
+                
+                // Создание карточек стримов
+                streams.forEach((stream, index) => {
+                    createStreamCard(stream, index);
+                });
+                
+                // Инициализация фильтров
+                initFilters();
+            } catch (error) {
+                console.error('Ошибка обработки данных:', error);
+                document.getElementById('streamsContainer').innerHTML = 
+                    '<div class="error">Ошибка при обработке данных о стримах</div>';
+            }
+                
+            // Функция создания карточки стрима
+            function createStreamCard(stream, index) {
+                const streamsContainer = document.getElementById('streamsContainer');
+                
+                // Создаем элемент карточки
+                const card = document.createElement('div');
+                card.className = `stream-card ${stream.status}`;
+                card.style.animationDelay = `${0.2 + index * 0.1}s`;
+                
+                // Заполняем содержимое карточки
+                card.innerHTML = `
+                    <div class="stream-number">#${stream.number}</div>
+                    <div class="stream-thumbnail" style="background-image: url('https://img.youtube.com/vi/${stream.videoId}/mqdefault.jpg');"></div>
+                    <div class="stream-info">
+                        <div class="stream-title">${stream.title || 'Название недоступно'}</div>
+                        <div class="stream-date">${stream.date}</div>
+                        <div class="stream-status">
+                            <span class="status-icon ${stream.status === 'available' ? 'status-available' : 'status-unavailable'}">${stream.statusIcon}</span>
+                            <span>${stream.status === 'available' ? 'Доступен' : 'Недоступен'}</span>
+                        </div>
+                    </div>
+                    <a href="${stream.url}" class="stream-link" target="_blank"></a>
+                `;
+                
+                streamsContainer.appendChild(card);
+            }
+            
+            // Инициализация фильтров
+            function initFilters() {
+                const filterButtons = document.querySelectorAll('.filter-btn');
+                
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        // Удаляем active у всех кнопок
+                        filterButtons.forEach(btn => btn.classList.remove('active'));
+                        // Добавляем active текущей кнопке
+                        this.classList.add('active');
+                        
+                        // Применяем фильтр
+                        const filter = this.dataset.filter;
+                        filterStreams(filter);
+                    });
+                });
+            }
+            
+            // Функция фильтрации стримов
+            function filterStreams(filter) {
+                const cards = document.querySelectorAll('.stream-card');
+                
+                cards.forEach(card => {
+                    switch(filter) {
+                        case 'all':
+                            card.style.display = 'block';
+                            break;
+                        case 'available':
+                            card.style.display = card.classList.contains('available') ? 'block' : 'none';
+                            break;
+                        case 'unavailable':
+                            card.style.display = card.classList.contains('unavailable') ? 'block' : 'none';
+                            break;
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>
