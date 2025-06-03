@@ -9,13 +9,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6e45e2;
-            --secondary: #88d3ce;
+            --primary: #ff4500;
+            --secondary: #ff8c00;
+            --accent: #ff6347;
             --dark: #121212;
             --darker: #0a0a0a;
             --text: rgba(255, 255, 255, 0.9);
             --error: #ff4d4d;
             --success: #4dff7a;
+            --all-color: #ff7e33;
         }
         
         * {
@@ -30,12 +32,15 @@
             font-family: 'Montserrat', sans-serif;
             min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
+            position: relative;
+            z-index: 2;
         }
         
         header {
@@ -44,6 +49,8 @@
             margin-bottom: 1.5rem;
             opacity: 0;
             animation: fadeIn 0.8s 0.2s forwards;
+            position: relative;
+            z-index: 2;
         }
         
         .back-button {
@@ -79,6 +86,8 @@
             margin-bottom: 2rem;
             opacity: 0;
             animation: fadeIn 0.8s 0.3s forwards;
+            position: relative;
+            z-index: 2;
         }
         
         .search-input {
@@ -109,6 +118,8 @@
             margin-bottom: 2rem;
             opacity: 0;
             animation: fadeIn 0.8s 0.4s forwards;
+            position: relative;
+            z-index: 2;
         }
         
         .filter-btn {
@@ -121,6 +132,28 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: all 0.5s ease;
+        }
+        
+        .filter-btn:hover::before {
+            left: 100%;
         }
         
         .filter-btn:hover {
@@ -128,7 +161,8 @@
         }
         
         .filter-btn.active {
-            background: var(--primary);
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            font-weight: 600;
         }
         
         .streams-grid {
@@ -136,6 +170,8 @@
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
             margin-top: 1rem;
+            position: relative;
+            z-index: 2;
         }
         
         .stream-card {
@@ -143,7 +179,7 @@
             background: rgba(30, 30, 30, 0.4);
             border-radius: 16px;
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275));
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
@@ -155,8 +191,8 @@
         
         .stream-card:hover {
             transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 12px 40px rgba(255, 69, 0, 0.2);
+            border-color: rgba(255, 140, 0, 0.3);
         }
         
         .stream-thumbnail {
@@ -248,6 +284,47 @@
             grid-column: 1 / -1;
         }
         
+        /* Falling emojis styles */
+        .falling-emoji-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .falling-emoji {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            pointer-events: none;
+            will-change: transform;
+        }
+        
+        /* Particles animation */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -274,6 +351,8 @@
     </style>
 </head>
 <body>
+    <div class="falling-emoji-container" id="emoji-container"></div>
+    
     <div class="container">
         <header>
             <button class="back-button" onclick="window.history.back()">
@@ -285,7 +364,6 @@
             <h1>Стримы 2025 года</h1>
         </header>
         
-        <!-- Добавленный поисковый блок -->
         <div class="search-container">
             <input type="text" class="search-input" placeholder="Поиск стримов..." id="searchInput">
         </div>
@@ -343,6 +421,161 @@
             let allStreams = []; // Для хранения всех стримов
             let currentFilter = 'all'; // Текущий фильтр
             let currentSearch = ''; // Текущий поисковый запрос
+            
+            // Инициализация падающих смайликов
+            const emojiContainer = document.getElementById('emoji-container');
+            const activeEmojis = [];
+            let lastAnimationFrame = null;
+            
+            // Список смайликов
+            const emojis = [
+                'emoji/a_angrycat.webp',
+                'emoji/a_cat.webp',
+                'emoji/a_coolcat.webp',
+                'emoji/a_jolynecat',
+                'emoji/a_jotarocat.webp',
+                'emoji/a_policecat.webp',
+                'emoji/b_catsuperevent.webp',
+                'emoji/buzova.webp',
+                'emoji/c_knuckangrycoffie.webp',
+                'emoji/c_knuckcoffie.webp',
+                'emoji/c_knuckcool.webp',
+                'emoji/c_knuckcry.webp',
+                'emoji/catt.webp',
+                'emoji/chadmedic.webp',
+                'emoji/clueless.webp',
+                'emoji/cmb.webp',
+                'emoji/cool~1.webp',
+                'emoji/crypto_honest_reaction.webp',
+                'emoji/dwayne.webp',
+                'emoji/lambda.webp',
+                'emoji/mda.webp',
+                'emoji/n_peep.webp',
+                'emoji/stahp.webp'
+            ];
+            
+            // Функция создания падающего смайлика
+            function createFallingEmoji() {
+                const emoji = document.createElement('div');
+                emoji.className = 'falling-emoji';
+                
+                const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.backgroundImage = `url('${randomEmoji}')`;
+                
+                const posX = Math.random() * window.innerWidth;
+                emoji.style.left = `${posX}px`;
+                emoji.style.top = '-30px';
+                
+                const rotation = -30 + Math.random() * 60;
+                emoji.style.transform = `rotate(${rotation}deg)`;
+                
+                const size = 20 + Math.random() * 20;
+                emoji.style.width = `${size}px`;
+                emoji.style.height = `${size}px`;
+                
+                const speed = 0.5 + Math.random() * 2.5;
+                
+                emojiContainer.appendChild(emoji);
+                
+                const emojiData = {
+                    element: emoji,
+                    speed: speed,
+                    position: -30,
+                    rotation: rotation,
+                    rotationSpeed: (Math.random() - 0.5) * 10,
+                    removed: false
+                };
+                
+                activeEmojis.push(emojiData);
+                
+                if (!lastAnimationFrame) {
+                    animateEmojis();
+                }
+                
+                setTimeout(() => {
+                    if (!emojiData.removed) {
+                        removeEmoji(emojiData);
+                    }
+                }, 10000);
+            }
+            
+            // Анимация падающих смайликов
+            function animateEmojis() {
+                const viewportHeight = window.innerHeight;
+                const elementsToCheck = document.querySelectorAll('.stream-card, h1, .search-input, .filter-btn');
+                const elementRects = Array.from(elementsToCheck).map(el => el.getBoundingClientRect());
+                
+                for (let i = activeEmojis.length - 1; i >= 0; i--) {
+                    const emoji = activeEmojis[i];
+                    
+                    if (emoji.removed) {
+                        activeEmojis.splice(i, 1);
+                        continue;
+                    }
+                    
+                    emoji.position += emoji.speed * 2;
+                    emoji.element.style.top = `${emoji.position}px`;
+                    
+                    emoji.rotation += emoji.rotationSpeed;
+                    emoji.element.style.transform = `rotate(${emoji.rotation}deg)`;
+                    
+                    if (emoji.position > viewportHeight) {
+                        removeEmoji(emoji);
+                        continue;
+                    }
+                    
+                    const emojiRect = emoji.element.getBoundingClientRect();
+                    
+                    for (const rect of elementRects) {
+                        if (
+                            emojiRect.left < rect.right &&
+                            emojiRect.right > rect.left &&
+                            emojiRect.top < rect.bottom &&
+                            emojiRect.bottom > rect.top
+                        ) {
+                            handleCollision(emoji);
+                            break;
+                        }
+                    }
+                }
+                
+                if (activeEmojis.length > 0) {
+                    lastAnimationFrame = requestAnimationFrame(animateEmojis);
+                } else {
+                    lastAnimationFrame = null;
+                }
+            }
+            
+            // Обработка столкновений смайликов с элементами
+            function handleCollision(emoji) {
+                emoji.element.style.transition = 'transform 0.1s, opacity 0.5s';
+                emoji.element.style.transform = `rotate(${emoji.rotation}deg) translateY(-5px)`;
+                emoji.element.style.opacity = '0';
+                
+                setTimeout(() => {
+                    removeEmoji(emoji);
+                }, 500);
+            }
+            
+            // Удаление смайлика
+            function removeEmoji(emoji) {
+                if (emoji.removed) return;
+                
+                emoji.removed = true;
+                if (emoji.element.parentNode) {
+                    emoji.element.parentNode.removeChild(emoji.element);
+                }
+            }
+            
+            // Запуск системы падающих смайликов
+            setInterval(createFallingEmoji, 700 + Math.random() * 300);
+            
+            // Первоначальный выброс смайликов
+            setTimeout(() => {
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(createFallingEmoji, i * 200);
+                }
+            }, 1000);
             
             try {
                 const streamsContainer = document.getElementById('streamsContainer');
