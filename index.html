@@ -29,12 +29,15 @@
             font-family: 'Montserrat', sans-serif;
             min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
+            position: relative;
+            z-index: 2;
         }
         
         header {
@@ -42,6 +45,8 @@
             margin-bottom: 3rem;
             opacity: 0;
             animation: fadeIn 0.8s 0.2s forwards;
+            position: relative;
+            z-index: 2;
         }
         
         h1 {
@@ -65,6 +70,8 @@
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1.5rem;
             perspective: 1000px;
+            position: relative;
+            z-index: 2;
         }
         
         .year-card {
@@ -181,6 +188,25 @@
             pointer-events: none;
         }
         
+        /* Стили для падающих смайликов */
+        .falling-emoji {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 1;
+            pointer-events: none;
+            animation: fall linear forwards;
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(calc(100vh + 30px));
+            }
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -206,6 +232,11 @@
             
             .all-card .year-number {
                 font-size: 2rem;
+            }
+            
+            .falling-emoji {
+                width: 25px;
+                height: 25px;
             }
         }
     </style>
@@ -310,6 +341,125 @@
                 window.location.href = url;
             }, 200);
         }
+
+        // Список смайликов из папки emoji (замените на реальные пути)
+        const emojis = [
+            'emoji/a_angrycat.webp',
+            'emoji/a_cat.webp',
+            'emoji/a_coolcat.webp',
+            'emoji/a_jolynecat',
+            'emoji/a_jotarocat.webp',
+            'emoji/a_policecat.webp',
+            'emoji/b_catsuperevent.webp',
+            'emoji/buzova.webp',
+            'emoji/c_knuckangrycoffie.webp',
+            'emoji/c_knuckcoffie.webp',
+            'emoji/c_knuckcool.webp',
+            'emoji/c_knuckcry.webp',
+            'emoji/catt.webp',
+            'emoji/chadmedic.webp',
+            'emoji/clueless.webp',
+            'emoji/cmb.webp',
+            'emoji/cool~1.webp',
+            'emoji/crypto_honest_reaction.webp',
+            'emoji/dwayne.webp',
+            'emoji/lambda.webp',
+            'emoji/mda.webp',
+            'emoji/n_peep.webp',
+            'emoji/stahp.webp'
+        ];
+
+        // Функция создания падающих смайликов
+        function createFallingEmoji() {
+            const emoji = document.createElement('div');
+            emoji.className = 'falling-emoji';
+            
+            // Выбираем случайный смайлик
+            const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.backgroundImage = `url('${randomEmoji}')`;
+            
+            // Случайная позиция по X
+            const posX = Math.random() * window.innerWidth;
+            emoji.style.left = `${posX}px`;
+            emoji.style.top = '-30px';
+            
+            // Случайная скорость падения (2-8 секунд)
+            const duration = 2 + Math.random() * 6;
+            emoji.style.animationDuration = `${duration}s`;
+            
+            document.body.appendChild(emoji);
+            
+            // Удаляем смайлик после завершения анимации
+            setTimeout(() => {
+                emoji.remove();
+            }, duration * 1000);
+            
+            // Проверка столкновений с элементами
+            checkCollisions(emoji);
+        }
+
+        // Функция проверки столкновений
+        function checkCollisions(emoji) {
+            const emojiRect = emoji.getBoundingClientRect();
+            const elementsToCheck = [
+                ...document.querySelectorAll('.year-card, h1, .subtitle')
+            ];
+            
+            const checkInterval = setInterval(() => {
+                if (!emoji.isConnected) {
+                    clearInterval(checkInterval);
+                    return;
+                }
+                
+                const currentRect = emoji.getBoundingClientRect();
+                
+                elementsToCheck.forEach(element => {
+                    const elementRect = element.getBoundingClientRect();
+                    
+                    // Проверка пересечения
+                    if (
+                        currentRect.left < elementRect.right &&
+                        currentRect.right > elementRect.left &&
+                        currentRect.top < elementRect.bottom &&
+                        currentRect.bottom > elementRect.top
+                    ) {
+                        // Столкновение обнаружено - запускаем эффект
+                        handleCollision(emoji, element);
+                        clearInterval(checkInterval);
+                    }
+                });
+            }, 50);
+        }
+
+        // Обработка столкновения
+        function handleCollision(emoji, element) {
+            // Останавливаем падение
+            emoji.style.animation = 'none';
+            
+            // Эффект удара - небольшой отскок
+            emoji.style.transition = 'transform 0.2s, opacity 0.5s';
+            emoji.style.transform = 'translateY(-5px)';
+            
+            // Плавное исчезновение
+            setTimeout(() => {
+                emoji.style.opacity = '0';
+            }, 200);
+            
+            // Удаление элемента после анимации
+            setTimeout(() => {
+                emoji.remove();
+            }, 700);
+        }
+
+        // Запускаем создание смайликов каждые 0.5-1.5 секунды
+        setInterval(createFallingEmoji, 500 + Math.random() * 1000);
+
+        // Первые смайлики появляются через 1 секунду после загрузки
+        setTimeout(() => {
+            for (let i = 0; i < 3; i++) {
+                setTimeout(createFallingEmoji, i * 300);
+            }
+        }, 1000);
     </script>
 </body>
 </html>
