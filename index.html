@@ -30,7 +30,7 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
-            overflow-y: hidden; /* Убираем скроллбар */
+            overflow-y: auto;
         }
         
         .container {
@@ -73,6 +73,7 @@
             perspective: 1000px;
             position: relative;
             z-index: 2;
+            margin-bottom: 3rem;
         }
         
         .year-card {
@@ -94,6 +95,40 @@
             transform: translateY(20px);
         }
         
+        .year-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.2;
+            z-index: -1;
+        }
+        
+        .year-card[data-year="2022"]::before {
+            background-image: url('stream_backgrounds/2022.png');
+        }
+        
+        .year-card[data-year="2023"]::before {
+            background-image: url('stream_backgrounds/2023.png');
+        }
+        
+        .year-card[data-year="2024"]::before {
+            background-image: url('stream_backgrounds/2024.png');
+        }
+        
+        .year-card[data-year="2025"]::before {
+            background-image: url('stream_backgrounds/2025.png');
+        }
+        
+        .year-card.all-card::before {
+            background-image: url('stream_backgrounds/all.png');
+        }
+        
         .year-card:nth-child(1) { animation: cardEntry 0.6s 0.3s forwards; }
         .year-card:nth-child(2) { animation: cardEntry 0.6s 0.4s forwards; }
         .year-card:nth-child(3) { animation: cardEntry 0.6s 0.5s forwards; }
@@ -104,27 +139,21 @@
             background: rgba(255, 126, 51, 0.1);
         }
         
-        .year-card.all-card::before {
-            background: linear-gradient(45deg, 
-                rgba(255, 126, 51, 0.2) 0%, 
-                rgba(255, 126, 51, 0.1) 100%);
-        }
-        
         .year-card.all-card::after {
             background: linear-gradient(to right, var(--all-color), #ffb833);
         }
         
-        .year-card::before {
+        .year-card::after {
             content: '';
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, 
-                                        rgba(110, 69, 226, 0.2) 0%, 
-                                        rgba(136, 211, 206, 0.1) 100%);
-            z-index: -1;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
         }
         
         .year-card:hover {
@@ -154,19 +183,6 @@
             font-size: 2.5rem;
         }
         
-        .year-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-        
         .year-card:hover::after {
             transform: scaleX(1);
         }
@@ -190,6 +206,17 @@
         }
         
         /* Стили для падающих смайликов */
+        .falling-emoji-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
         .falling-emoji {
             position: absolute;
             width: 30px;
@@ -197,9 +224,349 @@
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            z-index: 1;
             pointer-events: none;
             will-change: transform;
+        }
+        
+        /* Стили для медиа-плеера */
+        .media-player-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .media-player-container {
+            width: 80%;
+            max-width: 900px;
+            background: rgba(30, 30, 30, 0.9);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        
+        .media-player {
+            width: 100%;
+            position: relative;
+        }
+        
+        .media-player video {
+            width: 100%;
+            display: block;
+            max-height: 80vh;
+        }
+        
+        .media-player img {
+            width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            display: block;
+        }
+        
+        .media-controls {
+            padding: 1rem;
+            background: rgba(20, 20, 20, 0.8);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .media-controls button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background 0.2s ease;
+        }
+        
+        .media-controls button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .progress-container {
+            flex-grow: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 3px;
+            width: 0%;
+            position: relative;
+        }
+        
+        .time-display {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            min-width: 100px;
+            text-align: center;
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 120px;
+        }
+        
+        .volume-slider {
+            flex-grow: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        
+        .volume-level {
+            height: 100%;
+            background: white;
+            border-radius: 2px;
+            width: 100%;
+        }
+        
+        .close-player {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Стили для случайного момента */
+        .random-moment {
+            margin-top: 4rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .random-moment-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeIn 0.8s 1s forwards;
+        }
+        
+        .random-moment-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeIn 0.8s 1.2s forwards;
+        }
+        
+        .random-moment-container img,
+        .random-moment-container video {
+            width: 100%;
+            display: block;
+            max-height: 450px;
+            object-fit: cover;
+        }
+        
+        .random-moment-container video {
+            background: #000;
+        }
+        
+        .random-moment-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 1.5rem;
+            color: white;
+            font-size: 1.1rem;
+        }
+        
+        .show-all-btn {
+            margin-top: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 0.8s 1.4s forwards;
+        }
+        
+        .show-all-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Стили для галереи всех моментов */
+        .all-moments {
+            display: none;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            animation: fadeIn 0.8s forwards;
+        }
+        
+        .all-moments-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+        }
+        
+        .media-categories {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .category-btn.active {
+            background: var(--primary);
+            font-weight: 600;
+        }
+        
+        .category-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .moments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .moment-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            aspect-ratio: 16/9;
+            background: rgba(30, 30, 30, 0.6);
+            cursor: pointer;
+        }
+        
+        .moment-item:hover {
+            transform: translateY(-5px) scale(1.02);
+        }
+        
+        .moment-item img, 
+        .moment-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .moment-item video {
+            background: #000;
+        }
+        
+        .moment-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 1rem;
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+        
+        .play-icon::before {
+            content: '';
+            width: 0;
+            height: 0;
+            border-top: 12px solid transparent;
+            border-left: 20px solid white;
+            border-bottom: 12px solid transparent;
+            margin-left: 5px;
+        }
+        
+        .moment-item:hover .play-icon {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .back-to-random {
+            display: block;
+            margin: 2rem auto 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-random:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
         }
         
         @keyframes fadeIn {
@@ -214,6 +581,10 @@
         
         @media (max-width: 768px) {
             .years-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .moments-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
             
@@ -233,10 +604,26 @@
                 width: 25px;
                 height: 25px;
             }
+            
+            .media-player-container {
+                width: 95%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .years-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .moments-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="falling-emoji-container" id="emoji-container"></div>
+    
     <div class="container">
         <header>
             <h1>Архив стримов</h1>
@@ -263,6 +650,51 @@
             <div class="year-card all-card" id="year-all">
                 <div class="particles" id="particles-all"></div>
                 <div class="year-number">ВСЕ</div>
+            </div>
+        </div>
+        
+        <div class="random-moment">
+            <h2 class="random-moment-title">Случайный момент</h2>
+            <div class="random-moment-container" id="random-moment">
+                <!-- Сюда будет вставлен случайный медиа-файл -->
+            </div>
+            <button class="show-all-btn" id="show-all-btn">Показать все моменты</button>
+        </div>
+        
+        <div class="all-moments" id="all-moments">
+            <h2 class="all-moments-title">Все моменты</h2>
+            <div class="media-categories">
+                <button class="category-btn active" data-category="all">Все</button>
+                <button class="category-btn" data-category="images">Изображения</button>
+                <button class="category-btn" data-category="videos">Видео</button>
+            </div>
+            <div class="moments-grid" id="moments-grid">
+                <!-- Сюда будет вставлена вся галерея -->
+            </div>
+            <button class="back-to-random" id="back-to-random">Вернуться к случайному моменту</button>
+        </div>
+    </div>
+    
+    <!-- Медиа-плеер -->
+    <div class="media-player-overlay" id="media-player-overlay">
+        <div class="media-player-container">
+            <button class="close-player" id="close-player">&times;</button>
+            <div class="media-player" id="media-player">
+                <!-- Сюда будет вставлен выбранный медиа-файл -->
+            </div>
+            <div class="media-controls" id="media-controls">
+                <button id="play-pause-btn">⏯</button>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+                <div class="time-display" id="time-display">0:00 / 0:00</div>
+                <div class="volume-control">
+                    <button id="mute-btn">🔊</button>
+                    <div class="volume-slider" id="volume-slider">
+                        <div class="volume-level" id="volume-level"></div>
+                    </div>
+                </div>
+                <button id="fullscreen-btn">⛶</button>
             </div>
         </div>
     </div>
@@ -337,43 +769,42 @@
             }, 200);
         }
 
-        // Список смайликов из папки emoji (замените на реальные пути)
-        const emojis = [
-            'emoji/a_angrycat.webp',
-            'emoji/a_cat.webp',
-            'emoji/a_coolcat.webp',
-            'emoji/a_jolynecat',
-            'emoji/a_jotarocat.webp',
-            'emoji/a_policecat.webp',
-            'emoji/b_catsuperevent.webp',
-            'emoji/buzova.webp',
-            'emoji/c_knuckangrycoffie.webp',
-            'emoji/c_knuckcoffie.webp',
-            'emoji/c_knuckcool.webp',
-            'emoji/c_knuckcry.webp',
-            'emoji/catt.webp',
-            'emoji/chadmedic.webp',
-            'emoji/clueless.webp',
-            'emoji/cmb.webp',
-            'emoji/cool~1.webp',
-            'emoji/crypto_honest_reaction.webp',
-            'emoji/dwayne.webp',
-            'emoji/lambda.webp',
-            'emoji/mda.webp',
-            'emoji/n_peep.webp',
-            'emoji/stahp.webp'
-        ];
-
-        // Массив для хранения активных смайликов
+        // Оптимизированная система падающих смайликов
+        const emojiContainer = document.getElementById('emoji-container');
         const activeEmojis = [];
         let lastAnimationFrame = null;
 
-        // Функция создания падающих смайликов
         function createFallingEmoji() {
             const emoji = document.createElement('div');
             emoji.className = 'falling-emoji';
             
             // Выбираем случайный смайлик
+            const emojis = [
+                'emoji/a_angrycat.webp',
+                'emoji/a_cat.webp',
+                'emoji/a_coolcat.webp',
+                'emoji/a_jolynecat',
+                'emoji/a_jotarocat.webp',
+                'emoji/a_policecat.webp',
+                'emoji/b_catsuperevent.webp',
+                'emoji/buzova.webp',
+                'emoji/c_knuckangrycoffie.webp',
+                'emoji/c_knuckcoffie.webp',
+                'emoji/c_knuckcool.webp',
+                'emoji/c_knuckcry.webp',
+                'emoji/catt.webp',
+                'emoji/chadmedic.webp',
+                'emoji/clueless.webp',
+                'emoji/cmb.webp',
+                'emoji/cool~1.webp',
+                'emoji/crypto_honest_reaction.webp',
+                'emoji/dwayne.webp',
+                'emoji/lambda.webp',
+                'emoji/mda.webp',
+                'emoji/n_peep.webp',
+                'emoji/stahp.webp'
+            ];
+            
             const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
             emoji.style.backgroundImage = `url('${randomEmoji}')`;
             
@@ -394,7 +825,7 @@
             // Случайная скорость падения (0.5-3 секунды до нижней границы)
             const speed = 0.5 + Math.random() * 2.5;
             
-            document.body.appendChild(emoji);
+            emojiContainer.appendChild(emoji);
             
             // Сохраняем данные смайлика
             const emojiData = {
@@ -421,7 +852,6 @@
             }, 10000);
         }
 
-        // Функция анимации всех смайликов
         function animateEmojis() {
             const viewportHeight = window.innerHeight;
             const elementsToCheck = document.querySelectorAll('.year-card, h1, .subtitle');
@@ -475,7 +905,6 @@
             }
         }
 
-        // Обработка столкновения
         function handleCollision(emoji) {
             // Эффект удара - небольшой отскок и исчезновение
             emoji.element.style.transition = 'transform 0.1s, opacity 0.5s';
@@ -488,7 +917,6 @@
             }, 500);
         }
 
-        // Удаление смайлика
         function removeEmoji(emoji) {
             if (emoji.removed) return;
             
@@ -499,7 +927,7 @@
         }
 
         // Запускаем создание смайликов каждые 200-500ms
-        setInterval(createFallingEmoji, 200 + Math.random() * 300);
+        setInterval(createFallingEmoji, 700 + Math.random() * 300);
 
         // Первые смайлики появляются через 1 секунду после загрузки
         setTimeout(() => {
@@ -508,9 +936,293 @@
             }
         }, 1000);
 
-        // Остановка анимации при скролле (чтобы избежать проблем)
-        window.addEventListener('scroll', () => {
-            window.scrollTo(0, 0);
+        // Система случайных моментов и галереи
+        const mediaFiles = [
+            { type: 'image', url: 'assets/i_cryptoface1.jpg', caption: 'Крассавица' },
+            { type: 'image', url: 'assets/i_cryptoface2.png', caption: 'Крассавица2' },
+            { type: 'video', url: 'assets/v_red_explode.mp4', caption: 'Взрывной' },
+            { type: 'video', url: 'assets/v_pizdabol.mp4', caption: 'Пиздабол' }
+        ];
+
+        // Выбираем случайный момент
+        function showRandomMoment() {
+            const randomMoment = document.getElementById('random-moment');
+            const randomIndex = Math.floor(Math.random() * mediaFiles.length);
+            const media = mediaFiles[randomIndex];
+            
+            randomMoment.innerHTML = '';
+            
+            if (media.type === 'image') {
+                const img = document.createElement('img');
+                img.src = media.url;
+                img.alt = media.caption;
+                randomMoment.appendChild(img);
+            } else {
+                const video = document.createElement('video');
+                video.src = media.url;
+                video.muted = true;
+                video.loop = true;
+                video.playsInline = true;
+                video.autoplay = true;
+                randomMoment.appendChild(video);
+            }
+            
+            const caption = document.createElement('div');
+            caption.className = 'random-moment-caption';
+            caption.textContent = media.caption;
+            randomMoment.appendChild(caption);
+            
+            // Обработчик клика для открытия в плеере
+            randomMoment.addEventListener('click', () => openMediaPlayer(media));
+        }
+
+        // Загружаем галерею всех моментов
+        function loadAllMoments() {
+            const momentsGrid = document.getElementById('moments-grid');
+            momentsGrid.innerHTML = '';
+            
+            mediaFiles.forEach(media => {
+                const momentItem = document.createElement('div');
+                momentItem.className = 'moment-item';
+                momentItem.dataset.type = media.type;
+                
+                if (media.type === 'image') {
+                    const img = document.createElement('img');
+                    img.src = media.url;
+                    img.alt = media.caption;
+                    momentItem.appendChild(img);
+                } else {
+                    const video = document.createElement('video');
+                    video.src = media.url;
+                    video.muted = true;
+                    video.loop = true;
+                    video.playsInline = true;
+                    momentItem.appendChild(video);
+                    
+                    const playIcon = document.createElement('div');
+                    playIcon.className = 'play-icon';
+                    momentItem.appendChild(playIcon);
+                }
+                
+                const caption = document.createElement('div');
+                caption.className = 'moment-caption';
+                caption.textContent = media.caption;
+                momentItem.appendChild(caption);
+                
+                momentItem.addEventListener('click', () => openMediaPlayer(media));
+                momentsGrid.appendChild(momentItem);
+            });
+        }
+
+        // Фильтрация по категориям
+        function setupCategoryFilters() {
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    const category = btn.dataset.category;
+                    const items = document.querySelectorAll('.moment-item');
+                    
+                    items.forEach(item => {
+                        if (category === 'all' || item.dataset.type === category + 's') {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        }
+
+        // Медиа-плеер
+        let currentMedia = null;
+        let isPlaying = false;
+        let isMuted = false;
+        let currentVolume = 1;
+
+        function openMediaPlayer(media) {
+            currentMedia = media;
+            const playerOverlay = document.getElementById('media-player-overlay');
+            const playerContainer = document.getElementById('media-player');
+            
+            playerContainer.innerHTML = '';
+            
+            if (media.type === 'image') {
+                const img = document.createElement('img');
+                img.src = media.url;
+                img.alt = media.caption;
+                playerContainer.appendChild(img);
+                
+                // Скрываем контролы для изображений
+                document.getElementById('media-controls').style.display = 'none';
+            } else {
+                const video = document.createElement('video');
+                video.src = media.url;
+                video.controls = false;
+                video.id = 'player-video';
+                playerContainer.appendChild(video);
+                
+                // Показываем контролы для видео
+                document.getElementById('media-controls').style.display = 'flex';
+                
+                // Инициализация видео
+                setupVideoPlayer(video);
+            }
+            
+            playerOverlay.style.display = 'flex';
+            setTimeout(() => {
+                playerOverlay.style.opacity = '1';
+                document.querySelector('.media-player-container').style.transform = 'scale(1)';
+            }, 10);
+            
+            // Блокируем скролл страницы
+            document.body.style.overflow = 'hidden';
+        }
+
+        function setupVideoPlayer(video) {
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            const progressBar = document.getElementById('progress-bar');
+            const progressContainer = document.getElementById('progress-container');
+            const timeDisplay = document.getElementById('time-display');
+            const muteBtn = document.getElementById('mute-btn');
+            const volumeSlider = document.getElementById('volume-slider');
+            const volumeLevel = document.getElementById('volume-level');
+            const fullscreenBtn = document.getElementById('fullscreen-btn');
+            
+            // Автовоспроизведение
+            video.play().then(() => {
+                isPlaying = true;
+                playPauseBtn.textContent = '⏸';
+            }).catch(e => {
+                console.log('Autoplay prevented:', e);
+                isPlaying = false;
+                playPauseBtn.textContent = '⏯';
+            });
+            
+            // Обновление прогресса
+            video.addEventListener('timeupdate', () => {
+                const progress = (video.currentTime / video.duration) * 100;
+                progressBar.style.width = `${progress}%`;
+                
+                // Обновление времени
+                const currentMinutes = Math.floor(video.currentTime / 60);
+                const currentSeconds = Math.floor(video.currentTime % 60);
+                const durationMinutes = Math.floor(video.duration / 60);
+                const durationSeconds = Math.floor(video.duration % 60);
+                
+                timeDisplay.textContent = 
+                    `${currentMinutes}:${currentSeconds < 10 ? '0' : ''}${currentSeconds} / 
+                     ${durationMinutes}:${durationSeconds < 10 ? '0' : ''}${durationSeconds}`;
+            });
+            
+            // Клик по прогресс-бару
+            progressContainer.addEventListener('click', (e) => {
+                const rect = progressContainer.getBoundingClientRect();
+                const pos = (e.clientX - rect.left) / rect.width;
+                video.currentTime = pos * video.duration;
+            });
+            
+            // Управление воспроизведением
+            playPauseBtn.addEventListener('click', () => {
+                if (isPlaying) {
+                    video.pause();
+                    playPauseBtn.textContent = '⏯';
+                } else {
+                    video.play();
+                    playPauseBtn.textContent = '⏸';
+                }
+                isPlaying = !isPlaying;
+            });
+            
+            // Управление громкостью
+            muteBtn.addEventListener('click', () => {
+                isMuted = !isMuted;
+                video.muted = isMuted;
+                muteBtn.textContent = isMuted ? '🔇' : '🔊';
+            });
+            
+            volumeSlider.addEventListener('click', (e) => {
+                const rect = volumeSlider.getBoundingClientRect();
+                const pos = (e.clientX - rect.left) / rect.width;
+                currentVolume = Math.min(1, Math.max(0, pos));
+                video.volume = currentVolume;
+                volumeLevel.style.width = `${currentVolume * 100}%`;
+                
+                if (currentVolume === 0) {
+                    isMuted = true;
+                    muteBtn.textContent = '🔇';
+                    video.muted = true;
+                } else {
+                    isMuted = false;
+                    muteBtn.textContent = '🔊';
+                    video.muted = false;
+                }
+            });
+            
+            // Полноэкранный режим
+            fullscreenBtn.addEventListener('click', () => {
+                const player = document.querySelector('.media-player-container');
+                
+                if (player.requestFullscreen) {
+                    player.requestFullscreen();
+                } else if (player.webkitRequestFullscreen) {
+                    player.webkitRequestFullscreen();
+                } else if (player.msRequestFullscreen) {
+                    player.msRequestFullscreen();
+                }
+            });
+            
+            // Завершение видео
+            video.addEventListener('ended', () => {
+                isPlaying = false;
+                playPauseBtn.textContent = '⏯';
+            });
+        }
+
+        // Закрытие плеера
+        document.getElementById('close-player').addEventListener('click', closeMediaPlayer);
+
+        function closeMediaPlayer() {
+            const playerOverlay = document.getElementById('media-player-overlay');
+            
+            playerOverlay.style.opacity = '0';
+            document.querySelector('.media-player-container').style.transform = 'scale(0.9)';
+            
+            setTimeout(() => {
+                playerOverlay.style.display = 'none';
+                
+                // Остановка видео при закрытии
+                const video = document.getElementById('player-video');
+                if (video) {
+                    video.pause();
+                    isPlaying = false;
+                }
+                
+                // Восстанавливаем скролл страницы
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        // Переключение между случайным моментом и галереей
+        document.getElementById('show-all-btn').addEventListener('click', () => {
+            document.querySelector('.random-moment').style.display = 'none';
+            document.getElementById('all-moments').style.display = 'block';
+            document.getElementById('all-moments').style.opacity = '1';
+        });
+
+        document.getElementById('back-to-random').addEventListener('click', () => {
+            document.getElementById('all-moments').style.display = 'none';
+            document.querySelector('.random-moment').style.display = 'block';
+        });
+
+        // Инициализация при загрузке страницы
+        window.addEventListener('load', () => {
+            showRandomMoment();
+            loadAllMoments();
+            setupCategoryFilters();
         });
     </script>
 </body>
