@@ -30,6 +30,7 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+            overflow-y: hidden; /* Убираем скроллбар */
         }
         
         .container {
@@ -198,13 +199,7 @@
             background-position: center;
             z-index: 1;
             pointer-events: none;
-            animation: fall linear forwards;
-        }
-        
-        @keyframes fall {
-            to {
-                transform: translateY(calc(100vh + 30px));
-            }
+            will-change: transform;
         }
         
         @keyframes fadeIn {
@@ -344,30 +339,16 @@
 
         // Список смайликов из папки emoji (замените на реальные пути)
         const emojis = [
-            'emoji/a_angrycat.webp',
-            'emoji/a_cat.webp',
-            'emoji/a_coolcat.webp',
-            'emoji/a_jolynecat',
-            'emoji/a_jotarocat.webp',
-            'emoji/a_policecat.webp',
-            'emoji/b_catsuperevent.webp',
-            'emoji/buzova.webp',
-            'emoji/c_knuckangrycoffie.webp',
-            'emoji/c_knuckcoffie.webp',
-            'emoji/c_knuckcool.webp',
-            'emoji/c_knuckcry.webp',
-            'emoji/catt.webp',
-            'emoji/chadmedic.webp',
-            'emoji/clueless.webp',
-            'emoji/cmb.webp',
-            'emoji/cool~1.webp',
-            'emoji/crypto_honest_reaction.webp',
-            'emoji/dwayne.webp',
-            'emoji/lambda.webp',
-            'emoji/mda.webp',
-            'emoji/n_peep.webp',
-            'emoji/stahp.webp'
+            'emoji/smile1.webp',
+            'emoji/smile2.webp',
+            'emoji/smile3.webp',
+            'emoji/smile4.webp',
+            'emoji/smile5.webp'
         ];
+
+        // Массив для хранения активных смайликов
+        const activeEmojis = [];
+        let lastAnimationFrame = null;
 
         // Функция создания падающих смайликов
         function createFallingEmoji() {
@@ -383,83 +364,136 @@
             emoji.style.left = `${posX}px`;
             emoji.style.top = '-30px';
             
-            // Случайная скорость падения (2-8 секунд)
-            const duration = 2 + Math.random() * 6;
-            emoji.style.animationDuration = `${duration}s`;
+            // Случайный угол наклона (-30 до 30 градусов)
+            const rotation = -30 + Math.random() * 60;
+            emoji.style.transform = `rotate(${rotation}deg)`;
+            
+            // Случайный размер (20-40px)
+            const size = 20 + Math.random() * 20;
+            emoji.style.width = `${size}px`;
+            emoji.style.height = `${size}px`;
+            
+            // Случайная скорость падения (0.5-3 секунды до нижней границы)
+            const speed = 0.5 + Math.random() * 2.5;
             
             document.body.appendChild(emoji);
             
-            // Удаляем смайлик после завершения анимации
-            setTimeout(() => {
-                emoji.remove();
-            }, duration * 1000);
+            // Сохраняем данные смайлика
+            const emojiData = {
+                element: emoji,
+                speed: speed,
+                position: -30,
+                rotation: rotation,
+                rotationSpeed: (Math.random() - 0.5) * 10,
+                removed: false
+            };
             
-            // Проверка столкновений с элементами
-            checkCollisions(emoji);
+            activeEmojis.push(emojiData);
+            
+            // Если анимация еще не запущена, запускаем
+            if (!lastAnimationFrame) {
+                animateEmojis();
+            }
+            
+            // Удаляем смайлик через 10 секунд на всякий случай
+            setTimeout(() => {
+                if (!emojiData.removed) {
+                    removeEmoji(emojiData);
+                }
+            }, 10000);
         }
 
-        // Функция проверки столкновений
-        function checkCollisions(emoji) {
-            const emojiRect = emoji.getBoundingClientRect();
-            const elementsToCheck = [
-                ...document.querySelectorAll('.year-card, h1, .subtitle')
-            ];
+        // Функция анимации всех смайликов
+        function animateEmojis() {
+            const viewportHeight = window.innerHeight;
+            const elementsToCheck = document.querySelectorAll('.year-card, h1, .subtitle');
+            const elementRects = Array.from(elementsToCheck).map(el => el.getBoundingClientRect());
             
-            const checkInterval = setInterval(() => {
-                if (!emoji.isConnected) {
-                    clearInterval(checkInterval);
-                    return;
+            // Обновляем позиции всех смайликов
+            for (let i = activeEmojis.length - 1; i >= 0; i--) {
+                const emoji = activeEmojis[i];
+                
+                if (emoji.removed) {
+                    activeEmojis.splice(i, 1);
+                    continue;
                 }
                 
-                const currentRect = emoji.getBoundingClientRect();
+                // Увеличиваем позицию (падение)
+                emoji.position += emoji.speed * 2;
+                emoji.element.style.top = `${emoji.position}px`;
                 
-                elementsToCheck.forEach(element => {
-                    const elementRect = element.getBoundingClientRect();
-                    
-                    // Проверка пересечения
+                // Вращение
+                emoji.rotation += emoji.rotationSpeed;
+                emoji.element.style.transform = `rotate(${emoji.rotation}deg)`;
+                
+                // Проверяем, достиг ли смайлик нижней границы
+                if (emoji.position > viewportHeight) {
+                    removeEmoji(emoji);
+                    continue;
+                }
+                
+                // Проверяем столкновения с элементами
+                const emojiRect = emoji.element.getBoundingClientRect();
+                
+                for (const rect of elementRects) {
                     if (
-                        currentRect.left < elementRect.right &&
-                        currentRect.right > elementRect.left &&
-                        currentRect.top < elementRect.bottom &&
-                        currentRect.bottom > elementRect.top
+                        emojiRect.left < rect.right &&
+                        emojiRect.right > rect.left &&
+                        emojiRect.top < rect.bottom &&
+                        emojiRect.bottom > rect.top
                     ) {
                         // Столкновение обнаружено - запускаем эффект
-                        handleCollision(emoji, element);
-                        clearInterval(checkInterval);
+                        handleCollision(emoji);
+                        break;
                     }
-                });
-            }, 50);
+                }
+            }
+            
+            // Продолжаем анимацию, если есть активные смайлики
+            if (activeEmojis.length > 0) {
+                lastAnimationFrame = requestAnimationFrame(animateEmojis);
+            } else {
+                lastAnimationFrame = null;
+            }
         }
 
         // Обработка столкновения
-        function handleCollision(emoji, element) {
-            // Останавливаем падение
-            emoji.style.animation = 'none';
-            
-            // Эффект удара - небольшой отскок
-            emoji.style.transition = 'transform 0.2s, opacity 0.5s';
-            emoji.style.transform = 'translateY(-5px)';
-            
-            // Плавное исчезновение
-            setTimeout(() => {
-                emoji.style.opacity = '0';
-            }, 200);
+        function handleCollision(emoji) {
+            // Эффект удара - небольшой отскок и исчезновение
+            emoji.element.style.transition = 'transform 0.1s, opacity 0.5s';
+            emoji.element.style.transform = `rotate(${emoji.rotation}deg) translateY(-5px)`;
+            emoji.element.style.opacity = '0';
             
             // Удаление элемента после анимации
             setTimeout(() => {
-                emoji.remove();
-            }, 700);
+                removeEmoji(emoji);
+            }, 500);
         }
 
-        // Запускаем создание смайликов каждые 0.5-1.5 секунды
-        setInterval(createFallingEmoji, 500 + Math.random() * 1000);
+        // Удаление смайлика
+        function removeEmoji(emoji) {
+            if (emoji.removed) return;
+            
+            emoji.removed = true;
+            if (emoji.element.parentNode) {
+                emoji.element.parentNode.removeChild(emoji.element);
+            }
+        }
+
+        // Запускаем создание смайликов каждые 200-500ms
+        setInterval(createFallingEmoji, 200 + Math.random() * 300);
 
         // Первые смайлики появляются через 1 секунду после загрузки
         setTimeout(() => {
-            for (let i = 0; i < 3; i++) {
-                setTimeout(createFallingEmoji, i * 300);
+            for (let i = 0; i < 5; i++) {
+                setTimeout(createFallingEmoji, i * 200);
             }
         }, 1000);
+
+        // Остановка анимации при скролле (чтобы избежать проблем)
+        window.addEventListener('scroll', () => {
+            window.scrollTo(0, 0);
+        });
     </script>
 </body>
 </html>
