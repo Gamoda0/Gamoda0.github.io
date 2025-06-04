@@ -130,6 +130,27 @@
     #main-content {
       display: none;
     }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(30, 30, 30, 0.6);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(to bottom, #ff4500, #ff8c00);
+      border-radius: 10px;
+      border: 2px solid rgba(30, 30, 30, 0.6);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(to bottom, #ff6347, #ff4500);
+    }
   </style>
 </head>
 <body>
@@ -877,6 +898,60 @@
             left: 100%;
         }
         
+        /* Loading states */
+        .loading-media {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .loading-media::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                rgba(30, 30, 30, 0) 0%, 
+                rgba(255, 69, 0, 0.1) 50%, 
+                rgba(30, 30, 30, 0) 100%);
+            background-size: 200% 100%;
+            animation: loadingShimmer 1.5s infinite;
+            z-index: 2;
+        }
+        
+        @keyframes loadingShimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .loading-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(30, 30, 30, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -1007,6 +1082,7 @@
     </div>
 
     <script>
+        // Initialize particles for year cards
         document.querySelectorAll('.year-card').forEach(card => {
             const particlesContainer = card.querySelector('.particles');
             const particleCount = 20;
@@ -1045,6 +1121,7 @@
             document.head.appendChild(style);
         });
 
+        // Year card click handlers
         document.getElementById('year-2022').addEventListener('click', function() {
             animateAndRedirect(this, '2022.html');
         });
@@ -1073,6 +1150,7 @@
             }, 200);
         }
 
+        // Falling emojis animation
         const emojiContainer = document.getElementById('emoji-container');
         const activeEmojis = [];
         let lastAnimationFrame = null;
@@ -1220,11 +1298,11 @@
             }
         }, 1000);
 
+        // Media files data
         const mediaFiles = [
-
             { type: 'video', url: 'assets/vid/1v_stoyak.webm', caption: 'Стоякоуский', tags: ['video', 'funny'] },
             { type: 'video', url: 'assets/vid/2v_buhailparasha.webm', caption: 'Бухаил Парашевич', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/3v_fact.webm', caption: 'Стоякоуский', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/3v_fact.webm', caption: 'Супер Деликатес', tags: ['video', 'funny'] },
             { type: 'video', url: 'assets/vid/4v_nasral.webm', caption: 'Насрала', tags: ['video', 'funny'] },
             { type: 'video', url: 'assets/vid/5v_pidoras.webm', caption: 'Посмотри, пдиорас...', tags: ['video', 'funny'] },
             { type: 'video', url: 'assets/vid/6v_pizdabol.webm', caption: 'На роток слабый', tags: ['video', 'funny'] },
@@ -1255,9 +1333,9 @@
             { type: 'image', url: 'assets/img/15i_pidoras.webp', caption: 'ПiдораZZ', tags: ['image', 'cool'] },
             { type: 'image', url: 'assets/img/16i_strong.webp', caption: 'Силач', tags: ['image', 'cool'] },
             { type: 'image', url: 'assets/img/17i_true.webp', caption: 'Правда...', tags: ['image', 'cool'] }
-
         ];
 
+        // Show random moment
         function showRandomMoment() {
             const randomMoment = document.getElementById('random-moment');
             const randomIndex = Math.floor(Math.random() * mediaFiles.length);
@@ -1265,20 +1343,31 @@
             
             randomMoment.innerHTML = '';
             
+            // Create loading placeholder
+            const placeholder = document.createElement('div');
+            placeholder.className = 'loading-placeholder';
+            placeholder.innerHTML = '<div class="loading-spinner"></div>';
+            randomMoment.appendChild(placeholder);
+            
+            let mediaElement;
             if (media.type === 'image') {
-                const img = document.createElement('img');
-                img.src = media.url;
-                img.alt = media.caption;
-                randomMoment.appendChild(img);
+                mediaElement = document.createElement('img');
+                mediaElement.onload = () => {
+                    placeholder.remove();
+                };
             } else {
-                const video = document.createElement('video');
-                video.src = media.url;
-                video.muted = true;
-                video.loop = true;
-                video.playsInline = true;
-                video.autoplay = true;
-                randomMoment.appendChild(video);
+                mediaElement = document.createElement('video');
+                mediaElement.muted = true;
+                mediaElement.loop = true;
+                mediaElement.playsInline = true;
+                mediaElement.autoplay = true;
+                mediaElement.onloadeddata = () => {
+                    placeholder.remove();
+                };
             }
+            
+            mediaElement.src = media.url;
+            randomMoment.appendChild(mediaElement);
             
             const caption = document.createElement('div');
             caption.className = 'random-moment-caption';
@@ -1288,32 +1377,47 @@
             randomMoment.addEventListener('click', () => openMediaPlayer(media));
         }
 
+        // Load all moments
         function loadAllMoments() {
             const momentsGrid = document.getElementById('moments-grid');
             momentsGrid.innerHTML = '';
             
-            mediaFiles.forEach(media => {
+            mediaFiles.forEach((media, index) => {
                 const momentItem = document.createElement('div');
                 momentItem.className = 'moment-item';
                 momentItem.dataset.type = media.type;
                 
-                if (media.type === 'image') {
-                    const img = document.createElement('img');
-                    img.src = media.url;
-                    img.alt = media.caption;
-                    momentItem.appendChild(img);
-                } else {
-                    const video = document.createElement('video');
-                    video.src = media.url;
-                    video.muted = true;
-                    video.loop = true;
-                    video.playsInline = true;
-                    momentItem.appendChild(video);
+                // Add loading placeholder
+                const placeholder = document.createElement('div');
+                placeholder.className = 'loading-placeholder';
+                placeholder.innerHTML = '<div class="loading-spinner"></div>';
+                momentItem.appendChild(placeholder);
+                
+                // Load media with delay for sequential loading
+                setTimeout(() => {
+                    let mediaElement;
+                    if (media.type === 'image') {
+                        mediaElement = document.createElement('img');
+                        mediaElement.onload = () => {
+                            placeholder.remove();
+                        };
+                    } else {
+                        mediaElement = document.createElement('video');
+                        mediaElement.muted = true;
+                        mediaElement.loop = true;
+                        mediaElement.playsInline = true;
+                        mediaElement.onloadeddata = () => {
+                            placeholder.remove();
+                        };
+                        
+                        const playIcon = document.createElement('div');
+                        playIcon.className = 'play-icon';
+                        momentItem.appendChild(playIcon);
+                    }
                     
-                    const playIcon = document.createElement('div');
-                    playIcon.className = 'play-icon';
-                    momentItem.appendChild(playIcon);
-                }
+                    mediaElement.src = media.url;
+                    momentItem.appendChild(mediaElement);
+                }, index * 200); // Sequential loading delay
                 
                 const caption = document.createElement('div');
                 caption.className = 'moment-caption';
@@ -1325,6 +1429,7 @@
             });
         }
 
+        // Setup category filters
         function setupCategoryFilters() {
             const categoryBtns = document.querySelectorAll('.category-btn');
             
@@ -1347,6 +1452,7 @@
             });
         }
 
+        // Media player functionality
         let currentMedia = null;
         let isPlaying = false;
         let isMuted = false;
@@ -1361,10 +1467,19 @@
             
             playerContainer.innerHTML = '';
             
+            // Add loading state
+            const placeholder = document.createElement('div');
+            placeholder.className = 'loading-placeholder';
+            placeholder.innerHTML = '<div class="loading-spinner"></div>';
+            playerContainer.appendChild(placeholder);
+            
             if (media.type === 'image') {
                 const img = document.createElement('img');
                 img.src = media.url;
                 img.alt = media.caption;
+                img.onload = () => {
+                    placeholder.remove();
+                };
                 playerContainer.appendChild(img);
                 document.getElementById('media-controls').style.display = 'none';
             } else {
@@ -1372,6 +1487,9 @@
                 video.src = media.url;
                 video.controls = false;
                 video.id = 'player-video';
+                video.onloadeddata = () => {
+                    placeholder.remove();
+                };
                 playerContainer.appendChild(video);
                 document.getElementById('media-controls').style.display = 'flex';
                 setupVideoPlayer(video);
@@ -1529,17 +1647,21 @@
             }, 300);
         }
 
+        // Show all moments button
         document.getElementById('show-all-btn').addEventListener('click', () => {
             document.querySelector('.random-moment').style.display = 'none';
             document.getElementById('all-moments').style.display = 'block';
             document.getElementById('all-moments').style.opacity = '1';
         });
 
+        // Back to random button
         document.getElementById('back-to-random').addEventListener('click', () => {
             document.getElementById('all-moments').style.display = 'none';
             document.querySelector('.random-moment').style.display = 'block';
+            showRandomMoment();
         });
 
+        // Initialize on window load
         window.addEventListener('load', () => {
             showRandomMoment();
             loadAllMoments();
