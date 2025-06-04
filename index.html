@@ -1221,37 +1221,41 @@
         }, 1000);
 
         const mediaFiles = [
-            { type: 'image', url: 'assets/1i_18+.png', caption: 'Голые бабы сматрет 🔞', tags: ['image', 'funny'] },
-            { type: 'image', url: 'assets/2i_boss.jpg', caption: 'BigBoss', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/3i_clown', caption: 'Истенное лицо', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/4i_cry.png', caption: '😭', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/5i_cryptobody.png', caption: 'Мужчина', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/6i_cryptoface1.jpg', caption: 'Крассавица', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/7i_cryptoface2.png', caption: '👨‍🦲', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/8i_cryptoface3.jpg', caption: 'Притаился', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/9i_eating.gif', caption: 'Кушает', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/10i_fact.jpg', caption: 'Ass', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/11i_help.png', caption: 'Помогите', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/12i_howdoyoudo.jpg', caption: 'ХауДуюДу', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/13i_kablik.jpg', caption: '👠', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/14i_nasrala.jpg', caption: 'Кошка насрала', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/15i_nasrala.png', caption: '🐱', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/16i_pediknavalny.gif', caption: 'Навальный', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/17i_pidoras.png', caption: 'ПiдораZZ', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/18i_posral.gif', caption: 'Посрал', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/19i_smile.gif', caption: 'Smile Face', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/20i_sosali.gif', caption: 'Сосали?', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/21i_storm.gif', caption: 'Нихуя биток', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/22i_strong.jpg', caption: 'Силач', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/23i_true.jpg', caption: 'True', tags: ['image', 'cool'] },
-            { type: 'video', url: 'assets/24v_buhailparasha.mp4', caption: 'Бухаил Парашевич', tags: ['video', 'cool'] },
-            { type: 'video', url: 'assets/25v_fact.mp4', caption: 'Деликатес 😋', tags: ['video', 'cool'] },
-            { type: 'video', url: 'assets/26v_nasral.webm', caption: 'Однажды...', tags: ['video', 'cool'] },
-            { type: 'video', url: 'assets/27v_pidoras.mp4', caption: 'Нету денег оплатить?', tags: ['video', 'cool'] },
-            { type: 'video', url: 'assets/28v_pizdabol.mp4', caption: 'На роток слабый....', tags: ['video', 'cool'] },
-            { type: 'video', url: 'assets/29v_podkatil.mp4', caption: 'Подкатил', tags: ['video', 'cool'] },
-            { type: 'video', url: 'assets/30v_red_explode.mp4', caption: 'Взрывной', tags: ['video', 'action'] },
-            { type: 'video', url: 'assets/31v_stoyak.mp4', caption: 'Пиздабол', tags: ['video', 'funny'] }
+
+            { type: 'video', url: 'assets/vid/1v_stoyak.mp4', caption: 'Стоякоуский', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/2v_buhailparasha.mp4', caption: 'Бухаил Парашевич', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/3v_fact.mp4', caption: 'Стоякоуский', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/4v_nasral.webm', caption: 'Насрала', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/5v_pidoras.mp4', caption: 'Посмотри, пдиорас...', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/6v_pizdabol.mp4', caption: 'На роток слабый', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/7v_podkatil.mp4', caption: 'Подкатил', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/8v_red_explode.mp4', caption: 'Разрывная', tags: ['video', 'funny'] },
+
+            { type: 'image', url: 'assets/gif/1i_eating.png', caption: 'Кушает', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/2i_pediknavalny.png', caption: 'Педик Навальный', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/3i_posral.png', caption: 'POSRAL', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/4i_smile.png', caption: 'Smile', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/5i_sosali.png', caption: 'Сосали?', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/6i_storm.png', caption: 'Качалово жопное писюнное', tags: ['image', 'cool'] },
+
+            { type: 'image', url: 'assets/img/1i_18+.png', caption: 'Голые бабы сматрет 🔞', tags: ['image', 'funny'] },
+            { type: 'image', url: 'assets/img/2i_boss.png', caption: 'BigBoss', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/img/3i_clown.png', caption: 'Истенное лицо', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/img/4i_cry.png', caption: '😭', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/img/5i_cryptobody.png', caption: 'Мужчина', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/img/6i_cryptoface1.png', caption: 'Крассавица', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/img/7i_cryptoface2.png', caption: '👨‍🦲', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/img/8i_cryptoface3.png', caption: 'Притаился', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/img/9i_fact.png', caption: 'Факт', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/img/10i_help.png', caption: 'Помогите', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/img/11i_howdoyoudo.png', caption: 'ХауДуюДу', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/img/12i_kablik.png', caption: '👠', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/img/13i_nasrala.png', caption: 'Насрала', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/img/14i_nasrala.png', caption: 'ОПЯТ....', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/img/15i_pidoras.png', caption: 'ПiдораZZ', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/img/16i_strong.png', caption: 'Силач', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/img/17i_true.png', caption: 'Правда...', tags: ['image', 'cool'] }
+
         ];
 
         function showRandomMoment() {
@@ -1548,12 +1552,12 @@
 
   <script>
     const gifUrls = [
-      "assets/10i_eating.gif",
-      "assets/17i_pediknavalny.gif",
-      "assets/19i_posral.gif",
-      "assets/20i_smile.gif",
-      "assets/22i_storm.gif",
-      "assets/21i_sosali.gif"
+      "assets/gif/1i_eating.png",
+      "assets/gif/2i_pediknavalny.png",
+      "assets/gif/3i_posral.png",
+      "assets/gif/4i_smile.png",
+      "assets/gif/5i_sosali.png",
+      "assets/gif/6i_storm.png"
     ];
 
     const loadingTexts = [
