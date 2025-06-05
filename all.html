@@ -26,6 +26,27 @@
             box-sizing: border-box;
         }
         
+        /* Кастомный скроллбар */
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #ff4500, #ff8c00);
+            border-radius: 10px;
+            border: 2px solid rgba(30, 30, 30, 0.6);
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, #ff6347, #ff4500);
+        }
+        
         body {
             background: linear-gradient(135deg, var(--darker), var(--dark));
             color: var(--text);
@@ -431,28 +452,6 @@
             // Список смайликов
             const emojis = [
                 'emoji/a_angrycat.webp',
-                'emoji/a_cat.webp',
-                'emoji/a_coolcat.webp',
-                'emoji/a_jolynecat',
-                'emoji/a_jotarocat.webp',
-                'emoji/a_policecat.webp',
-                'emoji/b_catsuperevent.webp',
-                'emoji/buzova.webp',
-                'emoji/c_knuckangrycoffie.webp',
-                'emoji/c_knuckcoffie.webp',
-                'emoji/c_knuckcool.webp',
-                'emoji/c_knuckcry.webp',
-                'emoji/catt.webp',
-                'emoji/chadmedic.webp',
-                'emoji/clueless.webp',
-                'emoji/cmb.webp',
-                'emoji/cool~1.webp',
-                'emoji/crypto_honest_reaction.webp',
-                'emoji/dwayne.webp',
-                'emoji/lambda.webp',
-                'emoji/mda.webp',
-                'emoji/n_peep.webp',
-                'emoji/stahp.webp'
             ];
             
             // Функция создания падающего смайлика
