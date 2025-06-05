@@ -207,7 +207,7 @@
             padding: 2rem;
             position: relative;
             z-index: 2;
-            padding-bottom: 80px; /* Space for footer */
+            padding-bottom: 120px; /* Space for footer */
         }
         
         header {
@@ -980,35 +980,30 @@
             width: 100%;
             background: rgba(20, 20, 20, 0.8);
             backdrop-filter: blur(10px);
-            padding: 10px 0;
+            padding: 15px 0;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             z-index: 5;
             border-top: 1px solid rgba(255, 140, 0, 0.2);
         }
 
-        .footer-left, .footer-center, .footer-right {
+        .social-container {
             display: flex;
             align-items: center;
-            padding: 0 20px;
-        }
-
-        .footer-center {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+            gap: 30px;
+            position: relative;
         }
 
         .social-icon {
-            width: 40px;
-            height: 40px;
-            margin: 0 10px;
-            transition: transform 0.3s ease;
+            width: 50px;
+            height: 50px;
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
         }
 
         .social-icon img {
@@ -1018,41 +1013,75 @@
             border-radius: 50%;
         }
 
-        .social-icon:hover {
-            transform: scale(1.2);
-        }
-
-        .footer-text {
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .footer-text img {
-            width: 24px;
-            height: 24px;
-            margin-right: 8px;
-            border-radius: 50%;
-        }
-
-        /* Additional small icons for YouTube cutters */
-        .small-icons {
+        .social-icon .platform-icon {
             position: absolute;
-            top: -30px;
-            display: flex;
-            gap: 5px;
+            width: 80%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
 
-        .small-icon {
-            width: 20px;
-            height: 20px;
+        .social-icon .avatar-overlay {
+            position: absolute;
+            width: 70%;
+            height: 70%;
+            bottom: -5px;
+            right: -5px;
             border-radius: 50%;
+            border: 2px solid rgba(255, 140, 0, 0.5);
+            z-index: 2;
+            object-fit: cover;
+        }
+
+        .youtube-cutters {
+            position: absolute;
+            right: -150px;
+            top: 75%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            max-width: 200px;
+            justify-content: flex-end;
+        }
+
+        .youtube-cutters.left {
+            left: -150px;
+            right: auto;
+            justify-content: flex-start;
+        }
+
+        .cutter-icon {
+            width: 30px;
+            height: 30px;
+            position: relative;
             transition: transform 0.3s ease;
         }
 
-        .small-icon:hover {
-            transform: scale(1.5);
+        .cutter-icon:hover {
+            transform: scale(1.2);
+        }
+
+        .cutter-icon .youtube-icon {
+            width: 100%;
+            height: 70%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .cutter-icon .cutter-avatar {
+            position: absolute;
+            width: 70%;
+            height: 70%;
+            bottom: -5px;
+            right: -5px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 140, 0, 0.5);
+            z-index: 2;
+            object-fit: cover;
         }
         
         @media (max-width: 768px) {
@@ -1106,24 +1135,30 @@
             }
 
             .footer {
-                flex-direction: column;
-                padding: 5px 0;
+                padding: 10px 0;
             }
 
-            .footer-left, .footer-center, .footer-right {
-                padding: 5px 0;
-                position: static;
-                transform: none;
+            .social-container {
+                gap: 20px;
             }
 
             .social-icon {
-                width: 30px;
-                height: 30px;
-                margin: 0 5px;
+                width: 40px;
+                height: 40px;
             }
 
-            .footer-text {
-                font-size: 12px;
+            .youtube-cutters {
+                right: -120px;
+                max-width: 150px;
+            }
+
+            .youtube-cutters.left {
+                left: -120px;
+            }
+
+            .cutter-icon {
+                width: 25px;
+                height: 25px;
             }
         }
         
@@ -1138,6 +1173,7 @@
 
             .container {
                 padding: 1rem;
+                padding-bottom: 100px;
             }
 
             .media-player-overlay {
@@ -1163,6 +1199,19 @@
                 order: 2;
                 width: 100%;
                 text-align: center;
+            }
+
+            .social-container {
+                gap: 15px;
+            }
+
+            .social-icon {
+                width: 35px;
+                height: 35px;
+            }
+
+            .youtube-cutters {
+                display: none;
             }
         }
     </style>
@@ -1223,34 +1272,47 @@
     
     <!-- Footer with social links -->
     <div class="footer">
-        <div class="footer-left">
+        <div class="social-container">
+            <!-- Telegram -->
             <a href="https://t.me/CryptoHLX" class="social-icon" target="_blank">
-                <img src="assets/social/telegram.webp" alt="Telegram">
-                <div class="small-icons">
-                    <img src="assets/social/telegram.webp" class="small-icon" alt="Telegram">
-                </div>
+                <img src="assets/avatars/telegram.webp" class="platform-icon" alt="Telegram">
+                <img src="assets/avatars/telegram_avatar.webp" class="avatar-overlay" alt="Avatar">
             </a>
-        </div>
-        <div class="footer-center">
+            
+            <!-- YouTube -->
             <a href="https://www.youtube.com/@crypto2102" class="social-icon" target="_blank">
-                <img src="assets/social/youtube.webp" alt="YouTube">
-                <div class="small-icons">
-                    <img src="assets/social/cutter1.webp" class="small-icon" alt="Cutter 1">
-                    <img src="assets/social/cutter2.webp" class="small-icon" alt="Cutter 2">
-                </div>
+                <img src="assets/avatars/youtube.webp" class="platform-icon" alt="YouTube">
+                <img src="assets/avatars/youtube_avatar.webp" class="avatar-overlay" alt="Avatar">
             </a>
-        </div>
-        <div class="footer-right">
+            
+            <!-- Discord -->
             <a href="https://discord.gg/HgDNU5rBZE" class="social-icon" target="_blank">
-                <img src="assets/social/discord.webp" alt="Discord">
-                <div class="small-icons">
-                    <img src="assets/social/discord.webp" class="small-icon" alt="Discord">
-                </div>
+                <img src="assets/avatars/discord.webp" class="platform-icon" alt="Discord">
+                <img src="assets/avatars/discord_avatar.png" class="avatar-overlay" alt="Avatar">
             </a>
-        </div>
-        <div class="footer-text">
-            <img src="assets/social/avatar.webp" alt="Avatar">
-            МАЯ БАРБА
+            
+            <!-- YouTube Cutters (right side) -->
+            <div class="youtube-cutters">
+                <a href="https://www.youtube.com/@%D0%A1%D0%A0%D0%98%D0%9F%D0%A2%D0%9E228" class="cutter-icon" target="_blank">
+
+                </a>
+                <a href="#" class="cutter-icon" target="_blank">
+
+                </a>
+                <a href="#" class="cutter-icon" target="_blank">
+
+                </a>
+            </div>
+            
+            <!-- YouTube Cutters (left side) -->
+            <div class="youtube-cutters left">
+                <a href="#" class="cutter-icon" target="_blank">
+
+                </a>
+                <a href="#" class="cutter-icon" target="_blank">
+
+                </a>
+            </div>
         </div>
     </div>
     
@@ -1262,7 +1324,6 @@
                 <!-- Сюда будет вставлен выбранный медиа-файл -->
             </div>
             <div class="media-controls" id="media-controls">
-                <button id="play-pause-btn">⏯</button>
                 <div class="progress-container" id="progress-container">
                     <div class="progress-bar" id="progress-bar"></div>
                 </div>
@@ -1340,12 +1401,12 @@
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
                 
-                const size = Math.random() * 20 + 10;
+                const size = Math.random() * 5 + 10;
                 const posX = Math.random() * 100;
                 const posY = Math.random() * 100;
-                const delay = Math.random() * 5;
+                const delay = Math.random() * 3;
                 const duration = Math.random() * 10 + 5;
-                const opacity = Math.random() * 0.6 + 0.4;
+                const opacity = Math.random() * 0.2 + 0.4;
                 const emoji = emojis[Math.floor(Math.random() * emojis.length)];
                 
                 particle.style.backgroundImage = `url('${emoji}')`;
@@ -1505,7 +1566,7 @@
 
         function animateEmojis() {
             const viewportHeight = window.innerHeight;
-            const elementsToCheck = document.querySelectorAll('.year-card, h1, .subtitle, .moment-item');
+            const elementsToCheck = document.querySelectorAll('.year-card, h1, .subtitle, .moment-item, .footer');
             const elementRects = Array.from(elementsToCheck).map(el => el.getBoundingClientRect());
             
             for (let i = activeEmojis.length - 1; i >= 0; i--) {
@@ -1782,10 +1843,8 @@
                 video.addEventListener('click', () => {
                     if (isPlaying) {
                         video.pause();
-                        document.getElementById('play-pause-btn').textContent = '⏯';
                     } else {
                         video.play();
-                        document.getElementById('play-pause-btn').textContent = '⏸';
                     }
                     isPlaying = !isPlaying;
                 });
@@ -1801,7 +1860,6 @@
         }
 
         function setupVideoPlayer(video) {
-            const playPauseBtn = document.getElementById('play-pause-btn');
             const progressBar = document.getElementById('progress-bar');
             const progressContainer = document.getElementById('progress-container');
             const timeDisplay = document.getElementById('time-display');
@@ -1818,10 +1876,8 @@
             
             video.play().then(() => {
                 isPlaying = true;
-                playPauseBtn.textContent = '⏸';
             }).catch(e => {
                 isPlaying = false;
-                playPauseBtn.textContent = '⏯';
             });
             
             video.addEventListener('timeupdate', () => {
@@ -1866,17 +1922,6 @@
                 isDraggingProgress = false;
             });
             
-            playPauseBtn.addEventListener('click', () => {
-                if (isPlaying) {
-                    video.pause();
-                    playPauseBtn.textContent = '⏯';
-                } else {
-                    video.play();
-                    playPauseBtn.textContent = '⏸';
-                }
-                isPlaying = !isPlaying;
-            });
-            
             muteBtn.addEventListener('click', () => {
                 isMuted = !isMuted;
                 video.muted = isMuted;
@@ -1900,7 +1945,6 @@
             
             video.addEventListener('ended', () => {
                 isPlaying = false;
-                playPauseBtn.textContent = '⏯';
             });
             
             playerOverlay.addEventListener('click', (e) => {
