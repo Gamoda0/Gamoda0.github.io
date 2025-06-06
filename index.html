@@ -152,6 +152,10 @@
       background: linear-gradient(to bottom, #ff6347, #ff4500);
     }
   </style>
+      <!-- Кнопка должна быть ПОСЛЕ футера -->
+    <div class="footer-toggle-wrapper">
+      <button id="toggleFooterBtn" class="footer-toggle-btn" title="Скрыть футер">▲</button>
+    </div>
 </head>
 <body>
 
@@ -1033,6 +1037,51 @@
             z-index: 2;
             object-fit: cover;
         }
+
+        /* Стили для кнопки */
+        .footer-toggle-wrapper {
+          position: fixed;
+          right: 30px;
+          bottom: 30px;
+          z-index: 1001;
+          transition: bottom 0.4s ease;
+        }
+
+        .footer-toggle-btn {
+          width: 32px;
+          height: 32px;
+          background: linear-gradient(to right, #ff4500, #ff8c00);
+          border: none;
+          border-radius: 50%;
+          color: white;
+          font-size: 14px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+          transition: all 0.3s ease;
+        }
+
+        .footer-toggle-btn:hover {
+          transform: scale(1.1);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+
+        /* Анимация футера */
+        .footer {
+          transition: transform 0.4s ease;
+        }
+
+        /* Состояние скрытого футера */
+        .footer-hidden {
+          transform: translateY(100%);
+        }
+
+        /* Позиция кнопки когда футер виден */
+        .footer:not(.footer-hidden) + .footer-toggle-wrapper {
+          bottom: calc(100% + 15px);
+        }
         
         @media (max-width: 768px) {
             .years-grid {
@@ -1199,7 +1248,7 @@
         </div>
         
         <div class="random-moment">
-            <h2 class="random-moment-title">Все моменты</h2>
+            <h2 class="random-moment-title">Лучшие моменты</h2>
             <div class="random-moment-container" id="random-moment">
                 <!-- Сюда будет вставлен случайный медиа-файл -->
             </div>
@@ -1574,13 +1623,50 @@
             { type: 'video', url: 'assets/vid/6v_pizdabol.webm', caption: 'На роток слабый', tags: ['video', 'funny'] },
             { type: 'video', url: 'assets/vid/7v_podkatil.webm', caption: 'Подкатил', tags: ['video', 'funny'] },
             { type: 'video', url: 'assets/vid/8v_red_explode.webm', caption: 'Разрывная', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/9v_crypto_fart.webm', caption: 'Миша ты что пукнул?', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/10v_PICYAKA.webm', caption: 'Маленякая писяка', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/11v_shiza.webm', caption: 'Oh who is she...', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/12v_ayaayyaa.webm', caption: 'AYAAYAA', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/13v_barba.webm', caption: 'Мая Барба', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/14v_cry.webm', caption: 'Грустная реальность', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/15v_crypto_women.webm', caption: 'Криптятина', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/16v_vot-bi.webm', caption: 'Вот бы...', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/17v_yeahh.webm', caption: 'Yeah', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/18v_nachalnica.webm', caption: 'Начальница', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/19v_HIHIHI.webm', caption: 'HA-HA-HA', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/20v_eeek.webm', caption: 'УААААААА!!!', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/21v_fbi.webm', caption: '🤡', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/22v_gay.webm', caption: 'Гейские-позывы', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/23v_history.webm', caption: 'История...', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/24v_huly_ti.webm', caption: 'Хули ТЫ', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/25v_krytooi.webm', caption: 'Крутой', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/26v_pidor_crypto.webm', caption: 'PIDOR', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/27v_pobejali.webm', caption: 'Побежали-побежали', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/28v_popy_vidno.webm', caption: 'Пеуец', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/29v_rap.webm', caption: 'Рэпанул', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/30v_scary.webm', caption: 'Ужасы', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/31v_shit_my_pens.webm', caption: 'Shit my pens', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/32v_what.webm', caption: 'Кого?', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/33v_creslo.webm', caption: 'Ремешки', tags: ['video', 'funny'] },
+            { type: 'video', url: 'assets/vid/34v_bolnoy.webm', caption: 'Больной...', tags: ['video', 'funny'] },
 
-            { type: 'image', url: 'assets/gif/1i_eating.png', caption: 'Кушает', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/2i_pediknavalny.png', caption: 'Педик Навальный', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/3i_posral.png', caption: 'POSRAL', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/4i_smile.png', caption: 'Smile', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/5i_sosali.png', caption: 'Сосали?', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/6i_storm.png', caption: 'Качалово жопное писюнное', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/1gif_eating.webp', caption: 'Кушает', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/2gif_pediknavalny.webp', caption: 'Педик Навальный', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/3gif_posral.webp', caption: 'POSRAL', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/4gif_smile.webp', caption: 'Smile', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/5gif_sosali.webp', caption: 'Сосали?', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/6gif_storm.webp', caption: 'Качалово жопное писюнное', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/7gif_begit.webp', caption: 'Бегит', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/8gif_razyob.webp', caption: 'Разйоб', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/9gif_booo.webp', caption: 'БУ', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/10gif_crypto_gnom.webp', caption: 'Гномчански Криптянски', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/11gif_doomaem.webp', caption: 'DOOMаем', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/12gif_konfetka.webp', caption: 'Нету ручек - нет конфетки', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/13gif_kushaet.webp', caption: 'Криворукий', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/14gif_poletel.webp', caption: '🎈', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/15gif_shoot.webp', caption: 'School Shooter', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/16gif_tabletki.webp', caption: 'Таблетосики', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/gif/17gif_talking.webp', caption: 'Talking', tags: ['image', 'cool'] },
 
             { type: 'image', url: 'assets/img/1i_18+.webp', caption: 'Голые бабы сматрет 🔞', tags: ['image', 'funny'] },
             { type: 'image', url: 'assets/img/2i_boss.webp', caption: 'BigBoss', tags: ['image', 'cool'] },
@@ -1598,7 +1684,11 @@
             { type: 'image', url: 'assets/img/14i_nasrala.webp', caption: 'ОПЯТ....', tags: ['image', 'cool'] },
             { type: 'image', url: 'assets/img/15i_pidoras.webp', caption: 'ПiдораZZ', tags: ['image', 'cool'] },
             { type: 'image', url: 'assets/img/16i_strong.webp', caption: 'Силач', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/17i_true.webp', caption: 'Правда...', tags: ['image', 'cool'] }
+            { type: 'image', url: 'assets/img/17i_true.webp', caption: 'Правда...', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/img/18i_nastya_crypto.webp', caption: 'Любоу', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/img/19i_anti_woomen.webp', caption: 'Лжебабы', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/img/20i_family.webp', caption: 'Семья', tags: ['image', 'cool'] },
+            { type: 'image', url: 'assets/img/21i_he_view.webp', caption: 'He view', tags: ['image', 'cool'] }
         ];
 
         // Show random moment
@@ -1943,6 +2033,74 @@
             loadAllMoments();
             setupCategoryFilters();
         });
+
+// Ждем полной загрузки страницы и всех ресурсов
+window.addEventListener('load', function() {
+  const toggleBtn = document.getElementById('toggleFooterBtn');
+  const footer = document.querySelector('.footer');
+  const toggleWrapper = document.querySelector('.footer-toggle-wrapper');
+  const mediaPlayerOverlay = document.getElementById('media-player-overlay');
+  
+  // Функция для обновления позиции кнопки
+  function updateButtonPosition() {
+    // Сначала делаем кнопку видимой
+    toggleWrapper.classList.add('visible');
+    
+    if (footer.classList.contains('footer-hidden')) {
+      // Если футер скрыт - фиксированная позиция
+      toggleWrapper.style.bottom = '10px';
+      toggleBtn.textContent = '▲';
+      toggleBtn.title = "Показать футер";
+    } else {
+      // Если футер видим - позиция над футером
+      const footerHeight = footer.offsetHeight;
+      toggleWrapper.style.bottom = `${footerHeight + 15}px`;
+      toggleBtn.textContent = '▼';
+      toggleBtn.title = "Скрыть футер";
+    }
+    
+    // Блюр при открытом плеере
+    if (mediaPlayerOverlay.style.display === 'flex') {
+      toggleWrapper.style.filter = 'blur(2px)';
+      toggleWrapper.style.opacity = '0.7';
+    } else {
+      toggleWrapper.style.filter = 'none';
+      toggleWrapper.style.opacity = '1';
+    }
+  }
+  
+  // Обработчик клика
+  toggleBtn.addEventListener('click', function() {
+    footer.classList.toggle('footer-hidden');
+    updateButtonPosition();
+  });
+  
+  // Инициализация с небольшой задержкой для гарантированной загрузки футера
+  setTimeout(() => {
+    updateButtonPosition();
+    
+    // Подписка на изменения размера футера
+    const observer = new ResizeObserver(() => {
+      if (!footer.classList.contains('footer-hidden')) {
+        updateButtonPosition();
+      }
+    });
+    observer.observe(footer);
+    
+    // Подписка на изменения медиа-плеера
+    const mediaObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'style') {
+          updateButtonPosition();
+        }
+      });
+    });
+    mediaObserver.observe(mediaPlayerOverlay, {
+      attributes: true,
+      attributeFilter: ['style']
+    });
+  }, 100); // Небольшая задержка для стабилизации DOM
+});
     </script>
 </body>
 </html>
@@ -1950,12 +2108,14 @@
 
   <script>
     const gifUrls = [
-      "assets/gif/1i_eating.png",
-      "assets/gif/2i_pediknavalny.png",
-      "assets/gif/3i_posral.png",
-      "assets/gif/4i_smile.png",
-      "assets/gif/5i_sosali.png",
-      "assets/gif/6i_storm.png"
+      "assets/gif/1gif_eating.webp",
+      "assets/gif/2gif_pediknavalny.webp",
+      "assets/gif/3gif_posral.webp",
+      "assets/gif/4gif_smile.webp",
+      "assets/gif/5gif_sosali.webp",
+      "assets/gif/6gif_storm.webp",
+      "assets/gif/7gif_begit.webp",
+      "assets/gif/8gif_razyob.webp"
     ];
 
     const loadingTexts = [
