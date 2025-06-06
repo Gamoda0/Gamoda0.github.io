@@ -1968,7 +1968,6 @@
       "Моем лысую голову…",
       "Красим стены…",
       "Учимся читать…",
-      "👠",
       "Ищем девочек...",
       "Начальница заболела 😭",
       "Ищем заброшку…",
@@ -2012,16 +2011,19 @@
       });
     }
 
-    function rotateLoadingTexts() {
-      let index = 0;
-      function updateText() {
-        loadingTextEl.textContent = loadingTexts[index];
-        index = (index + 1) % loadingTexts.length;
-      }
-      updateText();
-      setInterval(updateText, 2500);
+function rotateLoadingTexts() {
+  let availableTexts = [...loadingTexts];
+  function updateText() {
+    if (availableTexts.length === 0) {
+      availableTexts = [...loadingTexts];
     }
-
+    const randomIndex = Math.floor(Math.random() * availableTexts.length);
+    loadingTextEl.textContent = availableTexts[randomIndex];
+    availableTexts.splice(randomIndex, 1);
+  }
+  updateText();
+  setInterval(updateText, 1250);
+}
     function showRandomEmoji() {
       const emoji = emojiUrls[Math.floor(Math.random() * emojiUrls.length)];
       emojiImg.src = emoji;
@@ -2039,7 +2041,7 @@
           loader.style.display = 'none';
           document.getElementById('main-content').style.display = 'block';
         }, 500);
-      }, 2000);
+      }, 2500);
     });
   </script>
 
