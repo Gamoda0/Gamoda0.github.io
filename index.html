@@ -1033,56 +1033,6 @@
             z-index: 2;
             object-fit: cover;
         }
-
-        .youtube-cutters {
-            position: absolute;
-            right: -150px;
-            top: 75%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            max-width: 200px;
-            justify-content: flex-end;
-        }
-
-        .youtube-cutters.left {
-            left: -150px;
-            right: auto;
-            justify-content: flex-start;
-        }
-
-        .cutter-icon {
-            width: 30px;
-            height: 30px;
-            position: relative;
-            transition: transform 0.3s ease;
-        }
-
-        .cutter-icon:hover {
-            transform: scale(1.2);
-        }
-
-        .cutter-icon .youtube-icon {
-            width: 100%;
-            height: 70%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-
-        .cutter-icon .cutter-avatar {
-            position: absolute;
-            width: 70%;
-            height: 70%;
-            bottom: -5px;
-            right: -5px;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 140, 0, 0.5);
-            z-index: 2;
-            object-fit: cover;
-        }
         
         @media (max-width: 768px) {
             .years-grid {
@@ -1290,29 +1240,6 @@
                 <img src="assets/avatars/discord.webp" class="platform-icon" alt="Discord">
                 <img src="assets/avatars/discord_avatar.png" class="avatar-overlay" alt="Avatar">
             </a>
-            
-            <!-- YouTube Cutters (right side) -->
-            <div class="youtube-cutters">
-                <a href="https://www.youtube.com/@%D0%A1%D0%A0%D0%98%D0%9F%D0%A2%D0%9E228" class="cutter-icon" target="_blank">
-
-                </a>
-                <a href="#" class="cutter-icon" target="_blank">
-
-                </a>
-                <a href="#" class="cutter-icon" target="_blank">
-
-                </a>
-            </div>
-            
-            <!-- YouTube Cutters (left side) -->
-            <div class="youtube-cutters left">
-                <a href="#" class="cutter-icon" target="_blank">
-
-                </a>
-                <a href="#" class="cutter-icon" target="_blank">
-
-                </a>
-            </div>
         </div>
     </div>
     
@@ -1975,22 +1902,25 @@
         document.getElementById('close-player').addEventListener('click', closeMediaPlayer);
 
         function closeMediaPlayer() {
-            const playerOverlay = document.getElementById('media-player-overlay');
+          const playerOverlay = document.getElementById('media-player-overlay');
+          
+          playerOverlay.style.opacity = '0';
+          document.querySelector('.media-player-container').style.transform = 'scale(0.9)';
+          
+          setTimeout(() => {
+            playerOverlay.style.display = 'none';
             
-            playerOverlay.style.opacity = '0';
-            document.querySelector('.media-player-container').style.transform = 'scale(0.9)';
+            if (currentVideo) {
+              currentVideo.pause();
+              isPlaying = false;
+              
+              // Сбрасываем состояние звука при закрытии
+              isMuted = false; // Добавьте эту строку
+              currentVideo = null;
+            }
             
-            setTimeout(() => {
-                playerOverlay.style.display = 'none';
-                
-                if (currentVideo) {
-                    currentVideo.pause();
-                    isPlaying = false;
-                    currentVideo = null;
-                }
-                
-                document.body.style.overflow = 'auto';
-            }, 300);
+            document.body.style.overflow = 'auto';
+          }, 300);
         }
 
         // Show all moments button
