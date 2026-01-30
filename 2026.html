@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link id="favicon" rel="icon" type="image/webp" href="emoji/emoji46.webp">
     <style>
         :root {
             --primary: #ff4500;
@@ -26,7 +27,6 @@
             box-sizing: border-box;
         }
 
-        /* Custom scrollbar */
         ::-webkit-scrollbar {
           width: 12px;
           height: 12px;
@@ -399,345 +399,211 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Данные о стримах прямо в скрипте
+<script>
+document.addEventListener('DOMContentLoaded', function() {
             const streamsData = `
             #1 https://www.youtube.com/watch?v=Iton9k9aSWs 10.01.2026 ✅ [СТРИМ] МОЙ ПЕРВЫЙ СТРИМ
             #2 https://www.youtube.com/watch?v=FnXdHEH2wl8 11.01.2026 ✅ [СТРИМ] БЛИН ЭТА ОПЯТЬ ГАПИ ПОТТЕПР?
             #3 https://www.youtube.com/watch?v=-F3PBGNyHvU 18.01.2026 ✅ [СТРИМ] КОНСУЛЬТАНТ ПО ИГРАМ PS2 ХОЧЕТ ЧЕТА СКАЗАТЬ! (БУДЕТ ГАРРИ ПОТТЕР(
             `;
+    
+    let allStreams = [], currentFilter = 'all', currentSearch = '';
+    const emojiContainer = document.getElementById('emoji-container'), activeEmojis = [];
+    let emojiInterval = null, lastAnimationFrame = null;
+    
+    // Счетчики
+    function countStreams() {
+        const available = allStreams.filter(s => s.status === 'available').length;
+        const unavailable = allStreams.filter(s => s.status === 'unavailable').length;
+        return { available, unavailable };
+    }
+    
+    function addCountersToFilters() {
+        const counts = countStreams();
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        
+        const style = document.createElement('style');
+        style.textContent = `.filter-btn{position:relative;padding-top:28px}
+.filter-count{position:absolute;top:4px;left:50%;transform:translateX(-50%);font-size:14px;font-weight:700;z-index:10;min-width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:12px;padding:0 8px;white-space:nowrap;transition:all .3s}
+.filter-btn[data-filter="all"] .filter-count{background:var(--all-color);color:#fff;box-shadow:0 0 10px rgba(255,126,51,.5)}
+.filter-btn[data-filter="available"] .filter-count{background:var(--success);color:#003311;box-shadow:0 0 10px rgba(77,255,122,.5)}
+.filter-btn[data-filter="unavailable"] .filter-count{background:var(--error);color:#fff;box-shadow:0 0 10px rgba(255,77,77,.5)}
+@media(max-width:768px){.filter-count{font-size:12px;min-width:20px;height:20px;border-radius:10px}.filter-btn{padding-top:24px}}`;
+        document.head.appendChild(style);
+        
+        filterButtons.forEach(btn => {
+            let count = 0;
+            const type = btn.dataset.filter;
+            if (type === 'all') count = allStreams.length;
+            else if (type === 'available') count = counts.available;
+            else if (type === 'unavailable') count = counts.unavailable;
             
-            let allStreams = []; // Для хранения всех стримов
-            let currentFilter = 'all'; // Текущий фильтр
-            let currentSearch = ''; // Текущий поисковый запрос
-            
-            // Инициализация падающих смайликов
-            const emojiContainer = document.getElementById('emoji-container');
-            const activeEmojis = [];
-            let lastAnimationFrame = null;
-            
-            // Список смайликов
-            const emojis = [
-                'emoji/a_angrycat.webp',
-                'emoji/a_cat.webp',
-                'emoji/a_coolcat.webp',
-                'emoji/a_jolynecat.webp',
-                'emoji/a_jotarocat.webp',
-                'emoji/a_policecat.webp',
-                'emoji/b_catsuperevent.webp',
-                'emoji/buzova.webp',
-                'emoji/c_knuckangrycoffie.webp',
-                'emoji/c_knuckcoffie.webp',
-                'emoji/c_knuckcool.webp',
-                'emoji/c_knuckcry.webp',
-                'emoji/catt.webp',
-                'emoji/chadmedic.webp',
-                'emoji/clueless.webp',
-                'emoji/cmb.webp',
-                'emoji/cool~1.webp',
-                'emoji/crypto_honest_reaction.webp',
-                'emoji/dwayne.webp',
-                'emoji/ftv.webp',
-                'emoji/g_cooldog.webp',
-                'emoji/gachiGASM.webp',
-                'emoji/goblin.webp',
-                'emoji/halflife.webp',
-                'emoji/hl2_skull.webp',
-                'emoji/hunted.webp',
-                'emoji/jojo1.webp',
-                'emoji/jojo2.webp',
-                'emoji/klass.webp',
-                'emoji/klass_ahuenno.webp',
-                'emoji/lambda.webp',
-                'emoji/mda.webp',
-                'emoji/microcop.webp',
-                'emoji/n_flushed.webp',
-                'emoji/n_peep.webp',
-                'emoji/n_think.webp',
-                'emoji/navalny.webp',
-                'emoji/nerd~1.webp',
-                'emoji/nerzhaka.webp',
-                'emoji/oreh.webp',
-                'emoji/pizdec.webp',
-                "emoji/rasmeshill.webp",
-                'emoji/resistance.webp',
-                'emoji/sas.webp',
-                'emoji/sasquatch.webp',
-                'emoji/shephard.webp',
-                'emoji/stahp.webp',
-                'emoji/strong.webp',
-                'emoji/thinking~1.webp',
-                'emoji/yareyare.webp'
-            ];
-            
-            // Функция создания падающего смайлика
-            function createFallingEmoji() {
-                const emoji = document.createElement('div');
-                emoji.className = 'falling-emoji';
-                
-                const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
-                emoji.style.backgroundImage = `url('${randomEmoji}')`;
-                
-                const posX = Math.random() * window.innerWidth;
-                emoji.style.left = `${posX}px`;
-                emoji.style.top = '-30px';
-                
-                const rotation = -30 + Math.random() * 60;
-                emoji.style.transform = `rotate(${rotation}deg)`;
-                
-                const size = 20 + Math.random() * 20;
-                emoji.style.width = `${size}px`;
-                emoji.style.height = `${size}px`;
-                
-                const speed = 0.5 + Math.random() * 2.5;
-                
-                emojiContainer.appendChild(emoji);
-                
-                const emojiData = {
-                    element: emoji,
-                    speed: speed,
-                    position: -30,
-                    rotation: rotation,
-                    rotationSpeed: (Math.random() - 0.5) * 10,
-                    removed: false
-                };
-                
-                activeEmojis.push(emojiData);
-                
-                if (!lastAnimationFrame) {
-                    animateEmojis();
-                }
-                
-                setTimeout(() => {
-                    if (!emojiData.removed) {
-                        removeEmoji(emojiData);
-                    }
-                }, 10000);
-            }
-            
-            // Анимация падающих смайликов
-            function animateEmojis() {
-                const viewportHeight = window.innerHeight;
-                const elementsToCheck = document.querySelectorAll('.stream-card, h1, .search-input, .filter-btn');
-                const elementRects = Array.from(elementsToCheck).map(el => el.getBoundingClientRect());
-                
-                for (let i = activeEmojis.length - 1; i >= 0; i--) {
-                    const emoji = activeEmojis[i];
-                    
-                    if (emoji.removed) {
-                        activeEmojis.splice(i, 1);
-                        continue;
-                    }
-                    
-                    emoji.position += emoji.speed * 2;
-                    emoji.element.style.top = `${emoji.position}px`;
-                    
-                    emoji.rotation += emoji.rotationSpeed;
-                    emoji.element.style.transform = `rotate(${emoji.rotation}deg)`;
-                    
-                    if (emoji.position > viewportHeight) {
-                        removeEmoji(emoji);
-                        continue;
-                    }
-                    
-                    const emojiRect = emoji.element.getBoundingClientRect();
-                    
-                    for (const rect of elementRects) {
-                        if (
-                            emojiRect.left < rect.right &&
-                            emojiRect.right > rect.left &&
-                            emojiRect.top < rect.bottom &&
-                            emojiRect.bottom > rect.top
-                        ) {
-                            handleCollision(emoji);
-                            break;
-                        }
-                    }
-                }
-                
-                if (activeEmojis.length > 0) {
-                    lastAnimationFrame = requestAnimationFrame(animateEmojis);
-                } else {
-                    lastAnimationFrame = null;
-                }
-            }
-            
-            // Обработка столкновений смайликов с элементами
-            function handleCollision(emoji) {
-                emoji.element.style.transition = 'transform 0.1s, opacity 0.5s';
-                emoji.element.style.transform = `rotate(${emoji.rotation}deg) translateY(-5px)`;
-                emoji.element.style.opacity = '0';
-                
-                setTimeout(() => {
-                    removeEmoji(emoji);
-                }, 500);
-            }
-            
-            // Удаление смайлика
-            function removeEmoji(emoji) {
-                if (emoji.removed) return;
-                
-                emoji.removed = true;
-                if (emoji.element.parentNode) {
-                    emoji.element.parentNode.removeChild(emoji.element);
-                }
-            }
-            
-            // Запуск системы падающих смайликов
-            setInterval(createFallingEmoji, 700 + Math.random() * 300);
-            
-            // Первоначальный выброс смайликов
-            setTimeout(() => {
-                for (let i = 0; i < 5; i++) {
-                    setTimeout(createFallingEmoji, i * 200);
-                }
-            }, 1000);
-            
-            try {
-                const streamsContainer = document.getElementById('streamsContainer');
-                streamsContainer.innerHTML = '';
-                
-                // Парсинг данных
-                const lines = streamsData.split('\n');
-                allStreams = [];
-                
-                lines.forEach((line, index) => {
-                    line = line.trim();
-                    if (!line) return;
-                    
-                    // Парсинг строки
-                    const parts = line.split(/\s+/);
-                    if (parts.length >= 4) {
-                        const number = parts[0].substring(1);
-                        const url = parts[1];
-                        const date = parts[2];
-                        const status = parts[3] === '✅' ? 'available' : 'unavailable';
-                        const statusIcon = parts[3];
-                        const title = parts.slice(4).join(' ');
-                        
-                        // Извлекаем ID видео из URL
-                        const videoIdMatch = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
-                        const videoId = videoIdMatch ? videoIdMatch[1] : '';
-                        
-                        allStreams.push({
-                            number,
-                            url,
-                            date,
-                            status,
-                            statusIcon,
-                            videoId,
-                            title,
-                            element: null // Ссылка на DOM-элемент будет добавлена позже
-                        });
-                    }
-                });
-                
-                // Инициализация интерфейса
-                initSearch();
-                renderStreams();
-                initFilters();
-            } catch (error) {
-                console.error('Ошибка обработки данных:', error);
-                document.getElementById('streamsContainer').innerHTML = 
-                    '<div class="error">Ошибка при обработке данных о стримах</div>';
-            }
-            
-            // Инициализация поиска
-            function initSearch() {
-                const searchInput = document.getElementById('searchInput');
-                searchInput.addEventListener('input', function() {
-                    currentSearch = this.value.toLowerCase().trim();
-                    renderStreams();
-                });
-            }
-            
-            // Функция отрисовки стримов с учетом фильтров и поиска
-            function renderStreams() {
-                const streamsContainer = document.getElementById('streamsContainer');
-                streamsContainer.innerHTML = '';
-                
-                // Фильтрация стримов
-                const filteredStreams = allStreams.filter(stream => {
-                    // Применяем фильтр по статусу
-                    const statusMatch = currentFilter === 'all' || stream.status === currentFilter;
-                    
-                    // Применяем поиск
-                    const searchMatch = !currentSearch || 
-                        stream.title.toLowerCase().includes(currentSearch) || 
-                        stream.number.includes(currentSearch) || 
-                        stream.date.includes(currentSearch);
-                    
-                    return statusMatch && searchMatch;
-                });
-                
-                // Если нет результатов
-                if (filteredStreams.length === 0) {
-                    streamsContainer.innerHTML = '<div class="no-results">Ничего не найдено</div>';
-                    return;
-                }
-                
-                // Создаем карточки для отфильтрованных стримов
-                filteredStreams.forEach((stream, index) => {
-                    createStreamCard(stream, index);
-                });
-            }
-            
-            // Функция создания карточки стрима
-            function createStreamCard(stream, index) {
-                const streamsContainer = document.getElementById('streamsContainer');
-                
-                // Создаем элемент карточки
-                const card = document.createElement('div');
-                card.className = `stream-card ${stream.status}`;
-                card.style.animationDelay = `${0.2 + index * 0.1}s`;
-                
-                // Заполняем содержимое карточки
-                card.innerHTML = `
-                    <div class="stream-number">#${stream.number}</div>
-                    <div class="stream-thumbnail" style="background-image: url('https://img.youtube.com/vi/${stream.videoId}/mqdefault.jpg');"></div>
-                    <div class="stream-info">
-                        <div class="stream-title">${stream.title || 'Название недоступно'}</div>
-                        <div class="stream-date">${stream.date}</div>
-                        <div class="stream-status">
-                            <span class="status-icon ${stream.status === 'available' ? 'status-available' : 'status-unavailable'}">${stream.statusIcon}</span>
-                            <span>${stream.status === 'available' ? 'Доступен' : 'Недоступен'}</span>
-                        </div>
-                    </div>
-                    <a href="${stream.url}" class="stream-link" target="_blank"></a>
-                `;
-                
-                streamsContainer.appendChild(card);
-                stream.element = card; // Сохраняем ссылку на элемент
-            }
-            
-            // Инициализация фильтров
-            function initFilters() {
-                const filterButtons = document.querySelectorAll('.filter-btn');
-                
-                filterButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        // Удаляем active у всех кнопок
-                        filterButtons.forEach(btn => btn.classList.remove('active'));
-                        // Добавляем active текущей кнопке
-                        this.classList.add('active');
-                        
-                        // Обновляем текущий фильтр
-                        currentFilter = this.dataset.filter;
-                        renderStreams();
-                    });
-                });
-            }
+            const countEl = document.createElement('div');
+            countEl.className = 'filter-count';
+            countEl.textContent = count;
+            btn.appendChild(countEl);
         });
-    </script>
-</body>
-</html>
-
-
-
-
-
-
-
-
-
+    }
+    
+    // Парсинг данных
+    const lines = streamsData.split('\n');
+    lines.forEach(line => {
+        line = line.trim();
+        if (!line) return;
+        
+        const parts = line.split(/\s+/);
+        if (parts.length >= 4) {
+            const videoIdMatch = parts[1].match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
+            allStreams.push({
+                number: parts[0].substring(1),
+                url: parts[1],
+                date: parts[2],
+                status: parts[3] === '✅' ? 'available' : 'unavailable',
+                statusIcon: parts[3],
+                videoId: videoIdMatch ? videoIdMatch[1] : '',
+                title: parts.slice(4).join(' ')
+            });
+        }
+    });
+    
+    addCountersToFilters();
+    
+    // Эмодзи
+    function getRandomEmoji() {
+        return `emoji/emoji${Math.floor(Math.random() * 50)}.webp`;
+    }
+    
+    function createFallingEmoji() {
+        if (document.hidden) return;
+        
+        const emoji = document.createElement('div');
+        emoji.className = 'falling-emoji';
+        emoji.style.backgroundImage = `url('${getRandomEmoji()}')`;
+        emoji.style.left = `${Math.random() * window.innerWidth}px`;
+        emoji.style.top = '-30px';
+        emoji.style.transform = `rotate(${-30 + Math.random() * 60}deg)`;
+        const size = 20 + Math.random() * 20;
+        emoji.style.width = `${size}px`;
+        emoji.style.height = `${size}px`;
+        emojiContainer.appendChild(emoji);
+        
+        const emojiData = {
+            element: emoji,
+            speed: 0.5 + Math.random() * 2.5,
+            position: -30,
+            removed: false
+        };
+        activeEmojis.push(emojiData);
+        
+        if (!lastAnimationFrame) animateEmojis();
+        setTimeout(() => { if (!emojiData.removed) removeEmoji(emojiData); }, 10000);
+    }
+    
+    function animateEmojis() {
+        for (let i = activeEmojis.length - 1; i >= 0; i--) {
+            const emoji = activeEmojis[i];
+            if (emoji.removed) { activeEmojis.splice(i, 1); continue; }
+            emoji.position += emoji.speed * 2;
+            emoji.element.style.top = `${emoji.position}px`;
+            if (emoji.position > window.innerHeight - 100) {
+                emoji.element.style.opacity = (window.innerHeight - emoji.position) / 100;
+            }
+            if (emoji.position > window.innerHeight) removeEmoji(emoji);
+        }
+        if (activeEmojis.length > 0) lastAnimationFrame = requestAnimationFrame(animateEmojis);
+        else lastAnimationFrame = null;
+    }
+    
+    function removeEmoji(emoji) {
+        if (emoji.removed) return;
+        emoji.removed = true;
+        if (emoji.element.parentNode) emoji.element.parentNode.removeChild(emoji.element);
+    }
+    
+    function startEmojiSystem() {
+        if (emojiInterval) clearInterval(emojiInterval);
+        emojiInterval = setInterval(createFallingEmoji, 700 + Math.random() * 300);
+        
+        activeEmojis.forEach(emoji => removeEmoji(emoji));
+        activeEmojis.length = 0;
+        
+        setTimeout(() => { 
+            for (let i = 0; i < 5; i++) setTimeout(createFallingEmoji, i * 200); 
+        }, 1000);
+    }
+    
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            if (emojiInterval) clearInterval(emojiInterval);
+            emojiInterval = null;
+            if (lastAnimationFrame) {
+                cancelAnimationFrame(lastAnimationFrame);
+                lastAnimationFrame = null;
+            }
+        } else {
+            startEmojiSystem();
+        }
+    });
+    
+    startEmojiSystem();
+    
+    function initSearch() {
+        document.getElementById('searchInput').addEventListener('input', function() {
+            currentSearch = this.value.toLowerCase().trim();
+            renderStreams();
+        });
+    }
+    
+    function renderStreams() {
+        const streamsContainer = document.getElementById('streamsContainer');
+        streamsContainer.innerHTML = '';
+        
+        const filteredStreams = allStreams.filter(stream => {
+            const statusMatch = currentFilter === 'all' || stream.status === currentFilter;
+            const searchMatch = !currentSearch || 
+                stream.title.toLowerCase().includes(currentSearch) || 
+                stream.number.includes(currentSearch) || 
+                stream.date.includes(currentSearch);
+            return statusMatch && searchMatch;
+        });
+        
+        if (filteredStreams.length === 0) {
+            streamsContainer.innerHTML = '<div class="no-results">Ничего не найдено</div>';
+            return;
+        }
+        
+        filteredStreams.forEach((stream, index) => {
+            const card = document.createElement('div');
+            card.className = `stream-card ${stream.status}`;
+            card.style.animationDelay = `${0.2 + index * 0.1}s`;
+            card.innerHTML = `<div class="stream-number">#${stream.number}</div>
+                <div class="stream-thumbnail" style="background-image:url('https://img.youtube.com/vi/${stream.videoId}/mqdefault.jpg')"></div>
+                <div class="stream-info">
+                    <div class="stream-title">${stream.title || 'Название недоступно'}</div>
+                    <div class="stream-date">${stream.date}</div>
+                    <div class="stream-status">
+                        <span class="status-icon ${stream.status === 'available' ? 'status-available' : 'status-unavailable'}">${stream.statusIcon}</span>
+                        <span>${stream.status === 'available' ? 'Доступен' : 'Недоступен'}</span>
+                    </div>
+                </div>
+                <a href="${stream.url}" class="stream-link" target="_blank"></a>`;
+            streamsContainer.appendChild(card);
+        });
+    }
+    
+    function initFilters() {
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.filter;
+                renderStreams();
+            });
+        });
+    }
+    
+    renderStreams();
+    initSearch();
+    initFilters();
+});
+</script>
