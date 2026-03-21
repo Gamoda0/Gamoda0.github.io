@@ -1,179 +1,34 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link id="favicon" rel="icon" type="image/webp" href="emoji/emoji46.webp">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      height: 100%;
-      overflow: hidden;
-      font-family: sans-serif;
-    }
-
-    #loader-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: radial-gradient(circle at center, #ffcc00, #cc0000);
-      background-size: 200% 200%;
-      animation: animatedGradient 10s ease infinite;
-      z-index: 9999;
-      transition: opacity 0.5s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    @keyframes animatedGradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .stripe-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 200%;
-      height: 200%;
-      background: repeating-linear-gradient(
-        45deg,
-        rgba(255, 255, 255, 0.05),
-        rgba(255, 255, 255, 0.05) 10px,
-        transparent 10px,
-        transparent 20px
-      );
-      z-index: 1;
-      animation: moveStripes 6s linear infinite;
-    }
-
-    @keyframes moveStripes {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(-20px, -20px); }
-    }
-
-    .gif-grid {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: grid;
-      gap: 5px;
-      z-index: 0;
-      opacity: 0.15;
-      pointer-events: none;
-    }
-
-    .gif-grid img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .spinner {
-      position: relative;
-      width: 80px;
-      height: 80px;
-      border: 6px solid #fff;
-      border-top: 6px solid #cc0000;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .emoji-img {
-      width: 40px;
-      height: 40px;
-      animation: spinInner 2s linear infinite reverse;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    @keyframes spinInner {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .loading-text {
-      margin-top: 20px;
-      font-size: 18px;
-      color: white;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
-      z-index: 2;
-      animation: fade 2.5s ease-in-out infinite;
-      text-align: center;
-      max-width: 90%;
-    }
-
-    @keyframes fade {
-      0%, 100% { opacity: 0; }
-      10%, 90% { opacity: 1; }
-    }
-
-    #main-content {
-      display: none;
-    }
-
-    ::-webkit-scrollbar {
-      width: 12px;
-      height: 12px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: rgba(30, 30, 30, 0.6);
-      border-radius: 10px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(to bottom, #ff4500, #ff8c00);
-      border-radius: 10px;
-      border: 2px solid rgba(30, 30, 30, 0.6);
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(to bottom, #ff6347, #ff4500);
-    }
-  </style>
-</head>
-<body>
-
-  <div id="loader-screen">
-    <div class="stripe-overlay"></div>
-    <div class="gif-grid" id="gifGrid"></div>
-    <div class="spinner">
-      <img class="emoji-img" id="emojiImg" src="" alt="emoji" />
-    </div>
-    <div class="loading-text" id="loadingText"></div>
-  </div>
-
-  <div id="main-content">
-<!DOCTYPE html>
-<html lang="ru">
-<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Архив стримов | Главная</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Архив стримов CRYPTO</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #ff4500, #ff8c00);
+            border-radius: 10px;
+            border: 2px solid rgba(30, 30, 30, 0.6);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, #ff6347, #ff4500);
+        }
         :root {
             --primary: #ff4500;
             --secondary: #ff8c00;
@@ -185,41 +40,130 @@
             --error: #ff4d4d;
             --success: #4dff7a;
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+            font-family: 'Montserrat', sans-serif;
         }
-        
         body {
             background: linear-gradient(135deg, var(--darker), var(--dark));
             color: var(--text);
-            font-family: 'Montserrat', sans-serif;
             min-height: 100vh;
-            overflow-x: hidden;
             position: relative;
             overflow-y: auto;
         }
-        
+        #loader-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at center, #ffcc00, #cc0000);
+            background-size: 200% 200%;
+            animation: animatedGradient 10s ease infinite;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        @keyframes animatedGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .stripe-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.05),
+                rgba(255, 255, 255, 0.05) 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            z-index: 1;
+            animation: moveStripes 6s linear infinite;
+        }
+        @keyframes moveStripes {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-20px, -20px); }
+        }
+        .gif-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            gap: 5px;
+            z-index: 0;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+        .gif-grid img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .spinner {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border: 6px solid #fff;
+            border-top: 6px solid #cc0000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .emoji-img {
+            width: 40px;
+            height: 40px;
+            animation: spinInner 2s linear infinite reverse;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes spinInner {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-text {
+            margin-top: 20px;
+            font-size: 18px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+            z-index: 2;
+            animation: fade 2.5s ease-in-out infinite;
+            text-align: center;
+            max-width: 90%;
+        }
+        @keyframes fade {
+            0%, 100% { opacity: 0; }
+            10%, 90% { opacity: 1; }
+        }
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
             position: relative;
             z-index: 2;
-            padding-bottom: 120px;
+            padding-bottom: 90px;
         }
-        
         header {
             text-align: center;
             margin-bottom: 3rem;
             opacity: 0;
             animation: fadeIn 0.8s 0.2s forwards;
-            position: relative;
-            z-index: 2;
         }
-        
         h1 {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
@@ -228,43 +172,20 @@
             background-clip: text;
             color: transparent;
             font-weight: 700;
-            position: relative;
             display: inline-block;
         }
-        
-        h1::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-        
-        h1:hover::after {
-            transform: scaleX(1);
-        }
-        
         .subtitle {
             font-size: 1rem;
             color: rgba(255, 255, 255, 0.6);
             font-weight: 400;
         }
-        
         .years-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1.5rem;
             perspective: 1000px;
-            position: relative;
-            z-index: 2;
             margin-bottom: 3rem;
         }
-        
         .year-card {
             position: relative;
             height: 200px;
@@ -278,12 +199,10 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             opacity: 0;
             transform: translateY(20px);
         }
-        
         .year-card::before {
             content: '';
             position: absolute;
@@ -297,46 +216,15 @@
             opacity: 0.5;
             z-index: -1;
         }
-        
-        .year-card[data-year="2022"]::before {
-            background-image: url('assets/background/2022.webp');
-        }
-        
-        .year-card[data-year="2023"]::before {
-            background-image: url('assets/background/2023.webp');
-        }
-        
-        .year-card[data-year="2024"]::before {
-            background-image: url('assets/background/2024.webp');
-        }
-        
-        .year-card[data-year="2025"]::before {
-            background-image: url('assets/background/2025.webp');
-        }
-        
-        .year-card[data-year="2026"]::before {
-            background-image: url('assets/background/2026.webp');
-        }
-        
-        .year-card.all-card::before {
-            background-image: url('assets/img/5i_cryptobody.webp');
-        }
-        
-        .year-card:nth-child(1) { animation: cardEntry 0.6s 0.3s forwards; }
-        .year-card:nth-child(2) { animation: cardEntry 0.6s 0.4s forwards; }
-        .year-card:nth-child(3) { animation: cardEntry 0.6s 0.5s forwards; }
-        .year-card:nth-child(4) { animation: cardEntry 0.6s 0.6s forwards; }
-        .year-card:nth-child(5) { animation: cardEntry 0.6s 0.7s forwards; }
-        .year-card:nth-child(6) { animation: cardEntry 0.6s 0.8s forwards; }
-        
+        .year-card[data-year="2022"]::before { background-image: url('assets/background/2022.webp'); }
+        .year-card[data-year="2023"]::before { background-image: url('assets/background/2023.webp'); }
+        .year-card[data-year="2024"]::before { background-image: url('assets/background/2024.webp'); }
+        .year-card[data-year="2025"]::before { background-image: url('assets/background/2025.webp'); }
+        .year-card[data-year="2026"]::before { background-image: url('assets/background/2026.webp'); }
+        .year-card.all-card::before { background-image: url('assets/img/5i_cryptobody.webp'); }
         .year-card.all-card {
             background: rgba(255, 126, 51, 0.1);
         }
-        
-        .year-card.all-card::after {
-            background: linear-gradient(to right, var(--all-color), #ffb833);
-        }
-        
         .year-card::after {
             content: '';
             position: absolute;
@@ -349,38 +237,23 @@
             transform-origin: left;
             transition: transform 0.4s ease;
         }
-        
-        .year-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.15);
+        .year-card:hover::after {
+            transform: scaleX(1);
         }
-        
-        .year-card:hover .year-number {
-            transform: scale(1.1);
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-        }
-        
         .year-number {
             font-size: 3rem;
             font-weight: 700;
             transition: all 0.4s ease;
-            position: relative;
-            z-index: 2;
             background: linear-gradient(to bottom, #fff, #ddd);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            z-index: 2;
+            position: relative;
         }
-        
         .all-card .year-number {
             font-size: 2.5rem;
         }
-        
-        .year-card:hover::after {
-            transform: scaleX(1);
-        }
-        
         .year-counters {
             position: absolute;
             bottom: 10px;
@@ -393,13 +266,12 @@
             transform: translateY(10px);
             transition: all 0.3s ease;
             pointer-events: none;
+            z-index: 2;
         }
-        
         .year-card:hover .year-counters {
             opacity: 1;
             transform: translateY(0);
         }
-        
         .counter {
             display: flex;
             flex-direction: column;
@@ -413,7 +285,6 @@
             backdrop-filter: blur(4px);
             min-width: 50px;
         }
-        
         .counter-number {
             width: 26px;
             height: 26px;
@@ -425,27 +296,9 @@
             font-weight: 700;
             box-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
-        
-        .counter-label {
-            font-size: 10px;
-            opacity: 0.8;
-        }
-        
-        .counter.total .counter-number {
-            background: var(--all-color);
-            color: #fff;
-        }
-        
-        .counter.available .counter-number {
-            background: var(--success);
-            color: #003311;
-        }
-        
-        .counter.unavailable .counter-number {
-            background: var(--error);
-            color: #fff;
-        }
-        
+        .counter.total .counter-number { background: var(--all-color); color: #fff; }
+        .counter.available .counter-number { background: var(--success); color: #003311; }
+        .counter.unavailable .counter-number { background: var(--error); color: #fff; }
         .particles {
             position: absolute;
             top: 0;
@@ -456,16 +309,19 @@
             overflow: hidden;
             border-radius: 16px;
         }
-        
         .particle {
             position: absolute;
             background-size: contain;
             background-repeat: no-repeat;
             pointer-events: none;
-            width: 24px;
-            height: 24px;
         }
-        
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(10px, -10px) rotate(90deg); }
+            50% { transform: translate(-10px, 15px) rotate(180deg); }
+            75% { transform: translate(15px, -5px) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
         .falling-emoji-container {
             position: fixed;
             top: 0;
@@ -476,19 +332,14 @@
             pointer-events: none;
             z-index: 1;
         }
-        
         .falling-emoji {
             position: absolute;
-            width: 30px;
-            height: 30px;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
             pointer-events: none;
             will-change: transform;
-            transition: opacity 0.3s ease;
         }
-        
         .media-player-overlay {
             position: fixed;
             top: 0;
@@ -504,11 +355,6 @@
             opacity: 0;
             transition: opacity 0.3s ease;
         }
-        
-        .media-player-overlay * {
-            pointer-events: auto;
-        }
-        
         .media-player-container {
             width: 85%;
             max-width: 1000px;
@@ -518,47 +364,21 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
             transform: scale(0.95);
             transition: transform 0.3s ease;
-            position: relative;
-            cursor: default;
             border: 1px solid rgba(255, 140, 0, 0.2);
         }
-        
-        .media-player-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, 
-                rgba(255, 69, 0, 0.1) 0%, 
-                rgba(255, 140, 0, 0.1) 50%, 
-                rgba(255, 69, 0, 0.1) 100%);
-            pointer-events: none;
-        }
-        
         .media-player {
             width: 100%;
-            position: relative;
+            background: #000;
             cursor: pointer;
-            background: #000;
         }
-        
-        .media-player video {
-            width: 100%;
-            display: block;
-            max-height: 70vh;
-            background: #000;
-        }
-        
+        .media-player video,
         .media-player img {
             width: 100%;
-            max-height: 70vh;
-            object-fit: contain;
             display: block;
+            max-height: 70vh;
             background: #000;
+            object-fit: contain;
         }
-        
         .media-controls {
             padding: 1rem 1.5rem;
             background: rgba(20, 20, 20, 0.95);
@@ -567,9 +387,8 @@
             gap: 1rem;
             border-top: 1px solid rgba(255, 140, 0, 0.2);
         }
-        
         .media-controls button {
-            background: none;
+            background: rgba(255, 140, 0, 0.2);
             border: none;
             color: white;
             cursor: pointer;
@@ -582,15 +401,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 140, 0, 0.2);
-            min-width: 40px;
         }
-        
         .media-controls button:hover {
             background: rgba(255, 140, 0, 0.4);
             transform: scale(1.1);
         }
-        
         .progress-container {
             flex-grow: 1;
             height: 6px;
@@ -600,34 +415,12 @@
             position: relative;
             overflow: hidden;
         }
-        
         .progress-bar {
             height: 100%;
             background: linear-gradient(to right, var(--primary), var(--secondary));
             border-radius: 3px;
             width: 0%;
-            position: relative;
-            transition: width 0.1s linear;
         }
-        
-        .progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            right: 0;
-            transform: translateY(-50%);
-            width: 12px;
-            height: 12px;
-            background: white;
-            border-radius: 50%;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-        
-        .progress-container:hover .progress-bar::after {
-            opacity: 1;
-        }
-        
         .time-display {
             font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.7);
@@ -635,14 +428,12 @@
             text-align: center;
             font-family: monospace;
         }
-        
         .volume-control {
             display: flex;
             align-items: center;
             gap: 0.5rem;
             width: 120px;
         }
-        
         .volume-slider {
             flex-grow: 1;
             height: 4px;
@@ -652,15 +443,12 @@
             position: relative;
             overflow: hidden;
         }
-        
         .volume-level {
             height: 100%;
             background: white;
             border-radius: 2px;
             width: 100%;
-            transition: width 0.1s ease;
         }
-        
         .close-player {
             position: absolute;
             top: 15px;
@@ -674,50 +462,24 @@
             font-size: 1.5rem;
             cursor: pointer;
             z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
             backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
         }
-        
         .close-player:hover {
             background: var(--primary);
             transform: rotate(90deg) scale(1.1);
         }
-        
         .random-moment {
             margin-top: 4rem;
             text-align: center;
-            position: relative;
         }
-        
         .random-moment-title {
             font-size: 1.8rem;
             margin-bottom: 1.5rem;
             opacity: 0;
             animation: fadeIn 0.8s 1s forwards;
-            position: relative;
             display: inline-block;
         }
-        
-        .random-moment-title::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-        
-        .random-moment-title:hover::after {
-            transform: scaleX(1);
-        }
-        
         .random-moment-container {
             position: relative;
             max-width: 800px;
@@ -733,24 +495,15 @@
             aspect-ratio: 16/9;
             background: #000;
         }
-        
         .random-moment-container:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
         }
-        
         .random-moment-container img,
         .random-moment-container video {
             width: 100%;
             height: 100%;
-            display: block;
             object-fit: cover;
         }
-        
-        .random-moment-container video {
-            background: #000;
-        }
-        
         .random-moment-caption {
             position: absolute;
             bottom: 0;
@@ -760,8 +513,8 @@
             padding: 1.5rem;
             color: white;
             font-size: 1.1rem;
+            text-align: left;
         }
-        
         .show-all-btn {
             margin-top: 1.5rem;
             background: linear-gradient(to right, var(--primary), var(--secondary));
@@ -775,35 +528,11 @@
             transition: all 0.3s ease;
             opacity: 0;
             animation: fadeIn 0.8s 1.4s forwards;
-            position: relative;
-            overflow: hidden;
         }
-        
-        .show-all-btn::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to bottom right,
-                rgba(255, 255, 255, 0.3) 0%,
-                rgba(255, 255, 255, 0) 60%
-            );
-            transform: rotate(30deg);
-            transition: all 0.3s ease;
-        }
-        
         .show-all-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(255, 69, 0, 0.4);
         }
-        
-        .show-all-btn:hover::before {
-            left: 100%;
-        }
-        
         .all-moments {
             display: none;
             margin-top: 3rem;
@@ -812,32 +541,12 @@
             opacity: 0;
             animation: fadeIn 0.8s forwards;
         }
-        
         .all-moments-title {
             text-align: center;
             font-size: 1.8rem;
             margin-bottom: 2rem;
-            position: relative;
             display: inline-block;
         }
-        
-        .all-moments-title::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-        
-        .all-moments-title:hover::after {
-            transform: scaleX(1);
-        }
-        
         .media-categories {
             display: flex;
             gap: 1rem;
@@ -845,7 +554,6 @@
             margin-bottom: 2rem;
             flex-wrap: wrap;
         }
-        
         .category-btn {
             background: rgba(255, 255, 255, 0.1);
             border: none;
@@ -855,45 +563,19 @@
             font-family: 'Montserrat', sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
-        
-        .category-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
-            transition: all 0.5s ease;
-        }
-        
-        .category-btn:hover::before {
-            left: 100%;
-        }
-        
         .category-btn.active {
             background: linear-gradient(to right, var(--primary), var(--secondary));
             font-weight: 600;
         }
-        
         .category-btn:hover {
             background: rgba(255, 255, 255, 0.2);
         }
-        
         .moments-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1.5rem;
         }
-        
         .moment-item {
             position: relative;
             border-radius: 12px;
@@ -905,25 +587,18 @@
             cursor: pointer;
             border: 1px solid rgba(255, 140, 0, 0.1);
         }
-        
         .moment-item:hover {
             transform: translateY(-5px) scale(1.02);
             box-shadow: 0 8px 30px rgba(255, 69, 0, 0.2);
             border-color: rgba(255, 140, 0, 0.3);
         }
-        
-        .moment-item img, 
+        .moment-item img,
         .moment-item video {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
         }
-        
-        .moment-item video {
-            background: #000;
-        }
-        
         .moment-caption {
             position: absolute;
             bottom: 0;
@@ -934,7 +609,6 @@
             color: white;
             font-size: 0.9rem;
         }
-        
         .play-icon {
             position: absolute;
             top: 50%;
@@ -950,7 +624,6 @@
             opacity: 0.8;
             transition: all 0.3s ease;
         }
-        
         .play-icon::before {
             content: '';
             width: 0;
@@ -960,13 +633,11 @@
             border-bottom: 12px solid transparent;
             margin-left: 5px;
         }
-        
         .moment-item:hover .play-icon {
             opacity: 1;
             transform: translate(-50%, -50%) scale(1.1);
             background: rgba(255, 69, 0, 0.8);
         }
-        
         .back-to-random {
             display: block;
             margin: 2rem auto 0;
@@ -979,63 +650,11 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
-        
-        .back-to-random::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to bottom right,
-                rgba(255, 255, 255, 0.3) 0%,
-                rgba(255, 255, 255, 0) 60%
-            );
-            transform: rotate(30deg);
-            transition: all 0.3s ease;
-        }
-        
         .back-to-random:hover {
-            background: linear-gradient(to right, var(--secondary), var(--primary));
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(255, 69, 0, 0.4);
         }
-        
-        .back-to-random:hover::before {
-            left: 100%;
-        }
-        
-        /* Loading states */
-        .loading-media {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .loading-media::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, 
-                rgba(30, 30, 30, 0) 0%, 
-                rgba(255, 69, 0, 0.1) 50%, 
-                rgba(30, 30, 30, 0) 100%);
-            background-size: 200% 100%;
-            animation: loadingShimmer 1.5s infinite;
-            z-index: 2;
-        }
-        
-        @keyframes loadingShimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-        
         .loading-placeholder {
             position: absolute;
             top: 0;
@@ -1048,7 +667,6 @@
             justify-content: center;
             z-index: 3;
         }
-        
         .loading-spinner {
             width: 40px;
             height: 40px;
@@ -1057,22 +675,11 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        @keyframes cardEntry {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        /* Компактный футер: уменьшенные размеры, прозрачные бейджи */
         .footer {
             position: fixed;
             bottom: 0;
@@ -1080,1226 +687,843 @@
             width: 100%;
             background: rgba(20, 20, 20, 0.8);
             backdrop-filter: blur(10px);
-            padding: 15px 0;
+            padding: 10px 0;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 5;
             border-top: 1px solid rgba(255, 140, 0, 0.2);
+            transition: transform 0.4s ease;
         }
-
+        .footer-hidden {
+            transform: translateY(100%);
+        }
         .social-container {
             display: flex;
             align-items: center;
-            gap: 30px;
-            position: relative;
+            gap: 25px;
+            justify-content: center;
         }
-
         .social-icon {
-            width: 50px;
-            height: 50px;
             position: relative;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            overflow: visible;
             transition: transform 0.3s ease;
+            cursor: pointer;
         }
-
         .social-icon:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
-
-        .social-icon img {
+        /* Большая круглая аватарка */
+        .social-icon .avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #222;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        /* Прозрачная круглая иконка сервиса поверх */
+        .social-icon .platform-badge {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
+        }
+        .social-icon .platform-badge img {
             width: 100%;
             height: 100%;
             object-fit: contain;
             border-radius: 50%;
         }
-
-        .social-icon .platform-icon {
-            position: absolute;
-            width: 80%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-
-        .social-icon .avatar-overlay {
-            position: absolute;
-            width: 70%;
-            height: 70%;
-            bottom: -5px;
-            right: -5px;
-            border-radius: 50%;
-            border: 2px solid rgba(255, 140, 0, 0.5);
-            z-index: 2;
-            object-fit: cover;
-        }
-
         .footer-toggle-wrapper {
-          position: fixed;
-          right: 30px;
-          bottom: 30px;
-          z-index: 1001;
-          transition: bottom 0.4s ease;
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            z-index: 1001;
+            transition: bottom 0.4s ease, filter 0.2s ease, opacity 0.2s ease;
         }
-
         .footer-toggle-btn {
-          width: 32px;
-          height: 32px;
-          background: linear-gradient(to right, #ff4500, #ff8c00);
-          border: none;
-          border-radius: 50%;
-          color: white;
-          font-size: 14px;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-          transition: all 0.3s ease;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(to right, #ff4500, #ff8c00);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
         }
-
         .footer-toggle-btn:hover {
-          transform: scale(1.1);
-          box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            transform: scale(1.1);
         }
-
-        .footer {
-          transition: transform 0.4s ease;
-        }
-
-        .footer-hidden {
-          transform: translateY(100%);
-        }
-
-        .footer:not(.footer-hidden) + .footer-toggle-wrapper {
-          bottom: calc(100% + 15px);
-        }
-        
         @media (max-width: 768px) {
-            .years-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .moments-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .year-number {
-                font-size: 2.5rem;
-            }
-            
-            .all-card .year-number {
-                font-size: 2rem;
-            }
-            
-            .falling-emoji {
-                width: 25px;
-                height: 25px;
-            }
-            
-            .media-player-container {
-                width: 95%;
-            }
-
-            .media-controls {
-                padding: 0.5rem;
-                gap: 0.5rem;
-            }
-
-            .media-controls button {
-                width: 32px;
-                height: 32px;
-                font-size: 1rem;
-            }
-
-            .time-display {
-                min-width: 80px;
-                font-size: 0.8rem;
-            }
-
-            .volume-control {
-                width: 100px;
-            }
-
-            .footer {
-                padding: 10px 0;
-            }
-
-            .social-container {
-                gap: 20px;
-            }
-
-            .social-icon {
-                width: 40px;
-                height: 40px;
-            }
-            
-            .year-counters {
-                gap: 8px;
-                bottom: 8px;
-            }
-            
-            .counter {
-                padding: 4px 8px;
-                min-width: 40px;
-            }
-            
-            .counter-number {
-                width: 22px;
-                height: 22px;
-                font-size: 11px;
-            }
-            
-            .counter-label {
-                font-size: 9px;
-            }
+            .container { padding: 1rem; padding-bottom: 80px; }
+            .years-grid { grid-template-columns: repeat(2, 1fr); }
+            .moments-grid { grid-template-columns: repeat(2, 1fr); }
+            h1 { font-size: 2rem; }
+            .year-number { font-size: 2.5rem; }
+            .all-card .year-number { font-size: 2rem; }
+            .media-player-container { width: 95%; }
+            .media-controls { padding: 0.5rem; gap: 0.5rem; flex-wrap: wrap; }
+            .media-controls button { width: 32px; height: 32px; font-size: 1rem; }
+            .time-display { min-width: 80px; font-size: 0.8rem; }
+            .volume-control { width: 100px; }
+            .progress-container { order: 1; width: 100%; margin-top: 5px; }
+            .time-display { order: 2; width: 100%; text-align: center; }
+            .social-container { gap: 20px; }
+            .social-icon { width: 48px; height: 48px; }
+            .social-icon .platform-badge { width: 22px; height: 22px; bottom: -2px; right: -2px; }
+            .year-counters { gap: 8px; bottom: 8px; }
+            .counter { padding: 4px 8px; min-width: 40px; }
+            .counter-number { width: 22px; height: 22px; font-size: 11px; }
+            .counter-label { font-size: 9px; }
         }
-        
         @media (max-width: 480px) {
-            .years-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .moments-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .container {
-                padding: 1rem;
-                padding-bottom: 100px;
-            }
-
-            .media-player-overlay {
-                padding: 10px;
-            }
-
-            .media-player-container {
-                width: 100%;
-            }
-
-            .media-controls {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .progress-container {
-                order: 1;
-                width: 100%;
-                margin-top: 5px;
-            }
-
-            .time-display {
-                order: 2;
-                width: 100%;
-                text-align: center;
-            }
-
-            .social-container {
-                gap: 15px;
-            }
-
-            .social-icon {
-                width: 35px;
-                height: 35px;
-            }
+            .years-grid { grid-template-columns: 1fr; }
+            .moments-grid { grid-template-columns: 1fr; }
+            .social-container { gap: 15px; }
+            .social-icon { width: 44px; height: 44px; }
+            .social-icon .platform-badge { width: 20px; height: 20px; }
         }
     </style>
 </head>
 <body>
-    <div class="falling-emoji-container" id="emoji-container"></div>
-    
-    <div class="container">
-        <header>
-            <h1>Архив стримов CRYPTO</h1>
-            <p class="subtitle">Выберите год для просмотра доступных записей</p>
-        </header>
-        
-        <div class="years-grid">
-            <div class="year-card" data-year="2022" id="year-2022">
-                <div class="particles" id="particles-2022"></div>
-                <div class="year-number">2022</div>
-                <div class="year-counters">
-                    <div class="counter total" title="Всего стримов">
-                        <div class="counter-number">40</div>
-                        <div class="counter-label">Всего</div>
-                    </div>
-                    <div class="counter available" title="Доступных">
-                        <div class="counter-number">0</div>
-                        <div class="counter-label">Доступно</div>
-                    </div>
-                    <div class="counter unavailable" title="Недоступных">
-                        <div class="counter-number">40</div>
-                        <div class="counter-label">Недоступно</div>
-                    </div>
-                </div>
-            </div>
-            <div class="year-card" data-year="2023" id="year-2023">
-                <div class="particles" id="particles-2023"></div>
-                <div class="year-number">2023</div>
-                <div class="year-counters">
-                    <div class="counter total" title="Всего стримов">
-                        <div class="counter-number">84</div>
-                        <div class="counter-label">Всего</div>
-                    </div>
-                    <div class="counter available" title="Доступных">
-                        <div class="counter-number">0</div>
-                        <div class="counter-label">Доступно</div>
-                    </div>
-                    <div class="counter unavailable" title="Недоступных">
-                        <div class="counter-number">84</div>
-                        <div class="counter-label">Недоступно</div>
-                    </div>
-                </div>
-            </div>
-            <div class="year-card" data-year="2024" id="year-2024">
-                <div class="particles" id="particles-2024"></div>
-                <div class="year-number">2024</div>
-                <div class="year-counters">
-                    <div class="counter total" title="Всего стримов">
-                        <div class="counter-number">95</div>
-                        <div class="counter-label">Всего</div>
-                    </div>
-                    <div class="counter available" title="Доступных">
-                        <div class="counter-number">2</div>
-                        <div class="counter-label">Доступно</div>
-                    </div>
-                    <div class="counter unavailable" title="Недоступных">
-                        <div class="counter-number">93</div>
-                        <div class="counter-label">Недоступно</div>
-                    </div>
-                </div>
-            </div>
-            <div class="year-card" data-year="2025" id="year-2025">
-                <div class="particles" id="particles-2025"></div>
-                <div class="year-number">2025</div>
-                <div class="year-counters">
-                    <div class="counter total" title="Всего стримов">
-                        <div class="counter-number">87</div>
-                        <div class="counter-label">Всего</div>
-                    </div>
-                    <div class="counter available" title="Доступных">
-                        <div class="counter-number">1</div>
-                        <div class="counter-label">Доступно</div>
-                    </div>
-                    <div class="counter unavailable" title="Недоступных">
-                        <div class="counter-number">86</div>
-                        <div class="counter-label">Недоступно</div>
-                    </div>
-                </div>
-            </div>
-            <div class="year-card" data-year="2026" id="year-2026">
-                <div class="particles" id="particles-2026"></div>
-                <div class="year-number">2026</div>
-                <div class="year-counters">
-                    <div class="counter total" title="Всего стримов">
-                        <div class="counter-number">18</div>
-                        <div class="counter-label">Всего</div>
-                    </div>
-                    <div class="counter available" title="Доступных">
-                        <div class="counter-number">6</div>
-                        <div class="counter-label">Доступно</div>
-                    </div>
-                    <div class="counter unavailable" title="Недоступных">
-                        <div class="counter-number">12</div>
-                        <div class="counter-label">Недоступно</div>
-                    </div>
-                </div>
-            </div>
-            <div class="year-card all-card" id="year-all">
-                <div class="particles" id="particles-all"></div>
-                <div class="year-number">ВСЕ</div>
-                <div class="year-counters">
-                    <div class="counter total" title="Всего стримов">
-                        <div class="counter-number">315</div>
-                        <div class="counter-label">Всего</div>
-                    </div>
-                    <div class="counter available" title="Доступных">
-                        <div class="counter-number">9</div>
-                        <div class="counter-label">Доступно</div>
-                    </div>
-                    <div class="counter unavailable" title="Недоступных">
-                        <div class="counter-number">324</div>
-                        <div class="counter-label">Недоступно</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="random-moment">
-            <h2 class="random-moment-title">Яркие моменты</h2>
-            <div class="random-moment-container" id="random-moment">
-            </div>
-            <button class="show-all-btn" id="show-all-btn">Показать яркие моменты</button>
-        </div>
-        
-        <div class="all-moments" id="all-moments">
-            <h2 class="all-moments-title">Все моменты</h2>
-            <div class="media-categories">
-                <button class="category-btn active" data-category="all">Все</button>
-                <button class="category-btn" data-category="image">Изображения</button>
-                <button class="category-btn" data-category="video">Видео</button>
-            </div>
-            <div class="moments-grid" id="moments-grid">
-            </div>
-            <button class="back-to-random" id="back-to-random">Вернуться</button>
-        </div>
+<div id="loader-screen">
+    <div class="stripe-overlay"></div>
+    <div class="gif-grid" id="gifGrid"></div>
+    <div class="spinner">
+        <img class="emoji-img" id="emojiImg" alt="эмодзи">
     </div>
-    
-    <div class="footer">
-        <div class="social-container">
-            <a href="https://t.me/CryptoHLX" class="social-icon" target="_blank">
-                <img src="assets/avatars/telegram.webp" class="platform-icon" alt="Telegram">
-                <img src="assets/avatars/telegram_avatar.webp" class="avatar-overlay" alt="Avatar">
-            </a>
-            
-            <a href="https://www.youtube.com/@crypto2102" class="social-icon" target="_blank">
-                <img src="assets/avatars/youtube.webp" class="platform-icon" alt="YouTube">
-                <img src="assets/avatars/youtube_avatar.webp" class="avatar-overlay" alt="Avatar">
-            </a>
-            
-            <a href="https://discord.gg/HgDNU5rBZE" class="social-icon" target="_blank">
-                <img src="assets/avatars/discord.webp" class="platform-icon" alt="Discord">
-                <img src="assets/avatars/discord_avatar.png" class="avatar-overlay" alt="Avatar">
-            </a>
-        </div>
+    <div class="loading-text" id="loadingText"></div>
+</div>
+<div class="container" id="mainContent" style="display: none;">
+    <header>
+        <h1>Архив стримов CRYPTO</h1>
+        <p class="subtitle">Выберите год для просмотра доступных записей</p>
+    </header>
+    <div class="years-grid" id="yearsGrid"></div>
+    <div class="random-moment">
+        <h2 class="random-moment-title">Яркие моменты</h2>
+        <div class="random-moment-container" id="randomMoment"></div>
+        <button class="show-all-btn" id="showAllBtn">Показать яркие моменты</button>
     </div>
-    
-    <div class="media-player-overlay" id="media-player-overlay">
-        <div class="media-player-container">
-            <button class="close-player" id="close-player">&times;</button>
-            <div class="media-player" id="media-player">
+    <div class="all-moments" id="allMoments">
+        <h2 class="all-moments-title">Все моменты</h2>
+        <div class="media-categories">
+            <button class="category-btn active" data-category="all">Все</button>
+            <button class="category-btn" data-category="image">Изображения</button>
+            <button class="category-btn" data-category="video">Видео</button>
+        </div>
+        <div class="moments-grid" id="momentsGrid"></div>
+        <button class="back-to-random" id="backToRandom">Вернуться</button>
+    </div>
+</div>
+<!-- Компактный футер: уменьшенные размеры, прозрачные бейджи -->
+<div class="footer" id="footer">
+    <div class="social-container">
+        <a href="https://t.me/CryptoHLX" class="social-icon" target="_blank" rel="noopener noreferrer">
+            <img src="assets/avatars/telegram_avatar.webp" class="avatar-img" alt="Avatar">
+            <div class="platform-badge">
+                <img src="assets/avatars/telegram.webp" alt="Telegram">
             </div>
-            <div class="media-controls" id="media-controls">
-                <button id="play-btn">▶</button>
-                <div class="progress-container" id="progress-container">
-                    <div class="progress-bar" id="progress-bar"></div>
-                </div>
-                <div class="time-display" id="time-display">0:00 / 0:00</div>
-                <div class="volume-control">
-                    <button id="mute-btn">🔊</button>
-                    <div class="volume-slider" id="volume-slider">
-                        <div class="volume-level" id="volume-level"></div>
-                    </div>
+        </a>
+        <a href="https://www.youtube.com/@crypto2102" class="social-icon" target="_blank" rel="noopener noreferrer">
+            <img src="assets/avatars/youtube_avatar.webp" class="avatar-img" alt="Avatar">
+            <div class="platform-badge">
+                <img src="assets/avatars/youtube.webp" alt="YouTube">
+            </div>
+        </a>
+        <a href="https://discord.gg/HgDNU5rBZE" class="social-icon" target="_blank" rel="noopener noreferrer">
+            <img src="assets/avatars/discord_avatar.png" class="avatar-img" alt="Avatar">
+            <div class="platform-badge">
+                <img src="assets/avatars/discord.webp" alt="Discord">
+            </div>
+        </a>
+    </div>
+</div>
+<div class="media-player-overlay" id="mediaPlayerOverlay">
+    <div class="media-player-container">
+        <button class="close-player" id="closePlayerBtn">&times;</button>
+        <div class="media-player" id="mediaPlayer"></div>
+        <div class="media-controls" id="mediaControls">
+            <button id="playPauseBtn">▶</button>
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="time-display" id="timeDisplay">0:00 / 0:00</div>
+            <div class="volume-control">
+                <button id="muteBtn">🔊</button>
+                <div class="volume-slider" id="volumeSlider">
+                    <div class="volume-level" id="volumeLevel"></div>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        document.querySelectorAll('.year-card').forEach(card => {
-            const particlesContainer = card.querySelector('.particles');
-            const particleCount = 5;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                
-                const size = Math.random() * 5 + 10;
-                const posX = Math.random() * 100;
-                const posY = Math.random() * 100;
-                const delay = Math.random() * 3;
-                const duration = Math.random() * 10 + 5;
-                const opacity = Math.random() * 0.2 + 0.4;
-                const emojiNum = Math.floor(Math.random() * 50);
-                
-                particle.style.backgroundImage = `url('emoji/emoji${emojiNum}.webp')`;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.left = `${posX}%`;
-                particle.style.top = `${posY}%`;
-                particle.style.opacity = opacity;
-                particle.style.animation = `float ${duration}s ${delay}s infinite ease-in-out`;
-                
-                particlesContainer.appendChild(particle);
-            }
-            
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes float {
-                    0% { transform: translate(0, 0) rotate(0deg); }
-                    25% { transform: translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px) rotate(90deg); }
-                    50% { transform: translate(${Math.random() * 30 - 15}px, ${Math.random() * 30 - 15}px) rotate(180deg); }
-                    75% { transform: translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px) rotate(270deg); }
-                    100% { transform: translate(0, 0) rotate(360deg); }
-                }
-            `;
-            document.head.appendChild(style);
-        });
-
-        document.getElementById('year-2022').addEventListener('click', function() {
-            animateAndRedirect(this, '2022.html');
-        });
-
-        document.getElementById('year-2023').addEventListener('click', function() {
-            animateAndRedirect(this, '2023.html');
-        });
-
-        document.getElementById('year-2024').addEventListener('click', function() {
-            animateAndRedirect(this, '2024.html');
-        });
-
-        document.getElementById('year-2025').addEventListener('click', function() {
-            animateAndRedirect(this, '2025.html');
-        });
-
-        document.getElementById('year-2026').addEventListener('click', function() {
-            animateAndRedirect(this, '2026.html');
-        });
-
-        document.getElementById('year-all').addEventListener('click', function() {
-            animateAndRedirect(this, 'all.html');
-        });
-
-        function animateAndRedirect(element, url) {
-            element.style.transform = 'scale(0.95)';
-            element.style.opacity = '0.8';
-            setTimeout(() => {
-                window.location.href = url;
-            }, 200);
-        }
-
-        const emojiContainer = document.getElementById('emoji-container');
-        const activeEmojis = [];
-        let emojiInterval = null;
-        let lastAnimationFrame = null;
-
-        function getRandomEmoji() {
-            const emojiNum = Math.floor(Math.random() * 50);
-            return `emoji/emoji${emojiNum}.webp`;
-        }
-
-        function createFallingEmoji() {
-            if (document.hidden) return;
-            
-            const emoji = document.createElement('div');
-            emoji.className = 'falling-emoji';
-            emoji.style.backgroundImage = `url('${getRandomEmoji()}')`;
-            
-            const posX = Math.random() * window.innerWidth;
-            emoji.style.left = `${posX}px`;
-            emoji.style.top = '-30px';
-            
-            const rotation = -30 + Math.random() * 60;
-            emoji.style.transform = `rotate(${rotation}deg)`;
-            
-            const size = 20 + Math.random() * 20;
-            emoji.style.width = `${size}px`;
-            emoji.style.height = `${size}px`;
-            
-            const speed = 0.5 + Math.random() * 2.5;
-            
-            emojiContainer.appendChild(emoji);
-            
-            const emojiData = {
-                element: emoji,
-                speed: speed,
-                position: -30,
-                rotation: rotation,
-                rotationSpeed: (Math.random() - 0.5) * 10,
-                removed: false
-            };
-            
-            activeEmojis.push(emojiData);
-            
-            if (!lastAnimationFrame) {
-                animateEmojis();
-            }
-            
-            setTimeout(() => {
-                if (!emojiData.removed) {
-                    removeEmoji(emojiData);
-                }
-            }, 10000);
-        }
-
-        function animateEmojis() {
-            for (let i = activeEmojis.length - 1; i >= 0; i--) {
-                const emoji = activeEmojis[i];
-                
-                if (emoji.removed) {
-                    activeEmojis.splice(i, 1);
-                    continue;
-                }
-                
-                emoji.position += emoji.speed * 2;
-                emoji.element.style.top = `${emoji.position}px`;
-                
-                emoji.rotation += emoji.rotationSpeed;
-                emoji.element.style.transform = `rotate(${emoji.rotation}deg)`;
-                
-                if (emoji.position > window.innerHeight - 100) {
-                    emoji.element.style.opacity = (window.innerHeight - emoji.position) / 100;
-                }
-                
-                if (emoji.position > window.innerHeight) {
-                    removeEmoji(emoji);
-                    continue;
-                }
-            }
-            
-            if (activeEmojis.length > 0) {
-                lastAnimationFrame = requestAnimationFrame(animateEmojis);
-            } else {
-                lastAnimationFrame = null;
-            }
-        }
-
-        function removeEmoji(emoji) {
-            if (emoji.removed) return;
-            
-            emoji.removed = true;
-            if (emoji.element.parentNode) {
-                emoji.element.parentNode.removeChild(emoji.element);
-            }
-        }
-
-        function startEmojiSystem() {
-            if (emojiInterval) clearInterval(emojiInterval);
-            emojiInterval = setInterval(createFallingEmoji, 700 + Math.random() * 300);
-            
-            activeEmojis.forEach(emoji => removeEmoji(emoji));
-            activeEmojis.length = 0;
-            
-            setTimeout(() => {
-                for (let i = 0; i < 5; i++) {
-                    setTimeout(createFallingEmoji, i * 200);
-                }
-            }, 1000);
-        }
-
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                if (emojiInterval) {
-                    clearInterval(emojiInterval);
-                    emojiInterval = null;
-                }
-                if (lastAnimationFrame) {
-                    cancelAnimationFrame(lastAnimationFrame);
-                    lastAnimationFrame = null;
-                }
-            } else {
-                startEmojiSystem();
-            }
-        });
-
-        startEmojiSystem();
-
-        const mediaFiles = [
-            { type: 'video', url: 'assets/vid/1v_stoyak.webm', caption: 'Стоякоуский', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/2v_buhailparasha.webm', caption: 'Бухаил Парашевич', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/3v_fact.webm', caption: 'Супер Деликатес', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/4v_nasral.webm', caption: 'Насрала', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/5v_pidoras.webm', caption: 'Посмотри, пдиорас...', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/6v_pizdabol.webm', caption: 'На роток слабый', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/7v_podkatil.webm', caption: 'Подкатил', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/8v_red_explode.webm', caption: 'Разрывная', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/9v_crypto_fart.webm', caption: 'Миша ты что пукнул?', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/10v_PICYAKA.webm', caption: 'Маленякая писяка', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/11v_shiza.webm', caption: 'Oh who is she...', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/12v_ayaayyaa.webm', caption: 'AYAAYAA', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/13v_barba.webm', caption: 'Мая Барба', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/14v_cry.webm', caption: 'Грустная реальность', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/15v_crypto_women.webm', caption: 'Криптятина', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/16v_vot-bi.webm', caption: 'Вот бы...', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/17v_yeahh.webm', caption: 'Yeah', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/18v_nachalnica.webm', caption: 'Начальница', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/19v_HIHIHI.webm', caption: 'HA-HA-HA', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/20v_eeek.webm', caption: 'УААААААА!!!', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/21v_fbi.webm', caption: '🤡', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/22v_gay.webm', caption: 'Гейские-позывы', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/23v_history.webm', caption: 'История...', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/24v_huly_ti.webm', caption: 'Хули ТЫ', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/25v_krytooi.webm', caption: 'Крутой', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/26v_pidor_crypto.webm', caption: 'PIDOR', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/27v_pobejali.webm', caption: 'Побежали-побежали', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/28v_popy_vidno.webm', caption: 'Пеуец', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/29v_rap.webm', caption: 'Рэпанул', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/30v_scary.webm', caption: 'Ужасы', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/31v_shit_my_pens.webm', caption: 'Shit my pens', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/32v_what.webm', caption: 'Кого?', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/33v_creslo.webm', caption: 'Ремешки', tags: ['video', 'funny'] },
-            { type: 'video', url: 'assets/vid/34v_bolnoy.webm', caption: 'Больной...', tags: ['video', 'funny'] },
-
-            { type: 'image', url: 'assets/gif/1gif_eating.webp', caption: 'Кушает', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/2gif_pediknavalny.webp', caption: 'Педик Навальный', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/3gif_posral.webp', caption: 'POSRAL', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/4gif_smile.webp', caption: 'Smile', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/5gif_sosali.webp', caption: 'Сосали?', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/6gif_storm.webp', caption: 'Качалово жопное писюнное', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/8gif_razyob.webp', caption: 'Разйоб', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/9gif_booo.webp', caption: 'БУ', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/10gif_crypto_gnom.webp', caption: 'Гномчански Криптянски', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/11gif_doomaem.webp', caption: 'DOOMаем', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/12gif_konfetka.webp', caption: 'Нету ручек - нет конфетки', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/13gif_kushaet.webp', caption: 'Криворукий', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/14gif_poletel.webp', caption: '🎈', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/15gif_shoot.webp', caption: 'School Shooter', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/16gif_tabletki.webp', caption: 'Таблетосики', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/gif/17gif_talking.webp', caption: 'Talking', tags: ['image', 'cool'] },
-
-            { type: 'image', url: 'assets/img/1i_18+.webp', caption: 'Голые бабы сматрет 🔞', tags: ['image', 'funny'] },
-            { type: 'image', url: 'assets/img/2i_boss.webp', caption: 'BigBoss', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/3i_clown.webp', caption: 'Истенное лицо', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/4i_cry.webp', caption: '😭', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/5i_cryptobody.webp', caption: 'Мужчина', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/6i_cryptoface1.webp', caption: 'Крассавица', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/7i_cryptoface2.webp', caption: '👨‍🦲', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/8i_cryptoface3.webp', caption: 'Притаился', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/9i_fact.webp', caption: 'Факт', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/10i_help.webp', caption: 'Помогите', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/11i_howdoyoudo.webp', caption: 'ХауДуюДу', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/12i_kablik.webp', caption: '👠', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/13i_nasrala.webp', caption: 'Насрала', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/14i_nasrala.webp', caption: 'ОПЯТ....', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/15i_pidoras.webp', caption: 'ПiдораZZ', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/16i_strong.webp', caption: 'Силач', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/17i_true.webp', caption: 'Правда...', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/18i_nastya_crypto.webp', caption: 'Любоу', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/19i_anti_woomen.webp', caption: 'Лжебабы', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/20i_family.webp', caption: 'Семья', tags: ['image', 'cool'] },
-            { type: 'image', url: 'assets/img/21i_he_view.webp', caption: 'He view', tags: ['image', 'cool'] }
-        ];
-
-        function showRandomMoment() {
-            const randomMoment = document.getElementById('random-moment');
-            const imagesOnly = mediaFiles.filter(media => media.type === 'image');
-            const randomIndex = Math.floor(Math.random() * imagesOnly.length);
-            const media = imagesOnly[randomIndex];
-            
-            randomMoment.innerHTML = '';
-            
-            const placeholder = document.createElement('div');
-            placeholder.className = 'loading-placeholder';
-            placeholder.innerHTML = '<div class="loading-spinner"></div>';
-            randomMoment.appendChild(placeholder);
-            
-            let mediaElement;
-            if (media.type === 'image') {
-                mediaElement = document.createElement('img');
-                mediaElement.onload = () => {
-                    placeholder.remove();
-                };
-                mediaElement.src = media.url;
-                randomMoment.appendChild(mediaElement);
-                
-                const caption = document.createElement('div');
-                caption.className = 'random-moment-caption';
-                caption.textContent = media.caption;
-                randomMoment.appendChild(caption);
-            }
-            
-            randomMoment.addEventListener('click', () => openMediaPlayer(media));
-        }
-
-        function loadAllMoments() {
-            const momentsGrid = document.getElementById('moments-grid');
-            momentsGrid.innerHTML = '';
-            
-            mediaFiles.forEach((media, index) => {
-                const momentItem = document.createElement('div');
-                momentItem.className = 'moment-item';
-                momentItem.dataset.type = media.type;
-                
-                const placeholder = document.createElement('div');
-                placeholder.className = 'loading-placeholder';
-                placeholder.innerHTML = '<div class="loading-spinner"></div>';
-                momentItem.appendChild(placeholder);
-                
-                let mediaElement;
-                if (media.type === 'image') {
-                    mediaElement = document.createElement('img');
-                    mediaElement.onload = () => {
-                        placeholder.remove();
-                    };
-                    mediaElement.src = media.url;
-                    momentItem.appendChild(mediaElement);
-                } else {
-                    mediaElement = document.createElement('video');
-                    mediaElement.muted = true;
-                    mediaElement.loop = true;
-                    mediaElement.playsInline = true;
-                    mediaElement.autoplay = false;
-                    mediaElement.preload = 'metadata';
-                    mediaElement.onloadeddata = () => {
-                        placeholder.remove();
-                    };
-                    
-                    setTimeout(() => {
-                        if (placeholder.parentNode) {
-                            placeholder.remove();
-                        }
-                    }, 3000);
-                    
-                    const playIcon = document.createElement('div');
-                    playIcon.className = 'play-icon';
-                    momentItem.appendChild(playIcon);
-                    
-                    mediaElement.src = media.url;
-                    momentItem.appendChild(mediaElement);
-                }
-                
-                const caption = document.createElement('div');
-                caption.className = 'moment-caption';
-                caption.textContent = media.caption;
-                momentItem.appendChild(caption);
-                
-                momentItem.addEventListener('click', () => openMediaPlayer(media));
-                momentsGrid.appendChild(momentItem);
-            });
-        }
-
-        function setupCategoryFilters() {
-            const categoryBtns = document.querySelectorAll('.category-btn');
-            
-            categoryBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    categoryBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    
-                    const category = btn.dataset.category;
-                    const items = document.querySelectorAll('.moment-item');
-                    
-                    items.forEach(item => {
-                        if (category === 'all' || item.dataset.type === category) {
-                            item.style.display = 'block';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
-                });
-            });
-        }
-
-        let currentMedia = null;
-        let currentVideo = null;
-        let isPlaying = false;
-        let isMuted = false;
-        let currentVolume = 1;
-        let isDraggingProgress = false;
-        let isDraggingVolume = false;
-
-        function openMediaPlayer(media) {
-            currentMedia = media;
-            const playerOverlay = document.getElementById('media-player-overlay');
-            const playerContainer = document.getElementById('media-player');
-            
-            playerContainer.innerHTML = '';
-            
-            const placeholder = document.createElement('div');
-            placeholder.className = 'loading-placeholder';
-            placeholder.innerHTML = '<div class="loading-spinner"></div>';
-            playerContainer.appendChild(placeholder);
-            
-            if (media.type === 'image') {
-                const img = document.createElement('img');
-                img.src = media.url;
-                img.alt = media.caption;
-                img.onload = () => {
-                    placeholder.remove();
-                };
-                playerContainer.appendChild(img);
-                document.getElementById('media-controls').style.display = 'none';
-                
-                playerContainer.addEventListener('click', (e) => {
-                    if (e.target === playerContainer || e.target === img) {
-                        closeMediaPlayer();
-                    }
-                });
-            } else {
-                const video = document.createElement('video');
-                video.src = media.url;
-                video.controls = false;
-                video.id = 'player-video';
-                video.onloadeddata = () => {
-                    placeholder.remove();
-                };
-                playerContainer.appendChild(video);
-                document.getElementById('media-controls').style.display = 'flex';
-                currentVideo = video;
-                setupVideoPlayer(video);
-                
-                playerContainer.addEventListener('click', () => {
-                    togglePlayPause();
-                });
-            }
-            
-            playerOverlay.style.display = 'flex';
-            setTimeout(() => {
-                playerOverlay.style.opacity = '1';
-                document.querySelector('.media-player-container').style.transform = 'scale(1)';
-            }, 10);
-            
-            document.body.style.overflow = 'hidden';
-            document.body.style.paddingRight = '12px';
-        }
-
-        function setupVideoPlayer(video) {
-            const progressBar = document.getElementById('progress-bar');
-            const progressContainer = document.getElementById('progress-container');
-            const timeDisplay = document.getElementById('time-display');
-            const muteBtn = document.getElementById('mute-btn');
-            const volumeSlider = document.getElementById('volume-slider');
-            const volumeLevel = document.getElementById('volume-level');
-            const playBtn = document.getElementById('play-btn');
-            
-            video.volume = currentVolume;
-            volumeLevel.style.width = `${currentVolume * 100}%`;
-            video.muted = isMuted;
-            muteBtn.textContent = isMuted ? '🔇' : '🔊';
-            
-            video.play().then(() => {
-                isPlaying = true;
-                playBtn.textContent = '⏸';
-            }).catch(e => {
-                isPlaying = false;
-                playBtn.textContent = '▶';
-            });
-            
-            video.addEventListener('timeupdate', () => {
-                if (!isDraggingProgress && video.duration) {
-                    const progress = (video.currentTime / video.duration) * 100;
-                    progressBar.style.width = `${progress}%`;
-                    
-                    const currentMinutes = Math.floor(video.currentTime / 60);
-                    const currentSeconds = Math.floor(video.currentTime % 60);
-                    const durationMinutes = Math.floor(video.duration / 60);
-                    const durationSeconds = Math.floor(video.duration % 60);
-                    
-                    timeDisplay.textContent = 
-                        `${currentMinutes}:${currentSeconds < 10 ? '0' : ''}${currentSeconds} / 
-                         ${durationMinutes}:${durationSeconds < 10 ? '0' : ''}${durationSeconds}`;
-                }
-            });
-            
-            video.addEventListener('ended', () => {
-                isPlaying = false;
-                playBtn.textContent = '▶';
-                video.currentTime = 0;
-                progressBar.style.width = '0%';
-            });
-            
-            progressContainer.addEventListener('click', (e) => {
-                const rect = progressContainer.getBoundingClientRect();
-                const pos = (e.clientX - rect.left) / rect.width;
-                video.currentTime = pos * video.duration;
-                progressBar.style.width = `${pos * 100}%`;
-            });
-            
-            progressContainer.addEventListener('mousedown', (e) => {
-                isDraggingProgress = true;
-                const rect = progressContainer.getBoundingClientRect();
-                const pos = (e.clientX - rect.left) / rect.width;
-                video.currentTime = pos * video.duration;
-                progressBar.style.width = `${pos * 100}%`;
-            });
-            
-            document.addEventListener('mousemove', (e) => {
-                if (isDraggingProgress) {
-                    const rect = progressContainer.getBoundingClientRect();
-                    const pos = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
-                    video.currentTime = pos * video.duration;
-                    progressBar.style.width = `${pos * 100}%`;
-                }
-            });
-            
-            document.addEventListener('mouseup', () => {
-                isDraggingProgress = false;
-            });
-            
-            playBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                togglePlayPause();
-            });
-            
-            muteBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                isMuted = !isMuted;
-                video.muted = isMuted;
-                muteBtn.textContent = isMuted ? '🔇' : '🔊';
-            });
-            
-            volumeSlider.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const rect = volumeSlider.getBoundingClientRect();
-                const pos = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
-                currentVolume = pos;
-                video.volume = currentVolume;
-                volumeLevel.style.width = `${currentVolume * 100}%`;
-                
-                if (currentVolume === 0) {
-                    isMuted = true;
-                    muteBtn.textContent = '🔇';
-                    video.muted = true;
-                } else {
-                    isMuted = false;
-                    muteBtn.textContent = '🔊';
-                    video.muted = false;
-                }
-            });
-            
-            volumeSlider.addEventListener('mousedown', (e) => {
-                e.stopPropagation();
-                isDraggingVolume = true;
-                const rect = volumeSlider.getBoundingClientRect();
-                const pos = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
-                currentVolume = pos;
-                video.volume = currentVolume;
-                volumeLevel.style.width = `${currentVolume * 100}%`;
-            });
-            
-            document.addEventListener('mousemove', (e) => {
-                if (isDraggingVolume) {
-                    const rect = volumeSlider.getBoundingClientRect();
-                    const pos = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
-                    currentVolume = pos;
-                    video.volume = currentVolume;
-                    volumeLevel.style.width = `${currentVolume * 100}%`;
-                    
-                    if (currentVolume === 0) {
-                        isMuted = true;
-                        muteBtn.textContent = '🔇';
-                        video.muted = true;
-                    } else {
-                        isMuted = false;
-                        muteBtn.textContent = '🔊';
-                        video.muted = false;
-                    }
-                }
-            });
-            
-            document.addEventListener('mouseup', () => {
-                isDraggingVolume = false;
-            });
-        }
-        
-        function togglePlayPause() {
-            if (!currentVideo) return;
-            
-            if (isPlaying) {
-                currentVideo.pause();
-                document.getElementById('play-btn').textContent = '▶';
-            } else {
-                currentVideo.play();
-                document.getElementById('play-btn').textContent = '⏸';
-            }
-            isPlaying = !isPlaying;
-        }
-
-        document.getElementById('close-player').addEventListener('click', closeMediaPlayer);
-
-        function closeMediaPlayer() {
-          const playerOverlay = document.getElementById('media-player-overlay');
-          
-          playerOverlay.style.opacity = '0';
-          document.querySelector('.media-player-container').style.transform = 'scale(0.95)';
-          
-          setTimeout(() => {
-            playerOverlay.style.display = 'none';
-            
-            if (currentVideo) {
-              currentVideo.pause();
-              currentVideo.currentTime = 0;
-              isPlaying = false;
-              
-              document.getElementById('play-btn').textContent = '▶';
-              document.getElementById('progress-bar').style.width = '0%';
-              document.getElementById('time-display').textContent = '0:00 / 0:00';
-              
-              currentVideo = null;
-            }
-            
-            document.body.style.overflow = 'auto';
-            document.body.style.paddingRight = '';
-          }, 300);
-        }
-
-        document.getElementById('show-all-btn').addEventListener('click', () => {
-            document.querySelector('.random-moment').style.display = 'none';
-            document.getElementById('all-moments').style.display = 'block';
-            document.getElementById('all-moments').style.opacity = '1';
-        });
-
-        document.getElementById('back-to-random').addEventListener('click', () => {
-            document.getElementById('all-moments').style.display = 'none';
-            document.querySelector('.random-moment').style.display = 'block';
-            showRandomMoment();
-        });
-
-        window.addEventListener('load', () => {
-            showRandomMoment();
-            loadAllMoments();
-            setupCategoryFilters();
-            
-            const toggleWrapper = document.createElement('div');
-            toggleWrapper.className = 'footer-toggle-wrapper';
-            toggleWrapper.innerHTML = '<button id="toggleFooterBtn" class="footer-toggle-btn" title="Скрыть футер">▲</button>';
-            document.body.appendChild(toggleWrapper);
-            
-            const toggleBtn = document.getElementById('toggleFooterBtn');
-            const footer = document.querySelector('.footer');
-            
-            function updateButtonPosition() {
-                toggleWrapper.classList.add('visible');
-                
-                if (footer.classList.contains('footer-hidden')) {
-                    toggleWrapper.style.bottom = '10px';
-                    toggleBtn.textContent = '▲';
-                    toggleBtn.title = "Показать футер";
-                } else {
-                    const footerHeight = footer.offsetHeight;
-                    toggleWrapper.style.bottom = `${footerHeight + 15}px`;
-                    toggleBtn.textContent = '▼';
-                    toggleBtn.title = "Скрыть футер";
-                }
-                
-                const mediaPlayerOverlay = document.getElementById('media-player-overlay');
-                if (mediaPlayerOverlay.style.display === 'flex') {
-                    toggleWrapper.style.filter = 'blur(2px)';
-                    toggleWrapper.style.opacity = '0.7';
-                } else {
-                    toggleWrapper.style.filter = 'none';
-                    toggleWrapper.style.opacity = '1';
-                }
-            }
-            
-            toggleBtn.addEventListener('click', function() {
-                footer.classList.toggle('footer-hidden');
-                updateButtonPosition();
-            });
-            
-            setTimeout(() => {
-                updateButtonPosition();
-                
-                const observer = new ResizeObserver(() => {
-                    if (!footer.classList.contains('footer-hidden')) {
-                        updateButtonPosition();
-                    }
-                });
-                observer.observe(footer);
-                
-                const mediaObserver = new MutationObserver((mutations) => {
-                    mutations.forEach((mutation) => {
-                        if (mutation.attributeName === 'style') {
-                            updateButtonPosition();
-                        }
-                    });
-                });
-                const mediaPlayerOverlay = document.getElementById('media-player-overlay');
-                mediaObserver.observe(mediaPlayerOverlay, {
-                    attributes: true,
-                    attributeFilter: ['style']
-                });
-            }, 100);
-        });
-    </script>
-</body>
-</html>
-  </div>
-
-  <script>
-    const gifUrls = [
-      "assets/gif/1gif_eating.webp",
-      "assets/gif/2gif_pediknavalny.webp",
-      "assets/gif/3gif_posral.webp",
-      "assets/gif/4gif_smile.webp",
-      "assets/gif/5gif_sosali.webp",
-      "assets/gif/6gif_storm.webp",
-      "assets/gif/7gif_begit.webp",
-      "assets/gif/8gif_razyob.webp"
+</div>
+<script>
+    const yearsData = [
+        { year: 2022, total: 40, available: 0, unavailable: 40 },
+        { year: 2023, total: 84, available: 0, unavailable: 84 },
+        { year: 2024, total: 95, available: 2, unavailable: 93 },
+        { year: 2025, total: 87, available: 1, unavailable: 86 },
+        { year: 2026, total: 18, available: 6, unavailable: 12 },
+        { year: 0, total: 315, available: 9, unavailable: 324, all: true }
     ];
-
-    const loadingTexts = [
-      "Запускаем параворлд…",
-      "Баними Ховута…",
-      "Заряжаем 12 атмосфер…",
-      "Ой твоя почка вообще возбуждает...",
-      "Бодаемся с Гормидом…",
-      "Открываем энергетик…",
-      "Моем лысую голову…",
-      "Красим стены…",
-      "Учимся читать…",
-      "Ищем девочек...",
-      "Начальница заболела 😭",
-      "Ищем заброшку…",
-      "Убираемся за кошкой…",
-      "Придумываем sиzо-теорию…",
-      "Скрываем видики…",
-      "Отсылаем вино…"
+    const mediaFiles = [
+        { type: 'video', url: 'assets/vid/1v_stoyak.webm', caption: 'Стоякоуский' },
+        { type: 'video', url: 'assets/vid/2v_buhailparasha.webm', caption: 'Бухаил Парашевич' },
+        { type: 'video', url: 'assets/vid/3v_fact.webm', caption: 'Супер Деликатес' },
+        { type: 'video', url: 'assets/vid/4v_nasral.webm', caption: 'Насрала' },
+        { type: 'video', url: 'assets/vid/5v_pidoras.webm', caption: 'Посмотри, пдиорас...' },
+        { type: 'video', url: 'assets/vid/6v_pizdabol.webm', caption: 'На роток слабый' },
+        { type: 'video', url: 'assets/vid/7v_podkatil.webm', caption: 'Подкатил' },
+        { type: 'video', url: 'assets/vid/8v_red_explode.webm', caption: 'Разрывная' },
+        { type: 'video', url: 'assets/vid/9v_crypto_fart.webm', caption: 'Миша ты что пукнул?' },
+        { type: 'video', url: 'assets/vid/10v_PICYAKA.webm', caption: 'Маленякая писяка' },
+        { type: 'video', url: 'assets/vid/11v_shiza.webm', caption: 'Oh who is she...' },
+        { type: 'video', url: 'assets/vid/12v_ayaayyaa.webm', caption: 'AYAAYAA' },
+        { type: 'video', url: 'assets/vid/13v_barba.webm', caption: 'Мая Барба' },
+        { type: 'video', url: 'assets/vid/14v_cry.webm', caption: 'Грустная реальность' },
+        { type: 'video', url: 'assets/vid/15v_crypto_women.webm', caption: 'Криптятина' },
+        { type: 'video', url: 'assets/vid/16v_vot-bi.webm', caption: 'Вот бы...' },
+        { type: 'video', url: 'assets/vid/17v_yeahh.webm', caption: 'Yeah' },
+        { type: 'video', url: 'assets/vid/18v_nachalnica.webm', caption: 'Начальница' },
+        { type: 'video', url: 'assets/vid/19v_HIHIHI.webm', caption: 'HA-HA-HA' },
+        { type: 'video', url: 'assets/vid/20v_eeek.webm', caption: 'УААААААА!!!' },
+        { type: 'video', url: 'assets/vid/21v_fbi.webm', caption: '🤡' },
+        { type: 'video', url: 'assets/vid/22v_gay.webm', caption: 'Гейские-позывы' },
+        { type: 'video', url: 'assets/vid/23v_history.webm', caption: 'История...' },
+        { type: 'video', url: 'assets/vid/24v_huly_ti.webm', caption: 'Хули ТЫ' },
+        { type: 'video', url: 'assets/vid/25v_krytooi.webm', caption: 'Крутой' },
+        { type: 'video', url: 'assets/vid/26v_pidor_crypto.webm', caption: 'PIDOR' },
+        { type: 'video', url: 'assets/vid/27v_pobejali.webm', caption: 'Побежали-побежали' },
+        { type: 'video', url: 'assets/vid/28v_popy_vidno.webm', caption: 'Пеуец' },
+        { type: 'video', url: 'assets/vid/29v_rap.webm', caption: 'Рэпанул' },
+        { type: 'video', url: 'assets/vid/30v_scary.webm', caption: 'Ужасы' },
+        { type: 'video', url: 'assets/vid/31v_shit_my_pens.webm', caption: 'Shit my pens' },
+        { type: 'video', url: 'assets/vid/32v_what.webm', caption: 'Кого?' },
+        { type: 'video', url: 'assets/vid/33v_creslo.webm', caption: 'Ремешки' },
+        { type: 'video', url: 'assets/vid/34v_bolnoy.webm', caption: 'Больной...' },
+        { type: 'image', url: 'assets/gif/1gif_eating.webp', caption: 'Кушает' },
+        { type: 'image', url: 'assets/gif/2gif_pediknavalny.webp', caption: 'Педик Навальный' },
+        { type: 'image', url: 'assets/gif/3gif_posral.webp', caption: 'POSRAL' },
+        { type: 'image', url: 'assets/gif/4gif_smile.webp', caption: 'Smile' },
+        { type: 'image', url: 'assets/gif/5gif_sosali.webp', caption: 'Сосали?' },
+        { type: 'image', url: 'assets/gif/6gif_storm.webp', caption: 'Качалово жопное писюнное' },
+        { type: 'image', url: 'assets/gif/8gif_razyob.webp', caption: 'Разйоб' },
+        { type: 'image', url: 'assets/gif/9gif_booo.webp', caption: 'БУ' },
+        { type: 'image', url: 'assets/gif/10gif_crypto_gnom.webp', caption: 'Гномчански Криптянски' },
+        { type: 'image', url: 'assets/gif/11gif_doomaem.webp', caption: 'DOOMаем' },
+        { type: 'image', url: 'assets/gif/12gif_konfetka.webp', caption: 'Нету ручек - нет конфетки' },
+        { type: 'image', url: 'assets/gif/13gif_kushaet.webp', caption: 'Криворукий' },
+        { type: 'image', url: 'assets/gif/14gif_poletel.webp', caption: '🎈' },
+        { type: 'image', url: 'assets/gif/15gif_shoot.webp', caption: 'School Shooter' },
+        { type: 'image', url: 'assets/gif/16gif_tabletki.webp', caption: 'Таблетосики' },
+        { type: 'image', url: 'assets/gif/17gif_talking.webp', caption: 'Talking' },
+        { type: 'image', url: 'assets/img/1i_18+.webp', caption: 'Голые бабы сматрет 🔞' },
+        { type: 'image', url: 'assets/img/2i_boss.webp', caption: 'BigBoss' },
+        { type: 'image', url: 'assets/img/3i_clown.webp', caption: 'Истенное лицо' },
+        { type: 'image', url: 'assets/img/4i_cry.webp', caption: '😭' },
+        { type: 'image', url: 'assets/img/5i_cryptobody.webp', caption: 'Мужчина' },
+        { type: 'image', url: 'assets/img/6i_cryptoface1.webp', caption: 'Крассавица' },
+        { type: 'image', url: 'assets/img/7i_cryptoface2.webp', caption: '👨‍🦲' },
+        { type: 'image', url: 'assets/img/8i_cryptoface3.webp', caption: 'Притаился' },
+        { type: 'image', url: 'assets/img/9i_fact.webp', caption: 'Факт' },
+        { type: 'image', url: 'assets/img/10i_help.webp', caption: 'Помогите' },
+        { type: 'image', url: 'assets/img/11i_howdoyoudo.webp', caption: 'ХауДуюДу' },
+        { type: 'image', url: 'assets/img/12i_kablik.webp', caption: '👠' },
+        { type: 'image', url: 'assets/img/13i_nasrala.webp', caption: 'Насрала' },
+        { type: 'image', url: 'assets/img/14i_nasrala.webp', caption: 'ОПЯТ....' },
+        { type: 'image', url: 'assets/img/15i_pidoras.webp', caption: 'ПiдораZZ' },
+        { type: 'image', url: 'assets/img/16i_strong.webp', caption: 'Силач' },
+        { type: 'image', url: 'assets/img/17i_true.webp', caption: 'Правда...' },
+        { type: 'image', url: 'assets/img/18i_nastya_crypto.webp', caption: 'Любоу' },
+        { type: 'image', url: 'assets/img/19i_anti_woomen.webp', caption: 'Лжебабы' },
+        { type: 'image', url: 'assets/img/20i_family.webp', caption: 'Семья' },
+        { type: 'image', url: 'assets/img/21i_he_view.webp', caption: 'He view' }
     ];
-
-    const emojiUrls = Array.from({length: 50}, (_, i) => `emoji/emoji${i}.webp`);
-
-    const gridContainer = document.getElementById('gifGrid');
-    const loadingTextEl = document.getElementById('loadingText');
+    const loaderScreen = document.getElementById('loader-screen');
+    const mainContent = document.getElementById('mainContent');
+    const gifGrid = document.getElementById('gifGrid');
+    const loadingText = document.getElementById('loadingText');
     const emojiImg = document.getElementById('emojiImg');
-
-    function shuffle(array) {
-      return array
-        .map(value => ({ value, sort: Math.random() }))
-        .sort((a, b) => a.sort - b.sort)
-        .map(({ value }) => value);
+    const yearsGrid = document.getElementById('yearsGrid');
+    const randomMomentDiv = document.getElementById('randomMoment');
+    const showAllBtn = document.getElementById('showAllBtn');
+    const allMomentsDiv = document.getElementById('allMoments');
+    const momentsGrid = document.getElementById('momentsGrid');
+    const backToRandomBtn = document.getElementById('backToRandom');
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const mediaPlayerOverlay = document.getElementById('mediaPlayerOverlay');
+    const mediaPlayerDiv = document.getElementById('mediaPlayer');
+    const closePlayerBtn = document.getElementById('closePlayerBtn');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressBar = document.getElementById('progressBar');
+    const timeDisplay = document.getElementById('timeDisplay');
+    const muteBtn = document.getElementById('muteBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const volumeLevel = document.getElementById('volumeLevel');
+    const footer = document.getElementById('footer');
+    let currentVideo = null;
+    let isPlaying = false;
+    let isMuted = false;
+    let currentVolume = 1;
+    let isDraggingProgress = false;
+    let isDraggingVolume = false;
+    let emojiInterval = null;
+    let activeEmojis = [];
+    let animationFrameId = null;
+    const gifUrls = [
+        "assets/gif/1gif_eating.webp",
+        "assets/gif/2gif_pediknavalny.webp",
+        "assets/gif/3gif_posral.webp",
+        "assets/gif/4gif_smile.webp",
+        "assets/gif/5gif_sosali.webp",
+        "assets/gif/6gif_storm.webp",
+        "assets/gif/7gif_begit.webp",
+        "assets/gif/8gif_razyob.webp"
+    ];
+    const loadingTexts = [
+        "Запускаем параворлд…", "Баними Ховута…", "Заряжаем 12 атмосфер…",
+        "Ой твоя почка вообще возбуждает...", "Бодаемся с Гормидом…", "Открываем энергетик…",
+        "Моем лысую голову…", "Красим стены…", "Учимся читать…", "Ищем девочек...",
+        "Начальница заболела 😭", "Ищем заброшку…", "Убираемся за кошкой…",
+        "Придумываем sиzо-теорию…", "Скрываем видики…", "Отсылаем вино…"
+    ];
+    const emojiUrls = Array.from({length: 50}, (_, i) => `emoji/emoji${i}.webp`);
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
     }
-
     function setupGridLayout(count) {
-      const cols = Math.ceil(Math.sqrt(count));
-      const rows = Math.ceil(count / cols);
-      gridContainer.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-      gridContainer.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+        const cols = Math.ceil(Math.sqrt(count));
+        const rows = Math.ceil(count / cols);
+        gifGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+        gifGrid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
     }
-
     function renderGifs() {
-      const shuffled = shuffle(gifUrls);
-      setupGridLayout(shuffled.length);
-      shuffled.forEach(src => {
-        const img = document.createElement('img');
-        img.src = src;
-        gridContainer.appendChild(img);
-      });
+        const shuffled = shuffleArray([...gifUrls]);
+        setupGridLayout(shuffled.length);
+        shuffled.forEach(src => {
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = "gif";
+            gifGrid.appendChild(img);
+        });
     }
-
-function rotateLoadingTexts() {
-  let availableTexts = [...loadingTexts];
-  function updateText() {
-    if (availableTexts.length === 0) {
-      availableTexts = [...loadingTexts];
+    function rotateLoadingTexts() {
+        let available = [...loadingTexts];
+        const update = () => {
+            if (available.length === 0) available = [...loadingTexts];
+            const idx = Math.floor(Math.random() * available.length);
+            loadingText.textContent = available[idx];
+            available.splice(idx, 1);
+        };
+        update();
+        setInterval(update, 1250);
     }
-    const randomIndex = Math.floor(Math.random() * availableTexts.length);
-    loadingTextEl.textContent = availableTexts[randomIndex];
-    availableTexts.splice(randomIndex, 1);
-  }
-  updateText();
-  setInterval(updateText, 1250);
-}
     function showRandomEmoji() {
-      const emoji = emojiUrls[Math.floor(Math.random() * emojiUrls.length)];
-      emojiImg.src = emoji;
+        const random = emojiUrls[Math.floor(Math.random() * emojiUrls.length)];
+        emojiImg.src = random;
+        emojiImg.alt = "эмодзи";
     }
-
     renderGifs();
     rotateLoadingTexts();
     showRandomEmoji();
-
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const loader = document.getElementById('loader-screen');
-        loader.style.opacity = '0';
+    function getRandomEmojiUrl() {
+        return emojiUrls[Math.floor(Math.random() * emojiUrls.length)];
+    }
+    function removeAllEmojis() {
+        activeEmojis.forEach(e => {
+            if (e.element && e.element.parentNode) e.element.parentNode.removeChild(e.element);
+        });
+        activeEmojis = [];
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+    }
+    function createFallingEmoji() {
+        if (document.hidden) return;
+        const emoji = document.createElement('div');
+        emoji.className = 'falling-emoji';
+        emoji.style.backgroundImage = `url('${getRandomEmojiUrl()}')`;
+        emoji.style.left = `${Math.random() * window.innerWidth}px`;
+        emoji.style.top = '-30px';
+        emoji.style.transform = `rotate(${-30 + Math.random() * 60}deg)`;
+        const size = 20 + Math.random() * 20;
+        emoji.style.width = `${size}px`;
+        emoji.style.height = `${size}px`;
+        document.body.appendChild(emoji);
+        const data = {
+            element: emoji,
+            speed: 0.5 + Math.random() * 2.5,
+            position: -30,
+            rotation: -30 + Math.random() * 60,
+            rotSpeed: (Math.random() - 0.5) * 10,
+            removed: false
+        };
+        activeEmojis.push(data);
+        if (!animationFrameId) animateEmojis();
         setTimeout(() => {
-          loader.style.display = 'none';
-          document.getElementById('main-content').style.display = 'block';
-        }, 500);
-      }, 2500);
+            if (!data.removed) removeEmoji(data);
+        }, 10000);
+    }
+    function animateEmojis() {
+        for (let i = activeEmojis.length-1; i >= 0; i--) {
+            const e = activeEmojis[i];
+            if (e.removed) {
+                activeEmojis.splice(i,1);
+                continue;
+            }
+            e.position += e.speed * 2;
+            e.element.style.top = `${e.position}px`;
+            e.rotation += e.rotSpeed;
+            e.element.style.transform = `rotate(${e.rotation}deg)`;
+            if (e.position > window.innerHeight) {
+                removeEmoji(e);
+            } else if (e.position > window.innerHeight - 100) {
+                e.element.style.opacity = (window.innerHeight - e.position) / 100;
+            }
+        }
+        if (activeEmojis.length > 0) {
+            animationFrameId = requestAnimationFrame(animateEmojis);
+        } else {
+            animationFrameId = null;
+        }
+    }
+    function removeEmoji(emojiData) {
+        if (emojiData.removed) return;
+        emojiData.removed = true;
+        if (emojiData.element.parentNode) emojiData.element.parentNode.removeChild(emojiData.element);
+    }
+    function startEmojiSystem() {
+        if (emojiInterval) clearInterval(emojiInterval);
+        removeAllEmojis();
+        emojiInterval = setInterval(createFallingEmoji, 700 + Math.random() * 300);
+        for (let i=0; i<5; i++) setTimeout(createFallingEmoji, i*200);
+    }
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            if (emojiInterval) clearInterval(emojiInterval);
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        } else {
+            startEmojiSystem();
+        }
     });
-  </script>
-
+    startEmojiSystem();
+    function buildYearsGrid() {
+        yearsGrid.innerHTML = '';
+        yearsData.forEach((data, idx) => {
+            const card = document.createElement('div');
+            card.className = `year-card ${data.all ? 'all-card' : ''}`;
+            card.setAttribute('data-year', data.year || 'all');
+            card.style.animationDelay = `${0.3 + idx * 0.1}s`;
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.innerHTML = `
+                <div class="particles"></div>
+                <div class="year-number">${data.all ? 'ВСЕ' : data.year}</div>
+                <div class="year-counters">
+                    <div class="counter total" title="Всего стримов">
+                        <div class="counter-number">${data.total}</div>
+                        <div class="counter-label">Всего</div>
+                    </div>
+                    <div class="counter available" title="Доступных">
+                        <div class="counter-number">${data.available}</div>
+                        <div class="counter-label">Доступно</div>
+                    </div>
+                    <div class="counter unavailable" title="Недоступных">
+                        <div class="counter-number">${data.unavailable}</div>
+                        <div class="counter-label">Недоступно</div>
+                    </div>
+                </div>
+            `;
+            yearsGrid.appendChild(card);
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 50);
+        });
+        document.querySelectorAll('.year-card').forEach(card => {
+            const particlesDiv = card.querySelector('.particles');
+            for (let i=0; i<5; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const size = 10 + Math.random() * 15;
+                p.style.width = `${size}px`;
+                p.style.height = `${size}px`;
+                p.style.left = `${Math.random() * 100}%`;
+                p.style.top = `${Math.random() * 100}%`;
+                p.style.backgroundImage = `url('${emojiUrls[Math.floor(Math.random() * emojiUrls.length)]}')`;
+                p.style.backgroundSize = 'contain';
+                p.style.animation = `float ${5 + Math.random() * 10}s ${Math.random() * 3}s infinite ease-in-out`;
+                p.style.opacity = 0.3 + Math.random() * 0.3;
+                particlesDiv.appendChild(p);
+            }
+        });
+        document.querySelectorAll('.year-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                const year = card.getAttribute('data-year');
+                let url = '';
+                if (year === 'all') url = 'all.html';
+                else url = `${year}.html`;
+                card.style.transform = 'scale(0.95)';
+                card.style.opacity = '0.8';
+                setTimeout(() => { window.location.href = url; }, 200);
+            });
+        });
+    }
+    function openMediaPlayer(media) {
+        mediaPlayerDiv.innerHTML = '';
+        const placeholder = document.createElement('div');
+        placeholder.className = 'loading-placeholder';
+        placeholder.innerHTML = '<div class="loading-spinner"></div>';
+        mediaPlayerDiv.appendChild(placeholder);
+        if (media.type === 'image') {
+            const img = document.createElement('img');
+            img.src = media.url;
+            img.alt = media.caption;
+            img.onload = () => placeholder.remove();
+            img.onerror = () => {
+                placeholder.remove();
+                mediaPlayerDiv.innerHTML = '<div style="color:red; text-align:center; padding:20px;">Ошибка загрузки изображения</div>';
+            };
+            mediaPlayerDiv.appendChild(img);
+            document.getElementById('mediaControls').style.display = 'none';
+            mediaPlayerDiv.addEventListener('click', () => closeMediaPlayer());
+        } else {
+            const video = document.createElement('video');
+            video.src = media.url;
+            video.controls = false;
+            video.id = 'playerVideo';
+            video.onloadeddata = () => placeholder.remove();
+            video.onerror = () => {
+                placeholder.remove();
+                mediaPlayerDiv.innerHTML = '<div style="color:red; text-align:center; padding:20px;">Ошибка загрузки видео</div>';
+                document.getElementById('mediaControls').style.display = 'none';
+            };
+            mediaPlayerDiv.appendChild(video);
+            document.getElementById('mediaControls').style.display = 'flex';
+            currentVideo = video;
+            setupVideoPlayer(video);
+            mediaPlayerDiv.addEventListener('click', () => togglePlayPause());
+        }
+        mediaPlayerOverlay.style.display = 'flex';
+        setTimeout(() => {
+            mediaPlayerOverlay.style.opacity = '1';
+            document.querySelector('.media-player-container').style.transform = 'scale(1)';
+        }, 10);
+        document.body.style.overflow = 'hidden';
+        updateFooterToggleStyle(true);
+    }
+    function setupVideoPlayer(video) {
+        video.volume = currentVolume;
+        volumeLevel.style.width = `${currentVolume * 100}%`;
+        video.muted = isMuted;
+        muteBtn.textContent = isMuted ? '🔇' : '🔊';
+        video.play().catch(() => {
+            isPlaying = false;
+            playPauseBtn.textContent = '▶';
+        }).then(() => {
+            isPlaying = true;
+            playPauseBtn.textContent = '⏸';
+        });
+        video.addEventListener('timeupdate', () => {
+            if (!isDraggingProgress && video.duration) {
+                const percent = (video.currentTime / video.duration) * 100;
+                progressBar.style.width = `${percent}%`;
+                const curM = Math.floor(video.currentTime / 60);
+                const curS = Math.floor(video.currentTime % 60);
+                const durM = Math.floor(video.duration / 60);
+                const durS = Math.floor(video.duration % 60);
+                timeDisplay.textContent = `${curM}:${curS<10?'0':''}${curS} / ${durM}:${durS<10?'0':''}${durS}`;
+            }
+        });
+        video.addEventListener('ended', () => {
+            isPlaying = false;
+            playPauseBtn.textContent = '▶';
+            video.currentTime = 0;
+            progressBar.style.width = '0%';
+        });
+        const onProgressClick = (e) => {
+            const rect = progressContainer.getBoundingClientRect();
+            let pos = (e.clientX - rect.left) / rect.width;
+            pos = Math.min(1, Math.max(0, pos));
+            video.currentTime = pos * video.duration;
+            progressBar.style.width = `${pos*100}%`;
+        };
+        progressContainer.addEventListener('click', onProgressClick);
+        progressContainer.addEventListener('mousedown', (e) => {
+            isDraggingProgress = true;
+            onProgressClick(e);
+        });
+        document.addEventListener('mousemove', (e) => {
+            if (isDraggingProgress) {
+                const rect = progressContainer.getBoundingClientRect();
+                let pos = (e.clientX - rect.left) / rect.width;
+                pos = Math.min(1, Math.max(0, pos));
+                video.currentTime = pos * video.duration;
+                progressBar.style.width = `${pos*100}%`;
+            }
+        });
+        document.addEventListener('mouseup', () => { isDraggingProgress = false; });
+        playPauseBtn.addEventListener('click', (e) => { e.stopPropagation(); togglePlayPause(); });
+        muteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            isMuted = !isMuted;
+            video.muted = isMuted;
+            muteBtn.textContent = isMuted ? '🔇' : '🔊';
+        });
+        volumeSlider.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const rect = volumeSlider.getBoundingClientRect();
+            let pos = (e.clientX - rect.left) / rect.width;
+            pos = Math.min(1, Math.max(0, pos));
+            currentVolume = pos;
+            video.volume = currentVolume;
+            volumeLevel.style.width = `${currentVolume*100}%`;
+            if (currentVolume === 0) { isMuted = true; muteBtn.textContent = '🔇'; video.muted = true; }
+            else { isMuted = false; muteBtn.textContent = '🔊'; video.muted = false; }
+        });
+        volumeSlider.addEventListener('mousedown', (e) => {
+            isDraggingVolume = true;
+            const rect = volumeSlider.getBoundingClientRect();
+            let pos = (e.clientX - rect.left) / rect.width;
+            pos = Math.min(1, Math.max(0, pos));
+            currentVolume = pos;
+            video.volume = currentVolume;
+            volumeLevel.style.width = `${currentVolume*100}%`;
+        });
+        document.addEventListener('mousemove', (e) => {
+            if (isDraggingVolume) {
+                const rect = volumeSlider.getBoundingClientRect();
+                let pos = (e.clientX - rect.left) / rect.width;
+                pos = Math.min(1, Math.max(0, pos));
+                currentVolume = pos;
+                video.volume = currentVolume;
+                volumeLevel.style.width = `${currentVolume*100}%`;
+                if (currentVolume === 0) { isMuted = true; muteBtn.textContent = '🔇'; video.muted = true; }
+                else { isMuted = false; muteBtn.textContent = '🔊'; video.muted = false; }
+            }
+        });
+        document.addEventListener('mouseup', () => { isDraggingVolume = false; });
+    }
+    function togglePlayPause() {
+        if (!currentVideo) return;
+        if (isPlaying) {
+            currentVideo.pause();
+            playPauseBtn.textContent = '▶';
+        } else {
+            currentVideo.play().catch(e => console.log("play error", e));
+            playPauseBtn.textContent = '⏸';
+        }
+        isPlaying = !isPlaying;
+    }
+    function closeMediaPlayer() {
+        mediaPlayerOverlay.style.opacity = '0';
+        document.querySelector('.media-player-container').style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            mediaPlayerOverlay.style.display = 'none';
+            if (currentVideo) {
+                currentVideo.pause();
+                currentVideo.currentTime = 0;
+                currentVideo = null;
+                isPlaying = false;
+                playPauseBtn.textContent = '▶';
+                progressBar.style.width = '0%';
+                timeDisplay.textContent = '0:00 / 0:00';
+            }
+            document.body.style.overflow = '';
+            updateFooterToggleStyle(false);
+        }, 300);
+    }
+    function updateFooterToggleStyle(isOpen) {
+        const toggleWrapper = document.querySelector('.footer-toggle-wrapper');
+        if (toggleWrapper) {
+            if (isOpen) {
+                toggleWrapper.style.filter = 'blur(2px)';
+                toggleWrapper.style.opacity = '0.7';
+            } else {
+                toggleWrapper.style.filter = 'none';
+                toggleWrapper.style.opacity = '1';
+            }
+        }
+    }
+    function showRandomMoment() {
+        const imagesOnly = mediaFiles.filter(m => m.type === 'image');
+        const random = imagesOnly[Math.floor(Math.random() * imagesOnly.length)];
+        randomMomentDiv.innerHTML = '';
+        const placeholder = document.createElement('div');
+        placeholder.className = 'loading-placeholder';
+        placeholder.innerHTML = '<div class="loading-spinner"></div>';
+        randomMomentDiv.appendChild(placeholder);
+        const img = document.createElement('img');
+        img.src = random.url;
+        img.alt = random.caption;
+        img.onload = () => placeholder.remove();
+        img.onerror = () => {
+            placeholder.remove();
+            randomMomentDiv.innerHTML = '<div style="color:red; text-align:center; padding:20px;">Ошибка загрузки</div>';
+        };
+        randomMomentDiv.appendChild(img);
+        const caption = document.createElement('div');
+        caption.className = 'random-moment-caption';
+        caption.textContent = random.caption;
+        randomMomentDiv.appendChild(caption);
+        randomMomentDiv.addEventListener('click', () => openMediaPlayer(random), { once: true });
+    }
+    function loadAllMoments() {
+        momentsGrid.innerHTML = '';
+        mediaFiles.forEach(media => {
+            const item = document.createElement('div');
+            item.className = 'moment-item';
+            item.dataset.type = media.type;
+            const placeholder = document.createElement('div');
+            placeholder.className = 'loading-placeholder';
+            placeholder.innerHTML = '<div class="loading-spinner"></div>';
+            item.appendChild(placeholder);
+            let mediaEl;
+            if (media.type === 'image') {
+                mediaEl = document.createElement('img');
+                mediaEl.onload = () => placeholder.remove();
+                mediaEl.onerror = () => placeholder.remove();
+                mediaEl.src = media.url;
+                mediaEl.alt = media.caption;
+                item.appendChild(mediaEl);
+            } else {
+                mediaEl = document.createElement('video');
+                mediaEl.muted = true;
+                mediaEl.loop = true;
+                mediaEl.playsInline = true;
+                mediaEl.preload = 'metadata';
+                mediaEl.onloadeddata = () => placeholder.remove();
+                mediaEl.onerror = () => placeholder.remove();
+                mediaEl.src = media.url;
+                item.appendChild(mediaEl);
+                const playIcon = document.createElement('div');
+                playIcon.className = 'play-icon';
+                item.appendChild(playIcon);
+            }
+            const caption = document.createElement('div');
+            caption.className = 'moment-caption';
+            caption.textContent = media.caption;
+            item.appendChild(caption);
+            item.addEventListener('click', () => openMediaPlayer(media));
+            momentsGrid.appendChild(item);
+        });
+    }
+    function filterMoments(category) {
+        const items = document.querySelectorAll('.moment-item');
+        items.forEach(item => {
+            if (category === 'all' || item.dataset.type === category) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+    window.addEventListener('load', () => {
+        buildYearsGrid();
+        showRandomMoment();
+        loadAllMoments();
+        setTimeout(() => {
+            loaderScreen.style.opacity = '0';
+            setTimeout(() => {
+                loaderScreen.style.display = 'none';
+                mainContent.style.display = 'block';
+            }, 500);
+        }, 2500);
+    });
+    showAllBtn.addEventListener('click', () => {
+        document.querySelector('.random-moment').style.display = 'none';
+        allMomentsDiv.style.display = 'block';
+        allMomentsDiv.style.opacity = '1';
+    });
+    backToRandomBtn.addEventListener('click', () => {
+        allMomentsDiv.style.display = 'none';
+        document.querySelector('.random-moment').style.display = 'block';
+        showRandomMoment();
+    });
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            categoryBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filterMoments(btn.dataset.category);
+        });
+    });
+    closePlayerBtn.addEventListener('click', closeMediaPlayer);
+    mediaPlayerOverlay.addEventListener('click', (e) => {
+        if (e.target === mediaPlayerOverlay) closeMediaPlayer();
+    });
+    // Кнопка скрытия/показа футера
+    const toggleWrapper = document.createElement('div');
+    toggleWrapper.className = 'footer-toggle-wrapper';
+    toggleWrapper.innerHTML = '<button id="toggleFooterBtn" class="footer-toggle-btn" title="Скрыть футер">▲</button>';
+    document.body.appendChild(toggleWrapper);
+    const toggleBtn = document.getElementById('toggleFooterBtn');
+    function updateButtonPosition() {
+        if (footer.classList.contains('footer-hidden')) {
+            toggleWrapper.style.bottom = '10px';
+            toggleBtn.textContent = '▲';
+            toggleBtn.title = "Показать футер";
+        } else {
+            const footerHeight = footer.offsetHeight;
+            toggleWrapper.style.bottom = `${footerHeight + 15}px`;
+            toggleBtn.textContent = '▼';
+            toggleBtn.title = "Скрыть футер";
+        }
+        const mediaOpen = mediaPlayerOverlay.style.display === 'flex';
+        if (mediaOpen) {
+            toggleWrapper.style.filter = 'blur(2px)';
+            toggleWrapper.style.opacity = '0.7';
+        } else {
+            toggleWrapper.style.filter = 'none';
+            toggleWrapper.style.opacity = '1';
+        }
+    }
+    toggleBtn.addEventListener('click', function() {
+        footer.classList.toggle('footer-hidden');
+        updateButtonPosition();
+    });
+    setTimeout(() => {
+        updateButtonPosition();
+        const resizeObserver = new ResizeObserver(() => {
+            if (!footer.classList.contains('footer-hidden')) {
+                updateButtonPosition();
+            }
+        });
+        resizeObserver.observe(footer);
+        const mediaObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'style') {
+                    updateButtonPosition();
+                }
+            });
+        });
+        mediaObserver.observe(mediaPlayerOverlay, {
+            attributes: true,
+            attributeFilter: ['style']
+        });
+    }, 100);
+</script>
 </body>
 </html>
-
-
-
-
-
-
