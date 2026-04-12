@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Архив стримов CRYPTO</title>
+    <link rel="icon" id="favicon" href="emoji/emoji0.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
@@ -679,7 +680,6 @@
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        /* Компактный футер: уменьшенные размеры, прозрачные бейджи */
         .footer {
             position: fixed;
             bottom: 0;
@@ -716,7 +716,6 @@
         .social-icon:hover {
             transform: scale(1.05);
         }
-        /* Большая круглая аватарка */
         .social-icon .avatar-img {
             width: 100%;
             height: 100%;
@@ -725,7 +724,6 @@
             background: #222;
             box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
-        /* Прозрачная круглая иконка сервиса поверх */
         .social-icon .platform-badge {
             position: absolute;
             bottom: -2px;
@@ -806,7 +804,7 @@
     <div class="stripe-overlay"></div>
     <div class="gif-grid" id="gifGrid"></div>
     <div class="spinner">
-        <img class="emoji-img" id="emojiImg" alt="эмодзи">
+        <img class="emoji-img" id="emojiImg" alt="">
     </div>
     <div class="loading-text" id="loadingText"></div>
 </div>
@@ -832,25 +830,24 @@
         <button class="back-to-random" id="backToRandom">Вернуться</button>
     </div>
 </div>
-<!-- Компактный футер: уменьшенные размеры, прозрачные бейджи -->
 <div class="footer" id="footer">
     <div class="social-container">
         <a href="https://t.me/CryptoHLX" class="social-icon" target="_blank" rel="noopener noreferrer">
-            <img src="assets/avatars/telegram_avatar.webp" class="avatar-img" alt="Avatar">
+            <img src="assets/avatars/telegram_avatar.webp" class="avatar-img" alt="">
             <div class="platform-badge">
-                <img src="assets/avatars/telegram.webp" alt="Telegram">
+                <img src="assets/avatars/telegram.webp" alt="">
             </div>
         </a>
         <a href="https://www.youtube.com/@crypto2102" class="social-icon" target="_blank" rel="noopener noreferrer">
-            <img src="assets/avatars/youtube_avatar.webp" class="avatar-img" alt="Avatar">
+            <img src="assets/avatars/youtube_avatar.webp" class="avatar-img" alt="">
             <div class="platform-badge">
-                <img src="assets/avatars/youtube.webp" alt="YouTube">
+                <img src="assets/avatars/youtube.webp" alt="">
             </div>
         </a>
         <a href="https://discord.gg/HgDNU5rBZE" class="social-icon" target="_blank" rel="noopener noreferrer">
-            <img src="assets/avatars/discord_avatar.png" class="avatar-img" alt="Avatar">
+            <img src="assets/avatars/discord_avatar.png" class="avatar-img" alt="">
             <div class="platform-badge">
-                <img src="assets/avatars/discord.webp" alt="Discord">
+                <img src="assets/avatars/discord.webp" alt="">
             </div>
         </a>
     </div>
@@ -875,655 +872,570 @@
     </div>
 </div>
 <script>
-    const yearsData = [
-        { year: 2022, total: 40, available: 0, unavailable: 40 },
-        { year: 2023, total: 84, available: 0, unavailable: 84 },
-        { year: 2024, total: 95, available: 2, unavailable: 93 },
-        { year: 2025, total: 87, available: 1, unavailable: 86 },
-        { year: 2026, total: 26, available: 13, unavailable: 13 },
-        { year: 0, total: 332, available: 16, unavailable: 316, all: true }
-    ];
-    const mediaFiles = [
-        { type: 'video', url: 'assets/vid/1v_stoyak.webm', caption: 'Стоякоуский' },
-        { type: 'video', url: 'assets/vid/2v_buhailparasha.webm', caption: 'Бухаил Парашевич' },
-        { type: 'video', url: 'assets/vid/3v_fact.webm', caption: 'Супер Деликатес' },
-        { type: 'video', url: 'assets/vid/4v_nasral.webm', caption: 'Насрала' },
-        { type: 'video', url: 'assets/vid/5v_pidoras.webm', caption: 'Посмотри, пдиорас...' },
-        { type: 'video', url: 'assets/vid/6v_pizdabol.webm', caption: 'На роток слабый' },
-        { type: 'video', url: 'assets/vid/7v_podkatil.webm', caption: 'Подкатил' },
-        { type: 'video', url: 'assets/vid/8v_red_explode.webm', caption: 'Разрывная' },
-        { type: 'video', url: 'assets/vid/9v_crypto_fart.webm', caption: 'Миша ты что пукнул?' },
-        { type: 'video', url: 'assets/vid/10v_PICYAKA.webm', caption: 'Маленякая писяка' },
-        { type: 'video', url: 'assets/vid/11v_shiza.webm', caption: 'Oh who is she...' },
-        { type: 'video', url: 'assets/vid/12v_ayaayyaa.webm', caption: 'AYAAYAA' },
-        { type: 'video', url: 'assets/vid/13v_barba.webm', caption: 'Мая Барба' },
-        { type: 'video', url: 'assets/vid/14v_cry.webm', caption: 'Грустная реальность' },
-        { type: 'video', url: 'assets/vid/15v_crypto_women.webm', caption: 'Криптятина' },
-        { type: 'video', url: 'assets/vid/16v_vot-bi.webm', caption: 'Вот бы...' },
-        { type: 'video', url: 'assets/vid/17v_yeahh.webm', caption: 'Yeah' },
-        { type: 'video', url: 'assets/vid/18v_nachalnica.webm', caption: 'Начальница' },
-        { type: 'video', url: 'assets/vid/19v_HIHIHI.webm', caption: 'HA-HA-HA' },
-        { type: 'video', url: 'assets/vid/20v_eeek.webm', caption: 'УААААААА!!!' },
-        { type: 'video', url: 'assets/vid/21v_fbi.webm', caption: '🤡' },
-        { type: 'video', url: 'assets/vid/22v_gay.webm', caption: 'Гейские-позывы' },
-        { type: 'video', url: 'assets/vid/23v_history.webm', caption: 'История...' },
-        { type: 'video', url: 'assets/vid/24v_huly_ti.webm', caption: 'Хули ТЫ' },
-        { type: 'video', url: 'assets/vid/25v_krytooi.webm', caption: 'Крутой' },
-        { type: 'video', url: 'assets/vid/26v_pidor_crypto.webm', caption: 'PIDOR' },
-        { type: 'video', url: 'assets/vid/27v_pobejali.webm', caption: 'Побежали-побежали' },
-        { type: 'video', url: 'assets/vid/28v_popy_vidno.webm', caption: 'Пеуец' },
-        { type: 'video', url: 'assets/vid/29v_rap.webm', caption: 'Рэпанул' },
-        { type: 'video', url: 'assets/vid/30v_scary.webm', caption: 'Ужасы' },
-        { type: 'video', url: 'assets/vid/31v_shit_my_pens.webm', caption: 'Shit my pens' },
-        { type: 'video', url: 'assets/vid/32v_what.webm', caption: 'Кого?' },
-        { type: 'video', url: 'assets/vid/33v_creslo.webm', caption: 'Ремешки' },
-        { type: 'video', url: 'assets/vid/34v_bolnoy.webm', caption: 'Больной...' },
-        { type: 'image', url: 'assets/gif/1gif_eating.webp', caption: 'Кушает' },
-        { type: 'image', url: 'assets/gif/2gif_pediknavalny.webp', caption: 'Педик Навальный' },
-        { type: 'image', url: 'assets/gif/3gif_posral.webp', caption: 'POSRAL' },
-        { type: 'image', url: 'assets/gif/4gif_smile.webp', caption: 'Smile' },
-        { type: 'image', url: 'assets/gif/5gif_sosali.webp', caption: 'Сосали?' },
-        { type: 'image', url: 'assets/gif/6gif_storm.webp', caption: 'Качалово жопное писюнное' },
-        { type: 'image', url: 'assets/gif/8gif_razyob.webp', caption: 'Разйоб' },
-        { type: 'image', url: 'assets/gif/9gif_booo.webp', caption: 'БУ' },
-        { type: 'image', url: 'assets/gif/10gif_crypto_gnom.webp', caption: 'Гномчански Криптянски' },
-        { type: 'image', url: 'assets/gif/11gif_doomaem.webp', caption: 'DOOMаем' },
-        { type: 'image', url: 'assets/gif/12gif_konfetka.webp', caption: 'Нету ручек - нет конфетки' },
-        { type: 'image', url: 'assets/gif/13gif_kushaet.webp', caption: 'Криворукий' },
-        { type: 'image', url: 'assets/gif/14gif_poletel.webp', caption: '🎈' },
-        { type: 'image', url: 'assets/gif/15gif_shoot.webp', caption: 'School Shooter' },
-        { type: 'image', url: 'assets/gif/16gif_tabletki.webp', caption: 'Таблетосики' },
-        { type: 'image', url: 'assets/gif/17gif_talking.webp', caption: 'Talking' },
-        { type: 'image', url: 'assets/img/1i_18+.webp', caption: 'Голые бабы сматрет 🔞' },
-        { type: 'image', url: 'assets/img/2i_boss.webp', caption: 'BigBoss' },
-        { type: 'image', url: 'assets/img/3i_clown.webp', caption: 'Истенное лицо' },
-        { type: 'image', url: 'assets/img/4i_cry.webp', caption: '😭' },
-        { type: 'image', url: 'assets/img/5i_cryptobody.webp', caption: 'Мужчина' },
-        { type: 'image', url: 'assets/img/6i_cryptoface1.webp', caption: 'Крассавица' },
-        { type: 'image', url: 'assets/img/7i_cryptoface2.webp', caption: '👨‍🦲' },
-        { type: 'image', url: 'assets/img/8i_cryptoface3.webp', caption: 'Притаился' },
-        { type: 'image', url: 'assets/img/9i_fact.webp', caption: 'Факт' },
-        { type: 'image', url: 'assets/img/10i_help.webp', caption: 'Помогите' },
-        { type: 'image', url: 'assets/img/11i_howdoyoudo.webp', caption: 'ХауДуюДу' },
-        { type: 'image', url: 'assets/img/12i_kablik.webp', caption: '👠' },
-        { type: 'image', url: 'assets/img/13i_nasrala.webp', caption: 'Насрала' },
-        { type: 'image', url: 'assets/img/14i_nasrala.webp', caption: 'ОПЯТ....' },
-        { type: 'image', url: 'assets/img/15i_pidoras.webp', caption: 'ПiдораZZ' },
-        { type: 'image', url: 'assets/img/16i_strong.webp', caption: 'Силач' },
-        { type: 'image', url: 'assets/img/17i_true.webp', caption: 'Правда...' },
-        { type: 'image', url: 'assets/img/18i_nastya_crypto.webp', caption: 'Любоу' },
-        { type: 'image', url: 'assets/img/19i_anti_woomen.webp', caption: 'Лжебабы' },
-        { type: 'image', url: 'assets/img/20i_family.webp', caption: 'Семья' },
-        { type: 'image', url: 'assets/img/21i_he_view.webp', caption: 'He view' }
-    ];
-    const loaderScreen = document.getElementById('loader-screen');
-    const mainContent = document.getElementById('mainContent');
-    const gifGrid = document.getElementById('gifGrid');
-    const loadingText = document.getElementById('loadingText');
-    const emojiImg = document.getElementById('emojiImg');
-    const yearsGrid = document.getElementById('yearsGrid');
-    const randomMomentDiv = document.getElementById('randomMoment');
-    const showAllBtn = document.getElementById('showAllBtn');
-    const allMomentsDiv = document.getElementById('allMoments');
-    const momentsGrid = document.getElementById('momentsGrid');
-    const backToRandomBtn = document.getElementById('backToRandom');
-    const categoryBtns = document.querySelectorAll('.category-btn');
-    const mediaPlayerOverlay = document.getElementById('mediaPlayerOverlay');
-    const mediaPlayerDiv = document.getElementById('mediaPlayer');
-    const closePlayerBtn = document.getElementById('closePlayerBtn');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const progressContainer = document.getElementById('progressContainer');
-    const progressBar = document.getElementById('progressBar');
-    const timeDisplay = document.getElementById('timeDisplay');
-    const muteBtn = document.getElementById('muteBtn');
-    const volumeSlider = document.getElementById('volumeSlider');
-    const volumeLevel = document.getElementById('volumeLevel');
-    const footer = document.getElementById('footer');
-    let currentVideo = null;
-    let isPlaying = false;
-    let isMuted = false;
-    let currentVolume = 1;
-    let isDraggingProgress = false;
-    let isDraggingVolume = false;
-    let emojiInterval = null;
-    let activeEmojis = [];
-    let animationFrameId = null;
-    const gifUrls = [
-        "assets/gif/1gif_eating.webp",
-        "assets/gif/2gif_pediknavalny.webp",
-        "assets/gif/3gif_posral.webp",
-        "assets/gif/4gif_smile.webp",
-        "assets/gif/5gif_sosali.webp",
-        "assets/gif/6gif_storm.webp",
-        "assets/gif/7gif_begit.webp",
-        "assets/gif/8gif_razyob.webp"
-    ];
-    const loadingTexts = [
-        "Запускаем параворлд…", "Баними Ховута…", "Заряжаем 12 атмосфер…",
-        "Ой твоя почка вообще возбуждает...", "Бодаемся с Гормидом…", "Открываем энергетик…",
-        "Моем лысую голову…", "Красим стены…", "Учимся читать…", "Ищем девочек...",
-        "Начальница заболела 😭", "Ищем заброшку…", "Убираемся за кошкой…",
-        "Придумываем sиzо-теорию…", "Скрываем видики…", "Отсылаем вино…"
-    ];
-    const emojiUrls = Array.from({length: 50}, (_, i) => `emoji/emoji${i}.webp`);
-    function shuffleArray(arr) {
-        for (let i = arr.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [arr[i], arr[j]] = [arr[j], arr[i]];
-        }
-        return arr;
-    }
-    function setupGridLayout(count) {
-        const cols = Math.ceil(Math.sqrt(count));
-        const rows = Math.ceil(count / cols);
-        gifGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-        gifGrid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
-    }
-    function renderGifs() {
-        const shuffled = shuffleArray([...gifUrls]);
-        setupGridLayout(shuffled.length);
-        shuffled.forEach(src => {
-            const img = document.createElement('img');
-            img.src = src;
-            img.alt = "gif";
-            gifGrid.appendChild(img);
-        });
-    }
-    function rotateLoadingTexts() {
-        let available = [...loadingTexts];
-        const update = () => {
-            if (available.length === 0) available = [...loadingTexts];
-            const idx = Math.floor(Math.random() * available.length);
-            loadingText.textContent = available[idx];
-            available.splice(idx, 1);
-        };
-        update();
-        setInterval(update, 1250);
-    }
-    function showRandomEmoji() {
-        const random = emojiUrls[Math.floor(Math.random() * emojiUrls.length)];
-        emojiImg.src = random;
-        emojiImg.alt = "эмодзи";
-    }
-    renderGifs();
-    rotateLoadingTexts();
-    showRandomEmoji();
-    function getRandomEmojiUrl() {
-        return emojiUrls[Math.floor(Math.random() * emojiUrls.length)];
-    }
-    function removeAllEmojis() {
-        activeEmojis.forEach(e => {
-            if (e.element && e.element.parentNode) e.element.parentNode.removeChild(e.element);
-        });
-        activeEmojis = [];
-        if (animationFrameId) {
-            cancelAnimationFrame(animationFrameId);
-            animationFrameId = null;
-        }
-    }
-    function createFallingEmoji() {
-        if (document.hidden) return;
-        const emoji = document.createElement('div');
-        emoji.className = 'falling-emoji';
-        emoji.style.backgroundImage = `url('${getRandomEmojiUrl()}')`;
-        emoji.style.left = `${Math.random() * window.innerWidth}px`;
-        emoji.style.top = '-30px';
-        emoji.style.transform = `rotate(${-30 + Math.random() * 60}deg)`;
-        const size = 20 + Math.random() * 20;
-        emoji.style.width = `${size}px`;
-        emoji.style.height = `${size}px`;
-        document.body.appendChild(emoji);
-        const data = {
-            element: emoji,
-            speed: 0.5 + Math.random() * 2.5,
-            position: -30,
-            rotation: -30 + Math.random() * 60,
-            rotSpeed: (Math.random() - 0.5) * 10,
-            removed: false
-        };
-        activeEmojis.push(data);
-        if (!animationFrameId) animateEmojis();
-        setTimeout(() => {
-            if (!data.removed) removeEmoji(data);
-        }, 10000);
-    }
-    function animateEmojis() {
-        for (let i = activeEmojis.length-1; i >= 0; i--) {
-            const e = activeEmojis[i];
-            if (e.removed) {
-                activeEmojis.splice(i,1);
-                continue;
+    (function(){
+        const yearsData = [
+            { year: 2022, total: 40, available: 0, unavailable: 40 },
+            { year: 2023, total: 84, available: 0, unavailable: 84 },
+            { year: 2024, total: 95, available: 2, unavailable: 93 },
+            { year: 2025, total: 87, available: 1, unavailable: 86 },
+            { year: 2026, total: 26, available: 13, unavailable: 13 },
+            { year: 0, total: 332, available: 16, unavailable: 316, all: true }
+        ];
+        const mediaFiles = [
+            { type: 'video', url: 'assets/vid/1v_stoyak.webm', caption: 'Стоякоуский' },
+            { type: 'video', url: 'assets/vid/2v_buhailparasha.webm', caption: 'Бухаил Парашевич' },
+            { type: 'video', url: 'assets/vid/3v_fact.webm', caption: 'Супер Деликатес' },
+            { type: 'video', url: 'assets/vid/4v_nasral.webm', caption: 'Насрала' },
+            { type: 'video', url: 'assets/vid/5v_pidoras.webm', caption: 'Посмотри, пдиорас...' },
+            { type: 'video', url: 'assets/vid/6v_pizdabol.webm', caption: 'На роток слабый' },
+            { type: 'video', url: 'assets/vid/7v_podkatil.webm', caption: 'Подкатил' },
+            { type: 'video', url: 'assets/vid/8v_red_explode.webm', caption: 'Разрывная' },
+            { type: 'video', url: 'assets/vid/9v_crypto_fart.webm', caption: 'Миша ты что пукнул?' },
+            { type: 'video', url: 'assets/vid/10v_PICYAKA.webm', caption: 'Маленякая писяка' },
+            { type: 'video', url: 'assets/vid/11v_shiza.webm', caption: 'Oh who is she...' },
+            { type: 'video', url: 'assets/vid/12v_ayaayyaa.webm', caption: 'AYAAYAA' },
+            { type: 'video', url: 'assets/vid/13v_barba.webm', caption: 'Мая Барба' },
+            { type: 'video', url: 'assets/vid/14v_cry.webm', caption: 'Грустная реальность' },
+            { type: 'video', url: 'assets/vid/15v_crypto_women.webm', caption: 'Криптятина' },
+            { type: 'video', url: 'assets/vid/16v_vot-bi.webm', caption: 'Вот бы...' },
+            { type: 'video', url: 'assets/vid/17v_yeahh.webm', caption: 'Yeah' },
+            { type: 'video', url: 'assets/vid/18v_nachalnica.webm', caption: 'Начальница' },
+            { type: 'video', url: 'assets/vid/19v_HIHIHI.webm', caption: 'HA-HA-HA' },
+            { type: 'video', url: 'assets/vid/20v_eeek.webm', caption: 'УААААААА!!!' },
+            { type: 'video', url: 'assets/vid/21v_fbi.webm', caption: '🤡' },
+            { type: 'video', url: 'assets/vid/22v_gay.webm', caption: 'Гейские-позывы' },
+            { type: 'video', url: 'assets/vid/23v_history.webm', caption: 'История...' },
+            { type: 'video', url: 'assets/vid/24v_huly_ti.webm', caption: 'Хули ТЫ' },
+            { type: 'video', url: 'assets/vid/25v_krytooi.webm', caption: 'Крутой' },
+            { type: 'video', url: 'assets/vid/26v_pidor_crypto.webm', caption: 'PIDOR' },
+            { type: 'video', url: 'assets/vid/27v_pobejali.webm', caption: 'Побежали-побежали' },
+            { type: 'video', url: 'assets/vid/28v_popy_vidno.webm', caption: 'Пеуец' },
+            { type: 'video', url: 'assets/vid/29v_rap.webm', caption: 'Рэпанул' },
+            { type: 'video', url: 'assets/vid/30v_scary.webm', caption: 'Ужасы' },
+            { type: 'video', url: 'assets/vid/31v_shit_my_pens.webm', caption: 'Shit my pens' },
+            { type: 'video', url: 'assets/vid/32v_what.webm', caption: 'Кого?' },
+            { type: 'video', url: 'assets/vid/33v_creslo.webm', caption: 'Ремешки' },
+            { type: 'video', url: 'assets/vid/34v_bolnoy.webm', caption: 'Больной...' },
+            { type: 'image', url: 'assets/gif/1gif_eating.webp', caption: 'Кушает' },
+            { type: 'image', url: 'assets/gif/2gif_pediknavalny.webp', caption: 'Педик Навальный' },
+            { type: 'image', url: 'assets/gif/3gif_posral.webp', caption: 'POSRAL' },
+            { type: 'image', url: 'assets/gif/4gif_smile.webp', caption: 'Smile' },
+            { type: 'image', url: 'assets/gif/5gif_sosali.webp', caption: 'Сосали?' },
+            { type: 'image', url: 'assets/gif/6gif_storm.webp', caption: 'Качалово жопное писюнное' },
+            { type: 'image', url: 'assets/gif/8gif_razyob.webp', caption: 'Разйоб' },
+            { type: 'image', url: 'assets/gif/9gif_booo.webp', caption: 'БУ' },
+            { type: 'image', url: 'assets/gif/10gif_crypto_gnom.webp', caption: 'Гномчански Криптянски' },
+            { type: 'image', url: 'assets/gif/11gif_doomaem.webp', caption: 'DOOMаем' },
+            { type: 'image', url: 'assets/gif/12gif_konfetka.webp', caption: 'Нету ручек - нет конфетки' },
+            { type: 'image', url: 'assets/gif/13gif_kushaet.webp', caption: 'Криворукий' },
+            { type: 'image', url: 'assets/gif/14gif_poletel.webp', caption: '🎈' },
+            { type: 'image', url: 'assets/gif/15gif_shoot.webp', caption: 'School Shooter' },
+            { type: 'image', url: 'assets/gif/16gif_tabletki.webp', caption: 'Таблетосики' },
+            { type: 'image', url: 'assets/gif/17gif_talking.webp', caption: 'Talking' },
+            { type: 'image', url: 'assets/img/1i_18+.webp', caption: 'Голые бабы сматрет 🔞' },
+            { type: 'image', url: 'assets/img/2i_boss.webp', caption: 'BigBoss' },
+            { type: 'image', url: 'assets/img/3i_clown.webp', caption: 'Истенное лицо' },
+            { type: 'image', url: 'assets/img/4i_cry.webp', caption: '😭' },
+            { type: 'image', url: 'assets/img/5i_cryptobody.webp', caption: 'Мужчина' },
+            { type: 'image', url: 'assets/img/6i_cryptoface1.webp', caption: 'Крассавица' },
+            { type: 'image', url: 'assets/img/7i_cryptoface2.webp', caption: '👨‍🦲' },
+            { type: 'image', url: 'assets/img/8i_cryptoface3.webp', caption: 'Притаился' },
+            { type: 'image', url: 'assets/img/9i_fact.webp', caption: 'Факт' },
+            { type: 'image', url: 'assets/img/10i_help.webp', caption: 'Помогите' },
+            { type: 'image', url: 'assets/img/11i_howdoyoudo.webp', caption: 'ХауДуюДу' },
+            { type: 'image', url: 'assets/img/12i_kablik.webp', caption: '👠' },
+            { type: 'image', url: 'assets/img/13i_nasrala.webp', caption: 'Насрала' },
+            { type: 'image', url: 'assets/img/14i_nasrala.webp', caption: 'ОПЯТ....' },
+            { type: 'image', url: 'assets/img/15i_pidoras.webp', caption: 'ПiдораZZ' },
+            { type: 'image', url: 'assets/img/16i_strong.webp', caption: 'Силач' },
+            { type: 'image', url: 'assets/img/17i_true.webp', caption: 'Правда...' },
+            { type: 'image', url: 'assets/img/18i_nastya_crypto.webp', caption: 'Любоу' },
+            { type: 'image', url: 'assets/img/19i_anti_woomen.webp', caption: 'Лжебабы' },
+            { type: 'image', url: 'assets/img/20i_family.webp', caption: 'Семья' },
+            { type: 'image', url: 'assets/img/21i_he_view.webp', caption: 'He view' }
+        ];
+
+        const loaderScreen = document.getElementById('loader-screen');
+        const mainContent = document.getElementById('mainContent');
+        const gifGrid = document.getElementById('gifGrid');
+        const loadingText = document.getElementById('loadingText');
+        const emojiImg = document.getElementById('emojiImg');
+        const yearsGrid = document.getElementById('yearsGrid');
+        const randomMomentDiv = document.getElementById('randomMoment');
+        const showAllBtn = document.getElementById('showAllBtn');
+        const allMomentsDiv = document.getElementById('allMoments');
+        const momentsGrid = document.getElementById('momentsGrid');
+        const backToRandomBtn = document.getElementById('backToRandom');
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const mediaPlayerOverlay = document.getElementById('mediaPlayerOverlay');
+        const mediaPlayerDiv = document.getElementById('mediaPlayer');
+        const closePlayerBtn = document.getElementById('closePlayerBtn');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressBar = document.getElementById('progressBar');
+        const timeDisplay = document.getElementById('timeDisplay');
+        const muteBtn = document.getElementById('muteBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeLevel = document.getElementById('volumeLevel');
+        const footer = document.getElementById('footer');
+        const favicon = document.getElementById('favicon');
+
+        let currentVideo = null;
+        let isPlaying = false;
+        let isMuted = false;
+        let currentVolume = 1;
+        let isDraggingProgress = false;
+        let isDraggingVolume = false;
+        let emojiInterval = null;
+        let activeEmojis = [];
+        let animationFrameId = null;
+        let lazyObserver = null;
+
+        const gifUrls = [
+            "assets/gif/1gif_eating.webp","assets/gif/2gif_pediknavalny.webp","assets/gif/3gif_posral.webp",
+            "assets/gif/4gif_smile.webp","assets/gif/5gif_sosali.webp","assets/gif/6gif_storm.webp",
+            "assets/gif/7gif_begit.webp","assets/gif/8gif_razyob.webp"
+        ];
+        const loadingTexts = [
+            "Запускаем параворлд…", "Баними Ховута…", "Заряжаем 12 атмосфер…",
+            "Ой твоя почка вообще возбуждает...", "Бодаемся с Гормидом…", "Открываем энергетик…",
+            "Моем лысую голову…", "Красим стены…", "Учимся читать…", "Ищем девочек...",
+            "Начальница заболела 😭", "Ищем заброшку…", "Убираемся за кошкой…",
+            "Придумываем sиzо-теорию…", "Скрываем видики…", "Отсылаем вино…"
+        ];
+        const emojiUrls = Array.from({length: 50}, (_, i) => `emoji/emoji${i}.webp`);
+
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
             }
-            e.position += e.speed * 2;
-            e.element.style.top = `${e.position}px`;
-            e.rotation += e.rotSpeed;
-            e.element.style.transform = `rotate(${e.rotation}deg)`;
-            if (e.position > window.innerHeight) {
-                removeEmoji(e);
-            } else if (e.position > window.innerHeight - 100) {
-                e.element.style.opacity = (window.innerHeight - e.position) / 100;
-            }
+            return arr;
         }
-        if (activeEmojis.length > 0) {
-            animationFrameId = requestAnimationFrame(animateEmojis);
-        } else {
-            animationFrameId = null;
+        function setupGridLayout(count) {
+            const cols = Math.ceil(Math.sqrt(count));
+            const rows = Math.ceil(count / cols);
+            gifGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+            gifGrid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
         }
-    }
-    function removeEmoji(emojiData) {
-        if (emojiData.removed) return;
-        emojiData.removed = true;
-        if (emojiData.element.parentNode) emojiData.element.parentNode.removeChild(emojiData.element);
-    }
-    function startEmojiSystem() {
-        if (emojiInterval) clearInterval(emojiInterval);
-        removeAllEmojis();
-        emojiInterval = setInterval(createFallingEmoji, 700 + Math.random() * 300);
-        for (let i=0; i<5; i++) setTimeout(createFallingEmoji, i*200);
-    }
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            if (emojiInterval) clearInterval(emojiInterval);
-            if (animationFrameId) cancelAnimationFrame(animationFrameId);
-        } else {
-            startEmojiSystem();
-        }
-    });
-    startEmojiSystem();
-    function buildYearsGrid() {
-        yearsGrid.innerHTML = '';
-        yearsData.forEach((data, idx) => {
-            const card = document.createElement('div');
-            card.className = `year-card ${data.all ? 'all-card' : ''}`;
-            card.setAttribute('data-year', data.year || 'all');
-            card.style.animationDelay = `${0.3 + idx * 0.1}s`;
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            card.innerHTML = `
-                <div class="particles"></div>
-                <div class="year-number">${data.all ? 'ВСЕ' : data.year}</div>
-                <div class="year-counters">
-                    <div class="counter total" title="Всего стримов">
-                        <div class="counter-number">${data.total}</div>
-                        <div class="counter-label">Всего</div>
-                    </div>
-                    <div class="counter available" title="Доступных">
-                        <div class="counter-number">${data.available}</div>
-                        <div class="counter-label">Доступно</div>
-                    </div>
-                    <div class="counter unavailable" title="Недоступных">
-                        <div class="counter-number">${data.unavailable}</div>
-                        <div class="counter-label">Недоступно</div>
-                    </div>
-                </div>
-            `;
-            yearsGrid.appendChild(card);
-            setTimeout(() => {
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            }, 50);
-        });
-        document.querySelectorAll('.year-card').forEach(card => {
-            const particlesDiv = card.querySelector('.particles');
-            for (let i=0; i<5; i++) {
-                const p = document.createElement('div');
-                p.className = 'particle';
-                const size = 10 + Math.random() * 15;
-                p.style.width = `${size}px`;
-                p.style.height = `${size}px`;
-                p.style.left = `${Math.random() * 100}%`;
-                p.style.top = `${Math.random() * 100}%`;
-                p.style.backgroundImage = `url('${emojiUrls[Math.floor(Math.random() * emojiUrls.length)]}')`;
-                p.style.backgroundSize = 'contain';
-                p.style.animation = `float ${5 + Math.random() * 10}s ${Math.random() * 3}s infinite ease-in-out`;
-                p.style.opacity = 0.3 + Math.random() * 0.3;
-                particlesDiv.appendChild(p);
-            }
-        });
-        document.querySelectorAll('.year-card').forEach(card => {
-            card.addEventListener('click', (e) => {
-                const year = card.getAttribute('data-year');
-                let url = '';
-                if (year === 'all') url = 'all.html';
-                else url = `${year}.html`;
-                card.style.transform = 'scale(0.95)';
-                card.style.opacity = '0.8';
-                setTimeout(() => { window.location.href = url; }, 200);
+        function renderGifs() {
+            const shuffled = shuffleArray([...gifUrls]);
+            setupGridLayout(shuffled.length);
+            shuffled.forEach(src => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = '';
+                gifGrid.appendChild(img);
             });
-        });
-    }
-    function openMediaPlayer(media) {
-        mediaPlayerDiv.innerHTML = '';
-        const placeholder = document.createElement('div');
-        placeholder.className = 'loading-placeholder';
-        placeholder.innerHTML = '<div class="loading-spinner"></div>';
-        mediaPlayerDiv.appendChild(placeholder);
-        if (media.type === 'image') {
-            const img = document.createElement('img');
-            img.src = media.url;
-            img.alt = media.caption;
-            img.onload = () => placeholder.remove();
-            img.onerror = () => {
-                placeholder.remove();
-                mediaPlayerDiv.innerHTML = '<div style="color:red; text-align:center; padding:20px;">Ошибка загрузки изображения</div>';
+        }
+        function rotateLoadingTexts() {
+            let available = [...loadingTexts];
+            const update = () => {
+                if (available.length === 0) available = [...loadingTexts];
+                const idx = Math.floor(Math.random() * available.length);
+                loadingText.textContent = available[idx];
+                available.splice(idx, 1);
             };
-            mediaPlayerDiv.appendChild(img);
-            document.getElementById('mediaControls').style.display = 'none';
-            mediaPlayerDiv.addEventListener('click', () => closeMediaPlayer());
-        } else {
-            const video = document.createElement('video');
-            video.src = media.url;
-            video.controls = false;
-            video.id = 'playerVideo';
-            video.onloadeddata = () => placeholder.remove();
-            video.onerror = () => {
-                placeholder.remove();
-                mediaPlayerDiv.innerHTML = '<div style="color:red; text-align:center; padding:20px;">Ошибка загрузки видео</div>';
-                document.getElementById('mediaControls').style.display = 'none';
+            update();
+            setInterval(update, 1250);
+        }
+        function showRandomEmoji() {
+            const random = emojiUrls[Math.floor(Math.random() * emojiUrls.length)];
+            emojiImg.src = random;
+            emojiImg.alt = '';
+        }
+        renderGifs();
+        rotateLoadingTexts();
+        showRandomEmoji();
+
+        function getRandomEmojiUrl() {
+            return emojiUrls[Math.floor(Math.random() * emojiUrls.length)];
+        }
+        function removeAllEmojis() {
+            activeEmojis.forEach(e => {
+                if (e.element && e.element.parentNode) e.element.parentNode.removeChild(e.element);
+            });
+            activeEmojis = [];
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+        }
+        function createFallingEmoji() {
+            if (document.hidden) return;
+            const emoji = document.createElement('div');
+            emoji.className = 'falling-emoji';
+            emoji.style.backgroundImage = `url('${getRandomEmojiUrl()}')`;
+            emoji.style.left = `${Math.random() * window.innerWidth}px`;
+            emoji.style.top = '-30px';
+            emoji.style.transform = `rotate(${-30 + Math.random() * 60}deg)`;
+            const size = 20 + Math.random() * 20;
+            emoji.style.width = `${size}px`;
+            emoji.style.height = `${size}px`;
+            document.body.appendChild(emoji);
+            const data = {
+                element: emoji,
+                speed: 0.5 + Math.random() * 2.5,
+                position: -30,
+                rotation: -30 + Math.random() * 60,
+                rotSpeed: (Math.random() - 0.5) * 10,
+                removed: false
             };
-            mediaPlayerDiv.appendChild(video);
-            document.getElementById('mediaControls').style.display = 'flex';
-            currentVideo = video;
-            setupVideoPlayer(video);
-            mediaPlayerDiv.addEventListener('click', () => togglePlayPause());
+            activeEmojis.push(data);
+            if (!animationFrameId) animateEmojis();
+            setTimeout(() => { if (!data.removed) removeEmoji(data); }, 10000);
         }
-        mediaPlayerOverlay.style.display = 'flex';
-        setTimeout(() => {
-            mediaPlayerOverlay.style.opacity = '1';
-            document.querySelector('.media-player-container').style.transform = 'scale(1)';
-        }, 10);
-        document.body.style.overflow = 'hidden';
-        updateFooterToggleStyle(true);
-    }
-    function setupVideoPlayer(video) {
-        video.volume = currentVolume;
-        volumeLevel.style.width = `${currentVolume * 100}%`;
-        video.muted = isMuted;
-        muteBtn.textContent = isMuted ? '🔇' : '🔊';
-        video.play().catch(() => {
-            isPlaying = false;
-            playPauseBtn.textContent = '▶';
-        }).then(() => {
-            isPlaying = true;
-            playPauseBtn.textContent = '⏸';
-        });
-        video.addEventListener('timeupdate', () => {
-            if (!isDraggingProgress && video.duration) {
-                const percent = (video.currentTime / video.duration) * 100;
-                progressBar.style.width = `${percent}%`;
-                const curM = Math.floor(video.currentTime / 60);
-                const curS = Math.floor(video.currentTime % 60);
-                const durM = Math.floor(video.duration / 60);
-                const durS = Math.floor(video.duration % 60);
-                timeDisplay.textContent = `${curM}:${curS<10?'0':''}${curS} / ${durM}:${durS<10?'0':''}${durS}`;
+        function animateEmojis() {
+            for (let i = activeEmojis.length-1; i >= 0; i--) {
+                const e = activeEmojis[i];
+                if (e.removed) { activeEmojis.splice(i,1); continue; }
+                e.position += e.speed * 2;
+                e.element.style.top = `${e.position}px`;
+                e.rotation += e.rotSpeed;
+                e.element.style.transform = `rotate(${e.rotation}deg)`;
+                if (e.position > window.innerHeight) removeEmoji(e);
+                else if (e.position > window.innerHeight - 100) e.element.style.opacity = (window.innerHeight - e.position) / 100;
             }
-        });
-        video.addEventListener('ended', () => {
-            isPlaying = false;
-            playPauseBtn.textContent = '▶';
-            video.currentTime = 0;
-            progressBar.style.width = '0%';
-        });
-        const onProgressClick = (e) => {
-            const rect = progressContainer.getBoundingClientRect();
-            let pos = (e.clientX - rect.left) / rect.width;
-            pos = Math.min(1, Math.max(0, pos));
-            video.currentTime = pos * video.duration;
-            progressBar.style.width = `${pos*100}%`;
-        };
-        progressContainer.addEventListener('click', onProgressClick);
-        progressContainer.addEventListener('mousedown', (e) => {
-            isDraggingProgress = true;
-            onProgressClick(e);
-        });
-        document.addEventListener('mousemove', (e) => {
-            if (isDraggingProgress) {
-                const rect = progressContainer.getBoundingClientRect();
-                let pos = (e.clientX - rect.left) / rect.width;
-                pos = Math.min(1, Math.max(0, pos));
-                video.currentTime = pos * video.duration;
-                progressBar.style.width = `${pos*100}%`;
-            }
-        });
-        document.addEventListener('mouseup', () => { isDraggingProgress = false; });
-        playPauseBtn.addEventListener('click', (e) => { e.stopPropagation(); togglePlayPause(); });
-        muteBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            isMuted = !isMuted;
-            video.muted = isMuted;
-            muteBtn.textContent = isMuted ? '🔇' : '🔊';
-        });
-        volumeSlider.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const rect = volumeSlider.getBoundingClientRect();
-            let pos = (e.clientX - rect.left) / rect.width;
-            pos = Math.min(1, Math.max(0, pos));
-            currentVolume = pos;
-            video.volume = currentVolume;
-            volumeLevel.style.width = `${currentVolume*100}%`;
-            if (currentVolume === 0) { isMuted = true; muteBtn.textContent = '🔇'; video.muted = true; }
-            else { isMuted = false; muteBtn.textContent = '🔊'; video.muted = false; }
-        });
-        volumeSlider.addEventListener('mousedown', (e) => {
-            isDraggingVolume = true;
-            const rect = volumeSlider.getBoundingClientRect();
-            let pos = (e.clientX - rect.left) / rect.width;
-            pos = Math.min(1, Math.max(0, pos));
-            currentVolume = pos;
-            video.volume = currentVolume;
-            volumeLevel.style.width = `${currentVolume*100}%`;
-        });
-        document.addEventListener('mousemove', (e) => {
-            if (isDraggingVolume) {
-                const rect = volumeSlider.getBoundingClientRect();
-                let pos = (e.clientX - rect.left) / rect.width;
-                pos = Math.min(1, Math.max(0, pos));
-                currentVolume = pos;
-                video.volume = currentVolume;
-                volumeLevel.style.width = `${currentVolume*100}%`;
-                if (currentVolume === 0) { isMuted = true; muteBtn.textContent = '🔇'; video.muted = true; }
-                else { isMuted = false; muteBtn.textContent = '🔊'; video.muted = false; }
-            }
-        });
-        document.addEventListener('mouseup', () => { isDraggingVolume = false; });
-    }
-    function togglePlayPause() {
-        if (!currentVideo) return;
-        if (isPlaying) {
-            currentVideo.pause();
-            playPauseBtn.textContent = '▶';
-        } else {
-            currentVideo.play().catch(e => console.log("play error", e));
-            playPauseBtn.textContent = '⏸';
+            if (activeEmojis.length > 0) animationFrameId = requestAnimationFrame(animateEmojis);
+            else animationFrameId = null;
         }
-        isPlaying = !isPlaying;
-    }
-    function closeMediaPlayer() {
-        mediaPlayerOverlay.style.opacity = '0';
-        document.querySelector('.media-player-container').style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            mediaPlayerOverlay.style.display = 'none';
-            if (currentVideo) {
-                currentVideo.pause();
-                currentVideo.currentTime = 0;
-                currentVideo = null;
-                isPlaying = false;
-                playPauseBtn.textContent = '▶';
-                progressBar.style.width = '0%';
-                timeDisplay.textContent = '0:00 / 0:00';
-            }
-            document.body.style.overflow = '';
-            updateFooterToggleStyle(false);
-        }, 300);
-    }
-    function updateFooterToggleStyle(isOpen) {
-        const toggleWrapper = document.querySelector('.footer-toggle-wrapper');
-        if (toggleWrapper) {
-            if (isOpen) {
-                toggleWrapper.style.filter = 'blur(2px)';
-                toggleWrapper.style.opacity = '0.7';
-            } else {
-                toggleWrapper.style.filter = 'none';
-                toggleWrapper.style.opacity = '1';
-            }
+        function removeEmoji(emojiData) {
+            if (emojiData.removed) return;
+            emojiData.removed = true;
+            if (emojiData.element.parentNode) emojiData.element.parentNode.removeChild(emojiData.element);
         }
-    }
-    function showRandomMoment() {
-        const imagesOnly = mediaFiles.filter(m => m.type === 'image');
-        const random = imagesOnly[Math.floor(Math.random() * imagesOnly.length)];
-        randomMomentDiv.innerHTML = '';
-        const placeholder = document.createElement('div');
-        placeholder.className = 'loading-placeholder';
-        placeholder.innerHTML = '<div class="loading-spinner"></div>';
-        randomMomentDiv.appendChild(placeholder);
-        const img = document.createElement('img');
-        img.src = random.url;
-        img.alt = random.caption;
-        img.onload = () => placeholder.remove();
-        img.onerror = () => {
-            placeholder.remove();
-            randomMomentDiv.innerHTML = '<div style="color:red; text-align:center; padding:20px;">Ошибка загрузки</div>';
-        };
-        randomMomentDiv.appendChild(img);
-        const caption = document.createElement('div');
-        caption.className = 'random-moment-caption';
-        caption.textContent = random.caption;
-        randomMomentDiv.appendChild(caption);
-        randomMomentDiv.addEventListener('click', () => openMediaPlayer(random), { once: true });
-    }
-    function loadAllMoments() {
-        momentsGrid.innerHTML = '';
-        mediaFiles.forEach(media => {
-            const item = document.createElement('div');
-            item.className = 'moment-item';
-            item.dataset.type = media.type;
+        function startEmojiSystem() {
+            if (emojiInterval) clearInterval(emojiInterval);
+            removeAllEmojis();
+            emojiInterval = setInterval(createFallingEmoji, 700 + Math.random() * 300);
+            for (let i=0; i<5; i++) setTimeout(createFallingEmoji, i*200);
+        }
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) { if (emojiInterval) clearInterval(emojiInterval); if (animationFrameId) cancelAnimationFrame(animationFrameId); }
+            else startEmojiSystem();
+        });
+        startEmojiSystem();
+
+        function buildYearsGrid() {
+            yearsGrid.innerHTML = '';
+            yearsData.forEach((data, idx) => {
+                const card = document.createElement('div');
+                card.className = `year-card ${data.all ? 'all-card' : ''}`;
+                card.setAttribute('data-year', data.year || 'all');
+                card.style.animationDelay = `${0.3 + idx * 0.1}s`;
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.innerHTML = `
+                    <div class="particles"></div>
+                    <div class="year-number">${data.all ? 'ВСЕ' : data.year}</div>
+                    <div class="year-counters">
+                        <div class="counter total" title="Всего стримов"><div class="counter-number">${data.total}</div><div class="counter-label">Всего</div></div>
+                        <div class="counter available" title="Доступных"><div class="counter-number">${data.available}</div><div class="counter-label">Доступно</div></div>
+                        <div class="counter unavailable" title="Недоступных"><div class="counter-number">${data.unavailable}</div><div class="counter-label">Недоступно</div></div>
+                    </div>
+                `;
+                yearsGrid.appendChild(card);
+                setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)'; }, 50);
+            });
+            document.querySelectorAll('.year-card').forEach(card => {
+                const particlesDiv = card.querySelector('.particles');
+                for (let i=0; i<5; i++) {
+                    const p = document.createElement('div');
+                    p.className = 'particle';
+                    const size = 10 + Math.random() * 15;
+                    p.style.width = `${size}px`; p.style.height = `${size}px`;
+                    p.style.left = `${Math.random() * 100}%`; p.style.top = `${Math.random() * 100}%`;
+                    p.style.backgroundImage = `url('${emojiUrls[Math.floor(Math.random() * emojiUrls.length)]}')`;
+                    p.style.backgroundSize = 'contain';
+                    p.style.animation = `float ${5 + Math.random() * 10}s ${Math.random() * 3}s infinite ease-in-out`;
+                    p.style.opacity = 0.3 + Math.random() * 0.3;
+                    particlesDiv.appendChild(p);
+                }
+            });
+            document.querySelectorAll('.year-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    const year = card.getAttribute('data-year');
+                    let url = year === 'all' ? 'all.html' : `${year}.html`;
+                    card.style.transform = 'scale(0.95)'; card.style.opacity = '0.8';
+                    setTimeout(() => { window.location.href = url; }, 200);
+                });
+            });
+        }
+
+        function openMediaPlayer(media) {
+            mediaPlayerDiv.innerHTML = '';
             const placeholder = document.createElement('div');
             placeholder.className = 'loading-placeholder';
             placeholder.innerHTML = '<div class="loading-spinner"></div>';
-            item.appendChild(placeholder);
-            let mediaEl;
+            mediaPlayerDiv.appendChild(placeholder);
             if (media.type === 'image') {
-                mediaEl = document.createElement('img');
-                mediaEl.onload = () => placeholder.remove();
-                mediaEl.onerror = () => placeholder.remove();
-                mediaEl.src = media.url;
-                mediaEl.alt = media.caption;
-                item.appendChild(mediaEl);
+                const img = document.createElement('img');
+                img.src = media.url; img.alt = media.caption;
+                img.onload = () => placeholder.remove();
+                img.onerror = () => { placeholder.remove(); mediaPlayerDiv.innerHTML = '<div style="color:red; text-align:center; padding:20px;">Ошибка загрузки изображения</div>'; };
+                mediaPlayerDiv.appendChild(img);
+                document.getElementById('mediaControls').style.display = 'none';
+                mediaPlayerDiv.addEventListener('click', () => closeMediaPlayer());
             } else {
-                mediaEl = document.createElement('video');
-                mediaEl.muted = true;
-                mediaEl.loop = true;
-                mediaEl.playsInline = true;
-                mediaEl.preload = 'metadata';
-                mediaEl.onloadeddata = () => placeholder.remove();
-                mediaEl.onerror = () => placeholder.remove();
-                mediaEl.src = media.url;
-                item.appendChild(mediaEl);
-                const playIcon = document.createElement('div');
-                playIcon.className = 'play-icon';
-                item.appendChild(playIcon);
+                const video = document.createElement('video');
+                video.src = media.url; video.controls = false; video.id = 'playerVideo';
+                video.onloadeddata = () => placeholder.remove();
+                video.onerror = () => { placeholder.remove(); mediaPlayerDiv.innerHTML = '<div style="color:red; text-align:center; padding:20px;">Ошибка загрузки видео</div>'; document.getElementById('mediaControls').style.display = 'none'; };
+                mediaPlayerDiv.appendChild(video);
+                document.getElementById('mediaControls').style.display = 'flex';
+                currentVideo = video;
+                setupVideoPlayer(video);
+                mediaPlayerDiv.addEventListener('click', () => togglePlayPause());
             }
-            const caption = document.createElement('div');
-            caption.className = 'moment-caption';
-            caption.textContent = media.caption;
-            item.appendChild(caption);
-            item.addEventListener('click', () => openMediaPlayer(media));
-            momentsGrid.appendChild(item);
-        });
-    }
-    function filterMoments(category) {
-        const items = document.querySelectorAll('.moment-item');
-        items.forEach(item => {
-            if (category === 'all' || item.dataset.type === category) {
-                item.style.display = 'block';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    }
-    window.addEventListener('load', () => {
-        buildYearsGrid();
-        showRandomMoment();
-        loadAllMoments();
-        setTimeout(() => {
-            loaderScreen.style.opacity = '0';
-            setTimeout(() => {
-                loaderScreen.style.display = 'none';
-                mainContent.style.display = 'block';
-            }, 500);
-        }, 2500);
-    });
-    showAllBtn.addEventListener('click', () => {
-        document.querySelector('.random-moment').style.display = 'none';
-        allMomentsDiv.style.display = 'block';
-        allMomentsDiv.style.opacity = '1';
-    });
-    backToRandomBtn.addEventListener('click', () => {
-        allMomentsDiv.style.display = 'none';
-        document.querySelector('.random-moment').style.display = 'block';
-        showRandomMoment();
-    });
-    categoryBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            categoryBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            filterMoments(btn.dataset.category);
-        });
-    });
-    closePlayerBtn.addEventListener('click', closeMediaPlayer);
-    mediaPlayerOverlay.addEventListener('click', (e) => {
-        if (e.target === mediaPlayerOverlay) closeMediaPlayer();
-    });
-    // Кнопка скрытия/показа футера
-    const toggleWrapper = document.createElement('div');
-    toggleWrapper.className = 'footer-toggle-wrapper';
-    toggleWrapper.innerHTML = '<button id="toggleFooterBtn" class="footer-toggle-btn" title="Скрыть футер">▲</button>';
-    document.body.appendChild(toggleWrapper);
-    const toggleBtn = document.getElementById('toggleFooterBtn');
-    function updateButtonPosition() {
-        if (footer.classList.contains('footer-hidden')) {
-            toggleWrapper.style.bottom = '10px';
-            toggleBtn.textContent = '▲';
-            toggleBtn.title = "Показать футер";
-        } else {
-            const footerHeight = footer.offsetHeight;
-            toggleWrapper.style.bottom = `${footerHeight + 15}px`;
-            toggleBtn.textContent = '▼';
-            toggleBtn.title = "Скрыть футер";
+            mediaPlayerOverlay.style.display = 'flex';
+            setTimeout(() => { mediaPlayerOverlay.style.opacity = '1'; document.querySelector('.media-player-container').style.transform = 'scale(1)'; }, 10);
+            document.body.style.overflow = 'hidden';
+            updateFooterToggleStyle(true);
         }
-        const mediaOpen = mediaPlayerOverlay.style.display === 'flex';
-        if (mediaOpen) {
-            toggleWrapper.style.filter = 'blur(2px)';
-            toggleWrapper.style.opacity = '0.7';
-        } else {
-            toggleWrapper.style.filter = 'none';
-            toggleWrapper.style.opacity = '1';
-        }
-    }
-    toggleBtn.addEventListener('click', function() {
-        footer.classList.toggle('footer-hidden');
-        updateButtonPosition();
-    });
-    setTimeout(() => {
-        updateButtonPosition();
-        const resizeObserver = new ResizeObserver(() => {
-            if (!footer.classList.contains('footer-hidden')) {
-                updateButtonPosition();
-            }
-        });
-        resizeObserver.observe(footer);
-        const mediaObserver = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.attributeName === 'style') {
-                    updateButtonPosition();
+        function setupVideoPlayer(video) {
+            video.volume = currentVolume; volumeLevel.style.width = `${currentVolume * 100}%`; video.muted = isMuted; muteBtn.textContent = isMuted ? '🔇' : '🔊';
+            video.play().catch(() => { isPlaying = false; playPauseBtn.textContent = '▶'; }).then(() => { isPlaying = true; playPauseBtn.textContent = '⏸'; });
+            video.addEventListener('timeupdate', () => {
+                if (!isDraggingProgress && video.duration) {
+                    const percent = (video.currentTime / video.duration) * 100; progressBar.style.width = `${percent}%`;
+                    const curM = Math.floor(video.currentTime / 60), curS = Math.floor(video.currentTime % 60);
+                    const durM = Math.floor(video.duration / 60), durS = Math.floor(video.duration % 60);
+                    timeDisplay.textContent = `${curM}:${curS<10?'0':''}${curS} / ${durM}:${durS<10?'0':''}${durS}`;
                 }
             });
+            video.addEventListener('ended', () => { isPlaying = false; playPauseBtn.textContent = '▶'; video.currentTime = 0; progressBar.style.width = '0%'; });
+            const onProgressClick = (e) => {
+                const rect = progressContainer.getBoundingClientRect();
+                let pos = (e.clientX - rect.left) / rect.width; pos = Math.min(1, Math.max(0, pos));
+                video.currentTime = pos * video.duration; progressBar.style.width = `${pos*100}%`;
+            };
+            progressContainer.addEventListener('click', onProgressClick);
+            progressContainer.addEventListener('mousedown', (e) => { isDraggingProgress = true; onProgressClick(e); });
+            document.addEventListener('mousemove', (e) => {
+                if (isDraggingProgress) {
+                    const rect = progressContainer.getBoundingClientRect();
+                    let pos = (e.clientX - rect.left) / rect.width; pos = Math.min(1, Math.max(0, pos));
+                    video.currentTime = pos * video.duration; progressBar.style.width = `${pos*100}%`;
+                }
+            });
+            document.addEventListener('mouseup', () => { isDraggingProgress = false; });
+            playPauseBtn.addEventListener('click', (e) => { e.stopPropagation(); togglePlayPause(); });
+            muteBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); isMuted = !isMuted; video.muted = isMuted; muteBtn.textContent = isMuted ? '🔇' : '🔊';
+            });
+            volumeSlider.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const rect = volumeSlider.getBoundingClientRect();
+                let pos = (e.clientX - rect.left) / rect.width; pos = Math.min(1, Math.max(0, pos));
+                currentVolume = pos; video.volume = currentVolume; volumeLevel.style.width = `${currentVolume*100}%`;
+                if (currentVolume === 0) { isMuted = true; muteBtn.textContent = '🔇'; video.muted = true; }
+                else { isMuted = false; muteBtn.textContent = '🔊'; video.muted = false; }
+            });
+            volumeSlider.addEventListener('mousedown', (e) => {
+                isDraggingVolume = true;
+                const rect = volumeSlider.getBoundingClientRect();
+                let pos = (e.clientX - rect.left) / rect.width; pos = Math.min(1, Math.max(0, pos));
+                currentVolume = pos; video.volume = currentVolume; volumeLevel.style.width = `${currentVolume*100}%`;
+            });
+            document.addEventListener('mousemove', (e) => {
+                if (isDraggingVolume) {
+                    const rect = volumeSlider.getBoundingClientRect();
+                    let pos = (e.clientX - rect.left) / rect.width; pos = Math.min(1, Math.max(0, pos));
+                    currentVolume = pos; video.volume = currentVolume; volumeLevel.style.width = `${currentVolume*100}%`;
+                    if (currentVolume === 0) { isMuted = true; muteBtn.textContent = '🔇'; video.muted = true; }
+                    else { isMuted = false; muteBtn.textContent = '🔊'; video.muted = false; }
+                }
+            });
+            document.addEventListener('mouseup', () => { isDraggingVolume = false; });
+        }
+        function togglePlayPause() {
+            if (!currentVideo) return;
+            if (isPlaying) { currentVideo.pause(); playPauseBtn.textContent = '▶'; }
+            else { currentVideo.play().catch(e => {}); playPauseBtn.textContent = '⏸'; }
+            isPlaying = !isPlaying;
+        }
+        function closeMediaPlayer() {
+            mediaPlayerOverlay.style.opacity = '0';
+            document.querySelector('.media-player-container').style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                mediaPlayerOverlay.style.display = 'none';
+                if (currentVideo) { currentVideo.pause(); currentVideo.currentTime = 0; currentVideo = null; isPlaying = false; playPauseBtn.textContent = '▶'; progressBar.style.width = '0%'; timeDisplay.textContent = '0:00 / 0:00'; }
+                document.body.style.overflow = '';
+                updateFooterToggleStyle(false);
+            }, 300);
+        }
+        function updateFooterToggleStyle(isOpen) {
+            const toggleWrapper = document.querySelector('.footer-toggle-wrapper');
+            if (toggleWrapper) toggleWrapper.style.filter = isOpen ? 'blur(2px)' : 'none', toggleWrapper.style.opacity = isOpen ? '0.7' : '1';
+        }
+        function showRandomMoment() {
+            const imagesOnly = mediaFiles.filter(m => m.type === 'image');
+            const random = imagesOnly[Math.floor(Math.random() * imagesOnly.length)];
+            randomMomentDiv.innerHTML = '';
+            const placeholder = document.createElement('div'); placeholder.className = 'loading-placeholder'; placeholder.innerHTML = '<div class="loading-spinner"></div>';
+            randomMomentDiv.appendChild(placeholder);
+            const img = document.createElement('img');
+            img.src = random.url; img.alt = random.caption;
+            img.onload = () => placeholder.remove();
+            img.onerror = () => { placeholder.remove(); randomMomentDiv.innerHTML = '<div style="color:red; text-align:center; padding:20px;">Ошибка загрузки</div>'; };
+            randomMomentDiv.appendChild(img);
+            const caption = document.createElement('div'); caption.className = 'random-moment-caption'; caption.textContent = random.caption;
+            randomMomentDiv.appendChild(caption);
+            randomMomentDiv.addEventListener('click', () => openMediaPlayer(random), { once: true });
+        }
+        function loadAllMoments() {
+            momentsGrid.innerHTML = '';
+            mediaFiles.forEach(media => {
+                const item = document.createElement('div');
+                item.className = 'moment-item';
+                item.dataset.type = media.type;
+                const placeholder = document.createElement('div'); placeholder.className = 'loading-placeholder'; placeholder.innerHTML = '<div class="loading-spinner"></div>';
+                item.appendChild(placeholder);
+                const caption = document.createElement('div'); caption.className = 'moment-caption'; caption.textContent = media.caption;
+                item.appendChild(caption);
+                if (media.type === 'video') {
+                    const playIcon = document.createElement('div'); playIcon.className = 'play-icon'; item.appendChild(playIcon);
+                }
+                item.addEventListener('click', () => openMediaPlayer(media));
+                momentsGrid.appendChild(item);
+            });
+            if (lazyObserver) lazyObserver.disconnect();
+            lazyObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const item = entry.target;
+                        if (item.dataset.loaded === 'true') return;
+                        const mediaObj = mediaFiles[Array.from(momentsGrid.children).indexOf(item)];
+                        if (!mediaObj) return;
+                        const placeholder = item.querySelector('.loading-placeholder');
+                        let mediaEl;
+                        if (mediaObj.type === 'image') {
+                            mediaEl = document.createElement('img');
+                            mediaEl.src = mediaObj.url; mediaEl.alt = mediaObj.caption;
+                            mediaEl.onload = () => { if(placeholder) placeholder.remove(); };
+                            mediaEl.onerror = () => { if(placeholder) placeholder.remove(); };
+                            item.insertBefore(mediaEl, item.firstChild);
+                        } else {
+                            mediaEl = document.createElement('video');
+                            mediaEl.muted = true; mediaEl.loop = true; mediaEl.playsInline = true; mediaEl.preload = 'metadata';
+                            mediaEl.src = mediaObj.url;
+                            mediaEl.onloadeddata = () => { if(placeholder) placeholder.remove(); };
+                            mediaEl.onerror = () => { if(placeholder) placeholder.remove(); };
+                            item.insertBefore(mediaEl, item.firstChild);
+                        }
+                        item.dataset.loaded = 'true';
+                        lazyObserver.unobserve(item);
+                    }
+                });
+            }, { rootMargin: '200px' });
+            Array.from(momentsGrid.children).forEach(item => lazyObserver.observe(item));
+        }
+        function filterMoments(category) {
+            const items = document.querySelectorAll('.moment-item');
+            items.forEach(item => { item.style.display = (category === 'all' || item.dataset.type === category) ? 'block' : 'none'; });
+        }
+
+        function preloadResources() {
+            return new Promise(resolve => {
+                const urlsToPreload = [
+                    ...gifUrls,
+                    ...emojiUrls.slice(0,10),
+                    'assets/background/2022.webp','assets/background/2023.webp','assets/background/2024.webp','assets/background/2025.webp','assets/background/2026.webp',
+                    'assets/avatars/telegram_avatar.webp','assets/avatars/telegram.webp','assets/avatars/youtube_avatar.webp','assets/avatars/youtube.webp','assets/avatars/discord_avatar.png','assets/avatars/discord.webp',
+                    ...mediaFiles.slice(0,6).map(m => m.url)
+                ];
+                let loaded = 0;
+                const total = urlsToPreload.length;
+                if (total === 0) return resolve();
+                urlsToPreload.forEach(url => {
+                    if (url.endsWith('.webm') || url.endsWith('.mp4')) {
+                        const video = document.createElement('video');
+                        video.preload = 'metadata';
+                        video.src = url;
+                        video.onloadedmetadata = () => { loaded++; if(loaded >= total) resolve(); };
+                        video.onerror = () => { loaded++; if(loaded >= total) resolve(); };
+                    } else {
+                        const img = new Image();
+                        img.src = url;
+                        img.onload = () => { loaded++; if(loaded >= total) resolve(); };
+                        img.onerror = () => { loaded++; if(loaded >= total) resolve(); };
+                    }
+                });
+                setTimeout(resolve, 2000);
+            });
+        }
+
+        function changeFavicon() {
+            const randomEmoji = emojiUrls[Math.floor(Math.random() * emojiUrls.length)];
+            favicon.href = randomEmoji;
+        }
+
+        window.addEventListener('load', async () => {
+            buildYearsGrid();
+            showRandomMoment();
+            loadAllMoments();
+            await preloadResources();
+            setTimeout(() => {
+                loaderScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loaderScreen.style.display = 'none';
+                    mainContent.style.display = 'block';
+                }, 500);
+            }, 200);
+            setInterval(changeFavicon, 3000);
+            changeFavicon();
         });
-        mediaObserver.observe(mediaPlayerOverlay, {
-            attributes: true,
-            attributeFilter: ['style']
+
+        showAllBtn.addEventListener('click', () => {
+            document.querySelector('.random-moment').style.display = 'none';
+            allMomentsDiv.style.display = 'block';
+            allMomentsDiv.style.opacity = '1';
         });
-    }, 100);
+        backToRandomBtn.addEventListener('click', () => {
+            allMomentsDiv.style.display = 'none';
+            document.querySelector('.random-moment').style.display = 'block';
+            showRandomMoment();
+        });
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                filterMoments(btn.dataset.category);
+            });
+        });
+        closePlayerBtn.addEventListener('click', closeMediaPlayer);
+        mediaPlayerOverlay.addEventListener('click', (e) => { if (e.target === mediaPlayerOverlay) closeMediaPlayer(); });
+
+        const toggleWrapper = document.createElement('div');
+        toggleWrapper.className = 'footer-toggle-wrapper';
+        toggleWrapper.innerHTML = '<button id="toggleFooterBtn" class="footer-toggle-btn" title="Скрыть футер">▲</button>';
+        document.body.appendChild(toggleWrapper);
+        const toggleBtn = document.getElementById('toggleFooterBtn');
+        function updateButtonPosition() {
+            if (footer.classList.contains('footer-hidden')) {
+                toggleWrapper.style.bottom = '10px'; toggleBtn.textContent = '▲'; toggleBtn.title = "Показать футер";
+            } else {
+                const footerHeight = footer.offsetHeight;
+                toggleWrapper.style.bottom = `${footerHeight + 15}px`; toggleBtn.textContent = '▼'; toggleBtn.title = "Скрыть футер";
+            }
+            const mediaOpen = mediaPlayerOverlay.style.display === 'flex';
+            toggleWrapper.style.filter = mediaOpen ? 'blur(2px)' : 'none';
+            toggleWrapper.style.opacity = mediaOpen ? '0.7' : '1';
+        }
+        toggleBtn.addEventListener('click', function() {
+            footer.classList.toggle('footer-hidden');
+            updateButtonPosition();
+        });
+        setTimeout(() => {
+            updateButtonPosition();
+            const resizeObserver = new ResizeObserver(() => { if (!footer.classList.contains('footer-hidden')) updateButtonPosition(); });
+            resizeObserver.observe(footer);
+            const mediaObserver = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => { if (mutation.attributeName === 'style') updateButtonPosition(); });
+            });
+            mediaObserver.observe(mediaPlayerOverlay, { attributes: true, attributeFilter: ['style'] });
+        }, 100);
+    })();
 </script>
 </body>
 </html>
